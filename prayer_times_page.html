@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مواقيت الصلاة - تهجّد</title>
+    
+    <!-- Link CSS Files -->
+    <link rel="stylesheet" href="css/root-variables.css">
+    <link rel="stylesheet" href="css/global-styles.css">
+    <link rel="stylesheet" href="css/prayer-times.css">
+    <link rel="stylesheet" href="css/animations.css">
+    
+    <!-- Google Fonts - Arabic Support -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="emerald-theme prayer-times-page">
+    
+    <!-- Animated Background Particles -->
+    <div class="particles-container" id="particles"></div>
+    
+    <!-- Navigation Bar -->
+    <nav class="glass-nav">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">☪</span>
+                <span class="logo-text">تهجّد</span>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="dashboard_page.html">لوحة التحكم</a></li>
+                <li><a href="prayer-times.html" class="active">مواقيت الصلاة</a></li>
+                <li><a href="duas.html">الأدعية</a></li>
+                <li><a href="challenges.html">التحديات</a></li>
+                <li><a href="hijri-calendar.html">التقويم الهجري</a></li>
+                <li><a href="khirah.html">الخيرات</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <!-- Theme Switcher -->
+                <div class="theme-switcher">
+                    <button class="theme-btn" id="themeBtn">
+                        <span class="theme-icon">🎨</span>
+                    </button>
+                    <div class="theme-dropdown" id="themeDropdown">
+                        <button class="theme-option" data-theme="emerald">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #0d4d3d, #d4af37)"></span>
+                            <span>الزمردي</span>
+                        </button>
+                        <button class="theme-option" data-theme="gold">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #c9a961, #1a3a2e)"></span>
+                            <span>الذهبي</span>
+                        </button>
+                        <button class="theme-option" data-theme="ruby">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #8b0000, #d4af37)"></span>
+                            <span>الياقوتي</span>
+                        </button>
+                        <button class="theme-option" data-theme="night">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #1a1f2e, #2d5f5d)"></span>
+                            <span>الليلي</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- User Profile -->
+                <div class="user-profile-dropdown">
+                    <button class="user-profile-btn" id="userProfileBtn">
+                        <div class="user-avatar">
+                            <span id="userInitials">م</span>
+                        </div>
+                        <span class="user-name" id="userName">مستخدم</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="profile.html" class="dropdown-item">
+                            <span class="item-icon">👤</span>
+                            <span>الملف الشخصي</span>
+                        </a>
+                        <a href="settings.html" class="dropdown-item">
+                            <span class="item-icon">⚙️</span>
+                            <span>الإعدادات</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item logout-btn" id="logoutBtn">
+                            <span class="item-icon">🚪</span>
+                            <span>تسجيل الخروج</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="prayer-times-main">
+        <div class="prayer-times-container">
+            
+            <!-- Page Header -->
+            <section class="page-header fade-in-up">
+                <h1 class="page-title">مواقيت الصلاة</h1>
+                <p class="page-subtitle">حافظ على صلاتك في أوقاتها المحددة</p>
+            </section>
+            
+            <!-- Location & Date Bar -->
+            <section class="location-date-bar fade-in-up delay-1">
+                <div class="location-selector glass-card">
+                    <span class="selector-icon">📍</span>
+                    <select id="locationSelect" class="location-select">
+                        <option value="beirut">بيروت</option>
+                        <option value="tripoli">طرابلس</option>
+                        <option value="sidon">صيدا</option>
+                        <option value="tyre">صور</option>
+                        <option value="baalbek">بعلبك</option>
+                        <option value="zahle">زحلة</option>
+                        <option value="nabatieh">النبطية</option>
+                        <option value="custom">موقع مخصص</option>
+                    </select>
+                    <button class="detect-location-btn" id="detectLocationBtn" title="تحديد موقعي تلقائياً">
+                        <span>🎯</span>
+                    </button>
+                </div>
+                
+                <div class="date-display glass-card">
+                    <span class="date-icon">📅</span>
+                    <div class="date-text">
+                        <span class="gregorian-date" id="gregorianDate">الأحد، 3 ديسمبر 2025</span>
+                        <span class="hijri-date" id="hijriDate">20 جمادى الأولى 1447</span>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Current Prayer Highlight -->
+            <section class="current-prayer-section fade-in-up delay-2">
+                <div class="current-prayer-card glass-card">
+                    <div class="current-prayer-content">
+                        <div class="prayer-status">
+                            <span class="status-label" id="statusLabel">الصلاة القادمة</span>
+                            <h2 class="current-prayer-name" id="currentPrayerName">العصر</h2>
+                        </div>
+                        
+                        <div class="countdown-display">
+                            <div class="countdown-box">
+                                <span class="countdown-value" id="hoursValue">02</span>
+                                <span class="countdown-label">ساعة</span>
+                            </div>
+                            <span class="countdown-separator">:</span>
+                            <div class="countdown-box">
+                                <span class="countdown-value" id="minutesValue">34</span>
+                                <span class="countdown-label">دقيقة</span>
+                            </div>
+                            <span class="countdown-separator">:</span>
+                            <div class="countdown-box">
+                                <span class="countdown-value" id="secondsValue">18</span>
+                                <span class="countdown-label">ثانية</span>
+                            </div>
+                        </div>
+                        
+                        <div class="prayer-time-display">
+                            <span class="time-label">الوقت المحدد:</span>
+                            <span class="time-value" id="currentPrayerTime">15:30</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Circular Progress Ring -->
+                    <div class="circular-progress">
+                        <svg class="progress-ring" viewBox="0 0 200 200">
+                            <circle class="progress-ring-bg" cx="100" cy="100" r="85"></circle>
+                            <circle class="progress-ring-fill" cx="100" cy="100" r="85" id="progressRing"></circle>
+                        </svg>
+                        <div class="progress-center">
+                            <span class="progress-icon">🕌</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Prayer Times Grid -->
+            <section class="prayer-times-grid fade-in-up delay-3">
+                <h2 class="section-title">جميع الأوقات</h2>
+                
+                <div class="prayers-grid">
+                    <!-- Fajr -->
+                    <div class="prayer-card glass-card" data-prayer="fajr">
+                        <div class="prayer-card-header">
+                            <div class="prayer-icon">🌅</div>
+                            <div class="prayer-info">
+                                <h3 class="prayer-name">الفجر</h3>
+                                <span class="prayer-time" id="fajrTime">05:30</span>
+                            </div>
+                        </div>
+                        <div class="prayer-actions">
+                            <button class="log-prayer-btn" onclick="logPrayer('fajr')">
+                                <span>✓</span>
+                                <span>تسجيل</span>
+                            </button>
+                            <button class="alarm-btn" onclick="toggleAlarm('fajr')">
+                                <span class="alarm-icon">🔔</span>
+                            </button>
+                        </div>
+                        <div class="prayer-status-badge" id="fajrStatus">
+                            <span class="status-text">لم يصلّ</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Sunrise -->
+                    <div class="prayer-card glass-card info-only">
+                        <div class="prayer-card-header">
+                            <div class="prayer-icon">☀️</div>
+                            <div class="prayer-info">
+                                <h3 class="prayer-name">الشروق</h3>
+                                <span class="prayer-time" id="sunriseTime">06:45</span>
+                            </div>
+                        </div>
+                        <div class="prayer-note">
+                            <span class="note-text">وقت النهي عن الصلاة</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Dhuhr -->
+                    <div class="prayer-card glass-card" data-prayer="dhuhr">
+                        <div class="prayer-card-header">
+                            <div class="prayer-icon">☀️</div>
+                            <div class="prayer-info">
+                                <h3 class="prayer-name">الظهر</h3>
+                                <span class="prayer-time" id="dhuhrTime">12:15</span>
+                            </div>
+                        </div>
+                        <div class="prayer-actions">
+                            <button class="log-prayer-btn" onclick="logPrayer('dhuhr')">
+                                <span>✓</span>
+                                <span>تسجيل</span>
+                            </button>
+                            <button class="alarm-btn" onclick="toggleAlarm('dhuhr')">
+                                <span class="alarm-icon">🔔</span>
+                            </button>
+                        </div>
+                        <div class="prayer-status-badge completed" id="dhuhrStatus">
+                            <span class="status-text">✓ صليت</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Asr -->
+                    <div class="prayer-card glass-card active" data-prayer="asr">
+                        <div class="prayer-card-header">
+                            <div class="prayer-icon">🌤️</div>
+                            <div class="prayer-info">
+                                <h3 class="prayer-name">العصر</h3>
+                                <span class="prayer-time" id="asrTime">15:30</span>
+                            </div>
+                        </div>
+                        <div class="prayer-actions">
+                            <button class="log-prayer-btn" onclick="logPrayer('asr')">
+                                <span>✓</span>
+                                <span>تسجيل</span>
+                            </button>
+                            <button class="alarm-btn active" onclick="toggleAlarm('asr')">
+                                <span class="alarm-icon">🔔</span>
+                            </button>
+                        </div>
+                        <div class="prayer-status-badge next" id="asrStatus">
+                            <span class="status-text">⏰ القادمة</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Maghrib -->
+                    <div class="prayer-card glass-card" data-prayer="maghrib">
+                        <div class="prayer-card-header">
+                            <div class="prayer-icon">🌅</div>
+                            <div class="prayer-info">
+                                <h3 class="prayer-name">المغرب</h3>
+                                <span class="prayer-time" id="maghribTime">18:00</span>
+                            </div>
+                        </div>
+                        <div class="prayer-actions">
+                            <button class="log-prayer-btn" onclick="logPrayer('maghrib')">
+                                <span>✓</span>
+                                <span>تسجيل</span>
+                            </button>
+                            <button class="alarm-btn" onclick="toggleAlarm('maghrib')">
+                                <span class="alarm-icon">🔔</span>
+                            </button>
+                        </div>
+                        <div class="prayer-status-badge" id="maghribStatus">
+                            <span class="status-text">لم يصلّ</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Isha -->
+                    <div class="prayer-card glass-card" data-prayer="isha">
+                        <div class="prayer-card-header">
+                            <div class="prayer-icon">🌙</div>
+                            <div class="prayer-info">
+                                <h3 class="prayer-name">العشاء</h3>
+                                <span class="prayer-time" id="ishaTime">19:30</span>
+                            </div>
+                        </div>
+                        <div class="prayer-actions">
+                            <button class="log-prayer-btn" onclick="logPrayer('isha')">
+                                <span>✓</span>
+                                <span>تسجيل</span>
+                            </button>
+                            <button class="alarm-btn" onclick="toggleAlarm('isha')">
+                                <span class="alarm-icon">🔔</span>
+                            </button>
+                        </div>
+                        <div class="prayer-status-badge" id="ishaStatus">
+                            <span class="status-text">لم يصلّ</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Qibla Direction -->
+            <section class="qibla-section fade-in-up delay-4">
+                <h2 class="section-title">اتجاه القبلة</h2>
+                
+                <div class="qibla-compass glass-card">
+                    <div class="compass-container">
+                        <div class="compass-outer">
+                            <div class="compass-inner" id="compassInner">
+                                <div class="compass-needle">
+                                    <div class="needle-north"></div>
+                                </div>
+                                <div class="compass-center"></div>
+                                
+                                <!-- Cardinal Directions -->
+                                <span class="direction north">ش</span>
+                                <span class="direction east">ر</span>
+                                <span class="direction south">ج</span>
+                                <span class="direction west">غ</span>
+                            </div>
+                            
+                            <!-- Qibla Indicator -->
+                            <div class="qibla-indicator" id="qiblaIndicator">
+                                <div class="kaaba-icon">🕋</div>
+                            </div>
+                        </div>
+                        
+                        <div class="compass-info">
+                            <div class="qibla-degree">
+                                <span class="degree-label">اتجاه القبلة</span>
+                                <span class="degree-value" id="qiblaDegree">135°</span>
+                            </div>
+                            <div class="distance-info">
+                                <span class="distance-label">المسافة إلى مكة</span>
+                                <span class="distance-value" id="distanceToMecca">1,250 كم</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="calibrate-btn" id="calibrateBtn">
+                        <span class="btn-icon">🧭</span>
+                        <span>معايرة البوصلة</span>
+                    </button>
+                </div>
+            </section>
+            
+            <!-- Additional Settings -->
+            <section class="settings-section fade-in-up delay-5">
+                <h2 class="section-title">الإعدادات</h2>
+                
+                <div class="settings-grid">
+                    <div class="setting-card glass-card">
+                        <div class="setting-header">
+                            <span class="setting-icon">🔔</span>
+                            <h3 class="setting-title">التنبيهات</h3>
+                        </div>
+                        <div class="setting-options">
+                            <label class="setting-option">
+                                <span class="option-label">تنبيه قبل الأذان بـ 10 دقائق</span>
+                                <input type="checkbox" class="toggle-switch" id="preAlarmToggle" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <label class="setting-option">
+                                <span class="option-label">صوت الأذان</span>
+                                <input type="checkbox" class="toggle-switch" id="adhanSoundToggle" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-card glass-card">
+                        <div class="setting-header">
+                            <span class="setting-icon">⚙️</span>
+                            <h3 class="setting-title">طريقة الحساب</h3>
+                        </div>
+                        <select class="calculation-method" id="calculationMethod">
+                            <option value="mwl">رابطة العالم الإسلامي</option>
+                            <option value="isna">الجمعية الإسلامية لأمريكا الشمالية</option>
+                            <option value="egypt">الهيئة المصرية العامة للمساحة</option>
+                            <option value="makkah">أم القرى، مكة المكرمة</option>
+                            <option value="karachi">جامعة العلوم الإسلامية، كراتشي</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+            
+        </div>
+    </main>
+    
+    <!-- Success Toast -->
+    <div id="prayerToast" class="prayer-toast"></div>
+    
+    <!-- Link JavaScript Files -->
+    <script src="js/theme-manager.js"></script>
+    <script src="js/particles.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/prayer-times.js"></script>
+</body>
+</html>

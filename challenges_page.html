@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>التحديات - تهجّد</title>
+    
+    <!-- Link CSS Files -->
+    <link rel="stylesheet" href="css/root-variables.css">
+    <link rel="stylesheet" href="css/global-styles.css">
+    <link rel="stylesheet" href="css/challenges.css">
+    <link rel="stylesheet" href="css/animations.css">
+    
+    <!-- Google Fonts - Arabic Support -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="emerald-theme challenges-page">
+    
+    <!-- Animated Background Particles -->
+    <div class="particles-container" id="particles"></div>
+    
+    <!-- Navigation Bar -->
+    <nav class="glass-nav">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">☪</span>
+                <span class="logo-text">تهجّد</span>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="dashboard_page.html">لوحة التحكم</a></li>
+                <li><a href="prayer-times.html">مواقيت الصلاة</a></li>
+                <li><a href="duas.html">الأدعية</a></li>
+                <li><a href="challenges.html" class="active">التحديات</a></li>
+                <li><a href="hijri-calendar.html">التقويم الهجري</a></li>
+                <li><a href="khirah.html">الخيرات</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <div class="theme-switcher">
+                    <button class="theme-btn" id="themeBtn">
+                        <span class="theme-icon">🎨</span>
+                    </button>
+                    <div class="theme-dropdown" id="themeDropdown">
+                        <button class="theme-option" data-theme="emerald">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #0d4d3d, #d4af37)"></span>
+                            <span>الزمردي</span>
+                        </button>
+                        <button class="theme-option" data-theme="gold">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #c9a961, #1a3a2e)"></span>
+                            <span>الذهبي</span>
+                        </button>
+                        <button class="theme-option" data-theme="ruby">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #8b0000, #d4af37)"></span>
+                            <span>الياقوتي</span>
+                        </button>
+                        <button class="theme-option" data-theme="night">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #1a1f2e, #2d5f5d)"></span>
+                            <span>الليلي</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="user-profile-dropdown">
+                    <button class="user-profile-btn" id="userProfileBtn">
+                        <div class="user-avatar">
+                            <span id="userInitials">م</span>
+                        </div>
+                        <span class="user-name" id="userName">مستخدم</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="profile.html" class="dropdown-item">
+                            <span class="item-icon">👤</span>
+                            <span>الملف الشخصي</span>
+                        </a>
+                        <a href="settings.html" class="dropdown-item">
+                            <span class="item-icon">⚙️</span>
+                            <span>الإعدادات</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item logout-btn" id="logoutBtn">
+                            <span class="item-icon">🚪</span>
+                            <span>تسجيل الخروج</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-toggle" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="challenges-main">
+        <div class="challenges-container">
+            
+            <!-- Page Header -->
+            <section class="page-header fade-in-up">
+                <h1 class="page-title">التحديات اليومية</h1>
+                <p class="page-subtitle">تحدَّ نفسك وارفع من مستوى إيمانك</p>
+            </section>
+            
+            <!-- Stats Overview -->
+            <section class="stats-overview fade-in-up delay-1">
+                <div class="stat-card glass-card">
+                    <div class="stat-icon">🔥</div>
+                    <div class="stat-content">
+                        <span class="stat-value" id="streakDays">7</span>
+                        <span class="stat-label">أيام متتالية</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card glass-card">
+                    <div class="stat-icon">⭐</div>
+                    <div class="stat-content">
+                        <span class="stat-value" id="totalPoints">850</span>
+                        <span class="stat-label">نقطة</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card glass-card">
+                    <div class="stat-icon">🏆</div>
+                    <div class="stat-content">
+                        <span class="stat-value" id="completedChallenges">3</span>
+                        <span class="stat-label">تحدٍ مكتمل</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card glass-card">
+                    <div class="stat-icon">📈</div>
+                    <div class="stat-content">
+                        <span class="stat-value" id="overallProgress">67%</span>
+                        <span class="stat-label">التقدم الكلي</span>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Active Challenges -->
+            <section class="active-challenges fade-in-up delay-2">
+                <h2 class="section-title">التحديات النشطة</h2>
+                
+                <div class="challenges-grid">
+                    
+                    <!-- Challenge 1: Prayer in Mosque -->
+                    <div class="challenge-card glass-card" data-challenge-id="prayer-mosque">
+                        <div class="challenge-header">
+                            <div class="challenge-icon">🕌</div>
+                            <div class="challenge-info">
+                                <h3 class="challenge-title">تحدي الصلاة في المسجد</h3>
+                                <p class="challenge-description">صلِّ 30 يوماً متتالياً في المسجد</p>
+                            </div>
+                            <div class="challenge-badge">
+                                <span class="badge-day">7/30</span>
+                                <span class="badge-label">يوم</span>
+                            </div>
+                        </div>
+                        
+                        <div class="challenge-progress-section">
+                            <div class="progress-bar-wrapper">
+                                <div class="progress-bar-fill" style="width: 23%">
+                                    <span class="progress-percentage">23%</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="challenge-calendar">
+                            <div class="calendar-days">
+                                <div class="calendar-day completed" title="اليوم 1">✓</div>
+                                <div class="calendar-day completed" title="اليوم 2">✓</div>
+                                <div class="calendar-day completed" title="اليوم 3">✓</div>
+                                <div class="calendar-day completed" title="اليوم 4">✓</div>
+                                <div class="calendar-day missed" title="اليوم 5">✗</div>
+                                <div class="calendar-day completed" title="اليوم 6">✓</div>
+                                <div class="calendar-day completed" title="اليوم 7">✓</div>
+                                <div class="calendar-day today" title="اليوم 8">8</div>
+                                <div class="calendar-day pending" title="اليوم 9">9</div>
+                                <div class="calendar-day pending" title="اليوم 10">10</div>
+                            </div>
+                            <button class="btn-show-all" onclick="showFullCalendar('prayer-mosque')">
+                                عرض الأيام كاملة ↓
+                            </button>
+                        </div>
+                        
+                        <div class="challenge-actions">
+                            <button class="btn-mark-complete" onclick="markDayComplete('prayer-mosque')">
+                                ✓ تسجيل اليوم
+                            </button>
+                            <button class="btn-view-details" onclick="viewChallengeDetails('prayer-mosque')">
+                                التفاصيل
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Challenge 2: 40 Morning Adhkar -->
+                    <div class="challenge-card glass-card gold" data-challenge-id="morning-adhkar">
+                        <div class="challenge-header">
+                            <div class="challenge-icon">📿</div>
+                            <div class="challenge-info">
+                                <h3 class="challenge-title">الأذكار الـ40 الصباحية</h3>
+                                <p class="challenge-description">أكمل جميع أذكار الصباح لمدة 40 يوماً</p>
+                            </div>
+                            <div class="challenge-badge gold">
+                                <span class="badge-day">32/40</span>
+                                <span class="badge-label">يوم</span>
+                            </div>
+                        </div>
+                        
+                        <div class="challenge-progress-section">
+                            <div class="progress-bar-wrapper">
+                                <div class="progress-bar-fill gold" style="width: 80%">
+                                    <span class="progress-percentage">80%</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="adhkar-checklist">
+                            <h4 class="checklist-title">قائمة اليوم:</h4>
+                            <div class="checklist-items">
+                                <label class="checklist-item">
+                                    <input type="checkbox" checked>
+                                    <span class="checkbox-custom"></span>
+                                    <span class="adhkar-text">آية الكرسي</span>
+                                </label>
+                                <label class="checklist-item">
+                                    <input type="checkbox" checked>
+                                    <span class="checkbox-custom"></span>
+                                    <span class="adhkar-text">المعوذتان (3 مرات)</span>
+                                </label>
+                                <label class="checklist-item">
+                                    <input type="checkbox" checked>
+                                    <span class="checkbox-custom"></span>
+                                    <span class="adhkar-text">سبحان الله وبحمده (100 مرة)</span>
+                                </label>
+                                <label class="checklist-item">
+                                    <input type="checkbox">
+                                    <span class="checkbox-custom"></span>
+                                    <span class="adhkar-text">أذكار الصباح الأخرى</span>
+                                </label>
+                            </div>
+                            <button class="btn-view-all-adhkar" onclick="viewAllAdhkar()">
+                                عرض القائمة الكاملة (40 ذكر)
+                            </button>
+                        </div>
+                        
+                        <div class="challenge-actions">
+                            <button class="btn-mark-complete gold" onclick="markDayComplete('morning-adhkar')">
+                                ✓ أكملت اليوم
+                            </button>
+                            <button class="btn-view-details" onclick="viewChallengeDetails('morning-adhkar')">
+                                التفاصيل
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Challenge 3: Quran Reading -->
+                    <div class="challenge-card glass-card" data-challenge-id="quran-reading">
+                        <div class="challenge-header">
+                            <div class="challenge-icon">📖</div>
+                            <div class="challenge-info">
+                                <h3 class="challenge-title">ختمة القرآن الشهرية</h3>
+                                <p class="challenge-description">اقرأ جزءاً واحداً كل يوم لمدة 30 يوماً</p>
+                            </div>
+                            <div class="challenge-badge">
+                                <span class="badge-day">12/30</span>
+                                <span class="badge-label">جزء</span>
+                            </div>
+                        </div>
+                        
+                        <div class="challenge-progress-section">
+                            <div class="progress-bar-wrapper">
+                                <div class="progress-bar-fill" style="width: 40%">
+                                    <span class="progress-percentage">40%</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="quran-progress">
+                            <div class="juz-selector">
+                                <label>الجزء الحالي:</label>
+                                <select class="juz-select" id="currentJuz">
+                                    <option value="1">الجزء 1</option>
+                                    <option value="2">الجزء 2</option>
+                                    <option value="3">الجزء 3</option>
+                                    <option value="12" selected>الجزء 12</option>
+                                    <option value="13">الجزء 13</option>
+                                    <!-- More options... -->
+                                </select>
+                            </div>
+                            <div class="reading-stats">
+                                <div class="stat-item">
+                                    <span class="stat-icon">📄</span>
+                                    <span>240 صفحة مقروءة</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-icon">⏱️</span>
+                                    <span>~6 ساعات إجمالي</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="challenge-actions">
+                            <button class="btn-mark-complete" onclick="markJuzComplete()">
+                                ✓ أكملت الجزء
+                            </button>
+                            <button class="btn-view-details" onclick="viewChallengeDetails('quran-reading')">
+                                التفاصيل
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Challenge 4: Dua Challenge -->
+                    <div class="challenge-card glass-card" data-challenge-id="dua-challenge">
+                        <div class="challenge-header">
+                            <div class="challenge-icon">🤲</div>
+                            <div class="challenge-info">
+                                <h3 class="challenge-title">تحدي الأدعية المأثورة</h3>
+                                <p class="challenge-description">احفظ وردد 20 دعاءً من أهل البيت (ع)</p>
+                            </div>
+                            <div class="challenge-badge">
+                                <span class="badge-day">8/20</span>
+                                <span class="badge-label">دعاء</span>
+                            </div>
+                        </div>
+                        
+                        <div class="challenge-progress-section">
+                            <div class="progress-bar-wrapper">
+                                <div class="progress-bar-fill" style="width: 40%">
+                                    <span class="progress-percentage">40%</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="duas-list-mini">
+                            <div class="dua-mini-item completed">
+                                <span class="check-icon">✓</span>
+                                <span>دعاء كميل</span>
+                            </div>
+                            <div class="dua-mini-item completed">
+                                <span class="check-icon">✓</span>
+                                <span>دعاء الفرج</span>
+                            </div>
+                            <div class="dua-mini-item current">
+                                <span class="current-icon">→</span>
+                                <span>دعاء الافتتاح</span>
+                            </div>
+                            <div class="dua-mini-item pending">
+                                <span class="pending-icon">○</span>
+                                <span>دعاء عرفة</span>
+                            </div>
+                        </div>
+                        
+                        <div class="challenge-actions">
+                            <button class="btn-mark-complete" onclick="markDuaLearned()">
+                                ✓ حفظت الدعاء
+                            </button>
+                            <button class="btn-view-details" onclick="viewChallengeDetails('dua-challenge')">
+                                التفاصيل
+                            </button>
+                        </div>
+                    </div>
+                    
+                </div>
+            </section>
+            
+            <!-- Achievements -->
+            <section class="achievements-section fade-in-up delay-3">
+                <h2 class="section-title">الإنجازات والشارات</h2>
+                
+                <div class="achievements-grid">
+                    <div class="achievement-badge unlocked glass-card">
+                        <div class="badge-icon-large">🔥</div>
+                        <h3 class="badge-title">المثابر</h3>
+                        <p class="badge-desc">7 أيام متتالية</p>
+                        <span class="unlock-date">تم الفتح منذ 3 أيام</span>
+                    </div>
+                    
+                    <div class="achievement-badge unlocked glass-card">
+                        <div class="badge-icon-large">📿</div>
+                        <h3 class="badge-title">حافظ الأذكار</h3>
+                        <p class="badge-desc">30 يوماً من الأذكار</p>
+                        <span class="unlock-date">تم الفتح منذ أسبوع</span>
+                    </div>
+                    
+                    <div class="achievement-badge progress glass-card">
+                        <div class="badge-icon-large">🕌</div>
+                        <h3 class="badge-title">محب المساجد</h3>
+                        <p class="badge-desc">30 صلاة في المسجد</p>
+                        <div class="badge-progress">
+                            <div class="badge-progress-fill" style="width: 60%"></div>
+                        </div>
+                        <span class="progress-text">18/30</span>
+                    </div>
+                    
+                    <div class="achievement-badge locked glass-card">
+                        <div class="badge-icon-large locked-icon">🔒</div>
+                        <h3 class="badge-title">قارئ القرآن</h3>
+                        <p class="badge-desc">ختمة كاملة</p>
+                        <span class="locked-text">12 جزء متبقي</span>
+                    </div>
+                </div>
+            </section>
+            
+        </div>
+    </main>
+    
+    <!-- Challenge Details Modal -->
+    <div id="challengeModal" class="modal" style="display: none;">
+        <div class="modal-overlay" onclick="closeModal()"></div>
+        <div class="modal-content glass-card">
+            <button class="modal-close" onclick="closeModal()">✕</button>
+            
+            <div class="modal-header">
+                <div class="modal-icon" id="modalIcon">🕌</div>
+                <h2 class="modal-title" id="modalTitle">تحدي الصلاة في المسجد</h2>
+            </div>
+            
+            <div class="modal-body">
+                <div class="challenge-details-section">
+                    <h3 class="section-heading">الوصف</h3>
+                    <p id="modalDescription"></p>
+                </div>
+                
+                <div class="challenge-details-section">
+                    <h3 class="section-heading">الفوائد</h3>
+                    <ul class="benefits-list" id="modalBenefits"></ul>
+                </div>
+                
+                <div class="challenge-details-section">
+                    <h3 class="section-heading">التقدم التفصيلي</h3>
+                    <div class="detailed-progress" id="modalProgress"></div>
+                </div>
+                
+                <div class="challenge-details-section">
+                    <h3 class="section-heading">الإحصائيات</h3>
+                    <div class="stats-grid" id="modalStats"></div>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn-modal-action" onclick="resetChallenge()">
+                    <span class="btn-icon">🔄</span>
+                    <span>إعادة التحدي</span>
+                </button>
+                <button class="btn-modal-action" onclick="shareProgress()">
+                    <span class="btn-icon">📤</span>
+                    <span>مشاركة التقدم</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Celebration Modal -->
+    <div id="celebrationModal" class="celebration-modal" style="display: none;">
+        <div class="celebration-overlay"></div>
+        <div class="celebration-content">
+            <div class="celebration-icon">🎉</div>
+            <h2 class="celebration-title">مبروك!</h2>
+            <p class="celebration-text" id="celebrationText"></p>
+            <div class="points-earned">
+                <span class="points-icon">⭐</span>
+                <span class="points-value">+50 نقطة</span>
+            </div>
+            <button class="btn-celebration-close" onclick="closeCelebration()">
+                رائع!
+            </button>
+        </div>
+    </div>
+    
+    <!-- Toast Notification -->
+    <div id="challengeToast" class="challenge-toast"></div>
+    
+    <!-- Link JavaScript Files -->
+    <script src="js/theme-manager.js"></script>
+    <script src="js/particles.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/challenges.js"></script>
+</body>
+</html>

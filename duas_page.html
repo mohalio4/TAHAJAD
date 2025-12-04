@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مكتبة الأدعية - تهجّد</title>
+    
+    <!-- Link CSS Files -->
+    <link rel="stylesheet" href="css/root-variables.css">
+    <link rel="stylesheet" href="css/global-styles.css">
+    <link rel="stylesheet" href="css/duas.css">
+    <link rel="stylesheet" href="css/animations.css">
+    
+    <!-- Google Fonts - Arabic Support -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="emerald-theme duas-page">
+    
+    <!-- Animated Background Particles -->
+    <div class="particles-container" id="particles"></div>
+    
+    <!-- Navigation Bar -->
+    <nav class="glass-nav">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">☪</span>
+                <span class="logo-text">تهجّد</span>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="dashboard_page.html">لوحة التحكم</a></li>
+                <li><a href="prayer-times.html">مواقيت الصلاة</a></li>
+                <li><a href="duas.html" class="active">الأدعية</a></li>
+                <li><a href="challenges.html">التحديات</a></li>
+                <li><a href="hijri-calendar.html">التقويم الهجري</a></li>
+                <li><a href="khirah.html">الخيرات</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <div class="theme-switcher">
+                    <button class="theme-btn" id="themeBtn">
+                        <span class="theme-icon">🎨</span>
+                    </button>
+                    <div class="theme-dropdown" id="themeDropdown">
+                        <button class="theme-option" data-theme="emerald">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #0d4d3d, #d4af37)"></span>
+                            <span>الزمردي</span>
+                        </button>
+                        <button class="theme-option" data-theme="gold">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #c9a961, #1a3a2e)"></span>
+                            <span>الذهبي</span>
+                        </button>
+                        <button class="theme-option" data-theme="ruby">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #8b0000, #d4af37)"></span>
+                            <span>الياقوتي</span>
+                        </button>
+                        <button class="theme-option" data-theme="night">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #1a1f2e, #2d5f5d)"></span>
+                            <span>الليلي</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="user-profile-dropdown">
+                    <button class="user-profile-btn" id="userProfileBtn">
+                        <div class="user-avatar">
+                            <span id="userInitials">م</span>
+                        </div>
+                        <span class="user-name" id="userName">مستخدم</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="profile.html" class="dropdown-item">
+                            <span class="item-icon">👤</span>
+                            <span>الملف الشخصي</span>
+                        </a>
+                        <a href="settings.html" class="dropdown-item">
+                            <span class="item-icon">⚙️</span>
+                            <span>الإعدادات</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item logout-btn" id="logoutBtn">
+                            <span class="item-icon">🚪</span>
+                            <span>تسجيل الخروج</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-toggle" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="duas-main">
+        <div class="duas-container">
+            
+            <!-- Page Header -->
+            <section class="page-header fade-in-up">
+                <h1 class="page-title">مكتبة الأدعية</h1>
+                <p class="page-subtitle">ادْعُونِي أَسْتَجِبْ لَكُمْ</p>
+            </section>
+            
+            <!-- Search & Filter Bar -->
+            <section class="search-filter-bar fade-in-up delay-1">
+                <div class="search-box glass-card">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" 
+                           id="duaSearch" 
+                           class="search-input" 
+                           placeholder="ابحث عن دعاء...">
+                    <button class="clear-search" id="clearSearch" style="display: none;">✕</button>
+                </div>
+                
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-category="all">
+                        <span class="filter-icon">📿</span>
+                        <span>الكل</span>
+                    </button>
+                    <button class="filter-btn" data-category="quran">
+                        <span class="filter-icon">📖</span>
+                        <span>من القرآن</span>
+                    </button>
+                    <button class="filter-btn" data-category="prophet">
+                        <span class="filter-icon">✨</span>
+                        <span>عن النبي (ص)</span>
+                    </button>
+                    <button class="filter-btn" data-category="ahlulbayt">
+                        <span class="filter-icon">🌟</span>
+                        <span>أهل البيت (ع)</span>
+                    </button>
+                    <button class="filter-btn" data-category="sahifa">
+                        <span class="filter-icon">📜</span>
+                        <span>الصحيفة السجادية</span>
+                    </button>
+                    <button class="filter-btn" data-category="kumayl">
+                        <span class="filter-icon">🌙</span>
+                        <span>دعاء كميل</span>
+                    </button>
+                    <button class="filter-btn" data-category="favorites">
+                        <span class="filter-icon">⭐</span>
+                        <span>المفضلة</span>
+                    </button>
+                </div>
+            </section>
+            
+            <!-- Quick Categories -->
+            <section class="quick-categories fade-in-up delay-2">
+                <h2 class="section-title">التصنيفات السريعة</h2>
+                
+                <div class="categories-grid">
+                    <button class="category-card glass-card hover-lift" data-category="sahifa">
+                        <div class="category-icon">📜</div>
+                        <h3 class="category-title">الصحيفة السجادية</h3>
+                        <span class="category-count">54 دعاء</span>
+                    </button>
+                    
+                    <button class="category-card glass-card hover-lift" data-category="kumayl">
+                        <div class="category-icon">🌙</div>
+                        <h3 class="category-title">دعاء كميل</h3>
+                        <span class="category-count">دعاء كامل</span>
+                    </button>
+                    
+                    <button class="category-card glass-card hover-lift" data-category="arafah">
+                        <div class="category-icon">⛰️</div>
+                        <h3 class="category-title">دعاء عرفة</h3>
+                        <span class="category-count">للإمام الحسين (ع)</span>
+                    </button>
+                    
+                    <button class="category-card glass-card hover-lift" data-category="tawassul">
+                        <div class="category-icon">🤲</div>
+                        <h3 class="category-title">دعاء التوسل</h3>
+                        <span class="category-count">بأهل البيت (ع)</span>
+                    </button>
+                    
+                    <button class="category-card glass-card hover-lift" data-category="faraj">
+                        <div class="category-icon">💚</div>
+                        <h3 class="category-title">أدعية الفرج</h3>
+                        <span class="category-count">لتعجيل الظهور</span>
+                    </button>
+                    
+                    <button class="category-card glass-card hover-lift" data-category="ziyarat">
+                        <div class="category-icon">🕌</div>
+                        <h3 class="category-title">الزيارات</h3>
+                        <span class="category-count">زيارة عاشوراء وغيرها</span>
+                    </button>
+                </div>
+            </section>
+            
+            <!-- Duas List -->
+            <section class="duas-list-section fade-in-up delay-3">
+                <div class="section-header">
+                    <h2 class="section-title">جميع الأدعية</h2>
+                    <div class="list-controls">
+                        <button class="view-toggle active" data-view="grid">
+                            <span>⊞</span>
+                        </button>
+                        <button class="view-toggle" data-view="list">
+                            <span>☰</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="duas-grid" id="duasGrid">
+                    <!-- Dua Card 1: من القرآن -->
+                    <div class="dua-card glass-card" data-category="quran" data-dua-id="1">
+                        <div class="dua-header">
+                            <div class="dua-category-badge quran">من القرآن</div>
+                            <button class="favorite-btn" onclick="toggleFavorite(1)">
+                                <span class="favorite-icon">☆</span>
+                            </button>
+                        </div>
+                        
+                        <div class="dua-content">
+                            <p class="dua-arabic">رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ</p>
+                            <p class="dua-translation">ربنا أعطنا في الدنيا خيراً وفي الآخرة خيراً واحفظنا من عذاب النار</p>
+                        </div>
+                        
+                        <div class="dua-footer">
+                            <button class="dua-action-btn" onclick="playAudio(1)">
+                                <span class="btn-icon">▶️</span>
+                                <span>استماع</span>
+                            </button>
+                            <button class="dua-action-btn" onclick="shareDua(1)">
+                                <span class="btn-icon">📤</span>
+                                <span>مشاركة</span>
+                            </button>
+                            <button class="dua-action-btn" onclick="viewDetails(1)">
+                                <span class="btn-icon">👁️</span>
+                                <span>التفاصيل</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Dua Card 2: من الإمام علي (ع) -->
+                    <div class="dua-card glass-card" data-category="ahlulbayt" data-dua-id="2">
+                        <div class="dua-header">
+                            <div class="dua-category-badge ahlulbayt">أهل البيت (ع)</div>
+                            <button class="favorite-btn favorited" onclick="toggleFavorite(2)">
+                                <span class="favorite-icon">★</span>
+                            </button>
+                        </div>
+                        
+                        <div class="dua-content">
+                            <p class="dua-arabic">إِلَهِي كَفَى بِي عِزًّا أَنْ أَكُونَ لَكَ عَبْدًا، وَكَفَى بِي فَخْرًا أَنْ تَكُونَ لِي رَبًّا</p>
+                            <p class="dua-translation">إلهي يكفيني عزاً أن أكون عبداً لك، ويكفيني فخراً أن تكون أنت ربي</p>
+                            <p class="dua-source">من دعاء أمير المؤمنين علي بن أبي طالب (ع)</p>
+                        </div>
+                        
+                        <div class="dua-footer">
+                            <button class="dua-action-btn" onclick="playAudio(2)">
+                                <span class="btn-icon">▶️</span>
+                                <span>استماع</span>
+                            </button>
+                            <button class="dua-action-btn" onclick="shareDua(2)">
+                                <span class="btn-icon">📤</span>
+                                <span>مشاركة</span>
+                            </button>
+                            <button class="dua-action-btn" onclick="viewDetails(2)">
+                                <span class="btn-icon">👁️</span>
+                                <span>التفاصيل</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Dua Card 3: من الصحيفة السجادية -->
+                    <div class="dua-card glass-card" data-category="sahifa ahlulbayt" data-dua-id="3">
+                        <div class="dua-header">
+                            <div class="dua-category-badge sahifa">الصحيفة السجادية</div>
+                            <button class="favorite-btn" onclick="toggleFavorite(3)">
+                                <span class="favorite-icon">☆</span>
+                            </button>
+                        </div>
+                        
+                        <div class="dua-content">
+                            <p class="dua-arabic">اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَآلِ مُحَمَّدٍ وَاجْعَلْنِي أَخْشَاكَ كَأَنِّي أَرَاكَ</p>
+                            <p class="dua-translation">اللهم صلّ على محمد وآل محمد واجعلني أخشاك كأنني أراك</p>
+                            <p class="dua-source">من أدعية الإمام زين العابدين (ع)</p>
+                        </div>
+                        
+                        <div class="dua-footer">
+                            <button class="dua-action-btn" onclick="playAudio(3)">
+                                <span class="btn-icon">▶️</span>
+                                <span>استماع</span>
+                            </button>
+                            <button class="dua-action-btn" onclick="shareDua(3)">
+                                <span class="btn-icon">📤</span>
+                                <span>مشاركة</span>
+                            </button>
+                            <button class="dua-action-btn" onclick="viewDetails(3)">
+                                <span class="btn-icon">👁️</span>
+                                <span>التفاصيل</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- More cards will be loaded dynamically -->
+                </div>
+                
+                <!-- Loading Indicator -->
+                <div class="loading-more" id="loadingMore" style="display: none;">
+                    <div class="loader-spinner"></div>
+                    <span>جاري التحميل...</span>
+                </div>
+                
+                <!-- Load More Button -->
+                <div class="load-more-container">
+                    <button class="btn-load-more" id="loadMoreBtn">
+                        <span>تحميل المزيد</span>
+                        <span class="arrow-down">↓</span>
+                    </button>
+                </div>
+            </section>
+            
+        </div>
+    </main>
+    
+    <!-- Dua Details Modal -->
+    <div id="duaDetailsModal" class="modal" style="display: none;">
+        <div class="modal-overlay" onclick="closeModal()"></div>
+        <div class="modal-content glass-card dua-details">
+            <button class="modal-close" onclick="closeModal()">✕</button>
+            
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalDuaTitle">تفاصيل الدعاء</h2>
+                <button class="favorite-btn-large" id="modalFavoriteBtn">
+                    <span class="favorite-icon">☆</span>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="dua-text-section">
+                    <h3 class="section-heading">النص العربي</h3>
+                    <p class="dua-arabic-large" id="modalDuaArabic"></p>
+                </div>
+                
+                <div class="dua-translation-section">
+                    <h3 class="section-heading">المعنى</h3>
+                    <p class="dua-translation-large" id="modalDuaTranslation"></p>
+                </div>
+                
+                <div class="dua-source-section">
+                    <h3 class="section-heading">المصدر</h3>
+                    <p class="dua-source" id="modalDuaSource"></p>
+                </div>
+                
+                <div class="dua-benefits-section">
+                    <h3 class="section-heading">الفضل والفوائد</h3>
+                    <p class="dua-benefits" id="modalDuaBenefits"></p>
+                </div>
+                
+                <div class="audio-player" id="audioPlayerSection">
+                    <button class="play-pause-btn" id="playPauseBtn">
+                        <span class="play-icon">▶️</span>
+                    </button>
+                    <div class="audio-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="audioProgress"></div>
+                        </div>
+                        <div class="audio-time">
+                            <span id="currentTime">0:00</span>
+                            <span id="duration">0:00</span>
+                        </div>
+                    </div>
+                    <button class="volume-btn" id="volumeBtn">
+                        <span>🔊</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn-modal-action" onclick="shareDuaFromModal()">
+                    <span class="btn-icon">📤</span>
+                    <span>مشاركة</span>
+                </button>
+                <button class="btn-modal-action" onclick="copyDuaText()">
+                    <span class="btn-icon">📋</span>
+                    <span>نسخ النص</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Audio Player (hidden) -->
+    <audio id="duaAudio" style="display: none;"></audio>
+    
+    <!-- Toast Notification -->
+    <div id="duaToast" class="dua-toast"></div>
+    
+    <!-- Link JavaScript Files -->
+    <script src="js/theme-manager.js"></script>
+    <script src="js/particles.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/duas.js"></script>
+</body>
+</html>

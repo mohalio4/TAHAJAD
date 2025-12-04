@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تهجّد - تطبيقك الإسلامي الشامل</title>
+    
+    <!-- Link CSS Files -->
+    <link rel="stylesheet" href="css/root-variables.css">
+    <link rel="stylesheet" href="css/global-styles.css">
+    <link rel="stylesheet" href="css/landing-page.css">
+    <link rel="stylesheet" href="css/animations.css">
+    
+    <!-- Google Fonts - Arabic Support -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="emerald-theme">
+    
+    <!-- Animated Background Particles -->
+    <div class="particles-container" id="particles"></div>
+    
+    <!-- Navigation Bar -->
+    <nav class="glass-nav">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">☪</span>
+                <span class="logo-text">تهجّد</span>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">الرئيسية</a></li>
+                <li><a href="prayer_times_page.html">مواقيت الصلاة</a></li>
+                <li><a href="duas_page.html">الأدعية</a></li>
+                <li><a href="challenges_page.html">التحديات</a></li>
+                <li><a href="hijri-calendar.html">التقويم الهجري</a></li>
+                <li><a href="khirah.html">الخيرات</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <!-- Theme Switcher -->
+                <div class="theme-switcher">
+                    <button class="theme-btn" id="themeBtn">
+                        <span class="theme-icon">🎨</span>
+                    </button>
+                    <div class="theme-dropdown" id="themeDropdown">
+                        <button class="theme-option" data-theme="emerald">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #0d4d3d, #d4af37)"></span>
+                            <span>الزمردي</span>
+                        </button>
+                        <button class="theme-option" data-theme="gold">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #c9a961, #1a3a2e)"></span>
+                            <span>الذهبي</span>
+                        </button>
+                        <button class="theme-option" data-theme="ruby">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #8b0000, #d4af37)"></span>
+                            <span>الياقوتي</span>
+                        </button>
+                        <button class="theme-option" data-theme="night">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #1a1f2e, #2d5f5d)"></span>
+                            <span>الليلي</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <a href="login_page.html" class="btn-glass btn-login">تسجيل الدخول</a>
+                <a href="register_page.html" class="btn-primary">إنشاء حساب</a>
+            </div>
+            
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <div class="hero-text fade-in-up">
+                <h1 class="hero-title">
+                    <span class="title-line">رحلتك الروحانية</span>
+                    <span class="title-line">تبدأ هنا</span>
+                </h1>
+                <p class="hero-subtitle">
+                    تطبيقك الشامل للصلاة، الأذكار، والتحديات اليومية
+                    <br>
+                    اجعل كل يوم فرصة للتقرب إلى الله
+                </p>
+                
+                <div class="hero-buttons">
+                    <a href="register_page.html" class="btn-hero-primary">
+                        <span>ابدأ الآن</span>
+                        <span class="btn-arrow">←</span>
+                    </a>
+                    <a href="#features" class="btn-hero-secondary">
+                        <span>اكتشف المزايا</span>
+                    </a>
+                </div>
+                
+                <!-- Quick Stats -->
+                <div class="hero-stats">
+                    <div class="stat-item glass-card">
+                        <span class="stat-number">10K+</span>
+                        <span class="stat-label">مستخدم نشط</span>
+                    </div>
+                    <div class="stat-item glass-card">
+                        <span class="stat-number">500+</span>
+                        <span class="stat-label">دعاء وذكر</span>
+                    </div>
+                    <div class="stat-item glass-card">
+                        <span class="stat-number">50+</span>
+                        <span class="stat-label">تحدي يومي</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Hero Image / Illustration -->
+            <div class="hero-image fade-in-up delay-1">
+                <div class="mosque-illustration">
+                    <div class="mosque-silhouette">
+                        <!-- SVG Mosque Illustration -->
+                        <svg viewBox="0 0 400 300" class="mosque-svg">
+                            <defs>
+                                <linearGradient id="mosqueGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color:var(--accent-light);stop-opacity:0.8" />
+                                    <stop offset="100%" style="stop-color:var(--primary);stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <!-- Central Dome -->
+                            <ellipse cx="200" cy="120" rx="60" ry="35" fill="url(#mosqueGradient)" />
+                            <rect x="170" y="120" width="60" height="80" fill="url(#mosqueGradient)" />
+                            <!-- Side Domes -->
+                            <ellipse cx="120" cy="140" rx="40" ry="25" fill="url(#mosqueGradient)" opacity="0.9" />
+                            <rect x="100" y="140" width="40" height="60" fill="url(#mosqueGradient)" opacity="0.9" />
+                            <ellipse cx="280" cy="140" rx="40" ry="25" fill="url(#mosqueGradient)" opacity="0.9" />
+                            <rect x="260" y="140" width="40" height="60" fill="url(#mosqueGradient)" opacity="0.9" />
+                            <!-- Minarets -->
+                            <rect x="60" y="80" width="15" height="120" fill="url(#mosqueGradient)" />
+                            <ellipse cx="67.5" cy="80" rx="10" ry="15" fill="var(--secondary)" />
+                            <rect x="325" y="80" width="15" height="120" fill="url(#mosqueGradient)" />
+                            <ellipse cx="332.5" cy="80" rx="10" ry="15" fill="var(--secondary)" />
+                            <!-- Crescent Moons -->
+                            <text x="200" y="90" text-anchor="middle" font-size="24" fill="var(--secondary)">☪</text>
+                            <text x="67" y="70" text-anchor="middle" font-size="16" fill="var(--secondary)">☪</text>
+                            <text x="333" y="70" text-anchor="middle" font-size="16" fill="var(--secondary)">☪</text>
+                        </svg>
+                    </div>
+                    <div class="glow-effect"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <span>اكتشف المزيد</span>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <h2 class="section-title">مميزات التطبيق</h2>
+                <p class="section-subtitle">كل ما تحتاجه لرحلة روحانية متكاملة</p>
+            </div>
+            
+            <div class="features-grid">
+                <!-- Feature 1: Prayer Times -->
+                <div class="feature-card glass-card hover-lift">
+                    <div class="feature-icon">🕌</div>
+                    <h3 class="feature-title">مواقيت الصلاة</h3>
+                    <p class="feature-description">
+                        مواقيت دقيقة لجميع الصلوات حسب موقعك مع تنبيهات قبل الأذان
+                    </p>
+                    <a href="prayer_times_page.html" class="feature-link">
+                        <span>اعرف المزيد</span>
+                        <span class="arrow">←</span>
+                    </a>
+                </div>
+                
+                <!-- Feature 2: Duas Collection -->
+                <div class="feature-card glass-card hover-lift">
+                    <div class="feature-icon">📿</div>
+                    <h3 class="feature-title">مكتبة الأدعية</h3>
+                    <p class="feature-description">
+                        مجموعة شاملة من الأدعية والأذكار مع إمكانية الاستماع والحفظ
+                    </p>
+                    <a href="duas_page.html" class="feature-link">
+                        <span>تصفح الأدعية</span>
+                        <span class="arrow">←</span>
+                    </a>
+                </div>
+                
+                <!-- Feature 3: Challenges -->
+                <div class="feature-card glass-card hover-lift">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">التحديات اليومية</h3>
+                    <p class="feature-description">
+                        تحديات الصلاة، أذكار الصباح الـ40، وتحديات الأدعية لتحفيزك
+                    </p>
+                    <a href="challenges_page.html" class="feature-link">
+                        <span>ابدأ التحدي</span>
+                        <span class="arrow">←</span>
+                    </a>
+                </div>
+                
+                <!-- Feature 4: Hijri Calendar -->
+                <div class="feature-card glass-card hover-lift">
+                    <div class="feature-icon">📅</div>
+                    <h3 class="feature-title">التقويم الهجري</h3>
+                    <p class="feature-description">
+                        تقويم هجري شامل مع تمييز الأيام المباركة والمناسبات الإسلامية
+                    </p>
+                    <a href="hijri-calendar.html" class="feature-link">
+                        <span>شاهد التقويم</span>
+                        <span class="arrow">←</span>
+                    </a>
+                </div>
+                
+                <!-- Feature 5: Khirah Tracker -->
+                <div class="feature-card glass-card hover-lift">
+                    <div class="feature-icon">💚</div>
+                    <h3 class="feature-title">سجل الخيرات</h3>
+                    <p class="feature-description">
+                        سجل أعمالك الصالحة وصدقاتك لتتبع رحلتك الإيمانية
+                    </p>
+                    <a href="khirah.html" class="feature-link">
+                        <span>ابدأ التسجيل</span>
+                        <span class="arrow">←</span>
+                    </a>
+                </div>
+                
+                <!-- Feature 6: Achievements -->
+                <div class="feature-card glass-card hover-lift">
+                    <div class="feature-icon">🏆</div>
+                    <h3 class="feature-title">الإنجازات والشارات</h3>
+                    <p class="feature-description">
+                        اكسب شارات وإنجازات مع كل تحدي تكمله وعمل صالح تقوم به
+                    </p>
+                    <a href="dashboard_page.html" class="feature-link">
+                        <span>شاهد إنجازاتك</span>
+                        <span class="arrow">←</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content glass-card">
+            <h2 class="cta-title">ابدأ رحلتك الروحانية اليوم</h2>
+            <p class="cta-description">
+                انضم إلى آلاف المسلمين الذين يستخدمون تهجّد لتحسين علاقتهم بالله
+            </p>
+            <a href="register_page.html" class="btn-cta">
+                <span>إنشاء حساب مجاني</span>
+                <span class="btn-arrow">←</span>
+            </a>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3 class="footer-title">تهجّد</h3>
+                <p class="footer-text">تطبيقك الإسلامي الشامل للصلاة والأذكار</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4 class="footer-heading">روابط سريعة</h4>
+                <ul class="footer-links">
+                    <li><a href="about.html">من نحن</a></li>
+                    <li><a href="contact.html">تواصل معنا</a></li>
+                    <li><a href="privacy.html">سياسة الخصوصية</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4 class="footer-heading">المميزات</h4>
+                <ul class="footer-links">
+                    <li><a href="prayer_times_page.html">مواقيت الصلاة</a></li>
+                    <li><a href="duas_page.html">الأدعية</a></li>
+                    <li><a href="challenges_page.html">التحديات</a></li>
+                    <li><a href="hijri-calendar.html">التقويم الهجري</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4 class="footer-heading">تابعنا</h4>
+                <div class="social-links">
+                    <a href="#" class="social-link">📘</a>
+                    <a href="#" class="social-link">📷</a>
+                    <a href="#" class="social-link">🐦</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 تهجّد. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+    
+    <!-- Link JavaScript Files -->
+    <script src="js/theme-manager.js"></script>
+    <script src="js/particles.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/navigation.js"></script>
+</body>
+</html>
