@@ -52,6 +52,12 @@ class AnimationsController {
         const cards = document.querySelectorAll('.feature-card, .glass-card');
         
         cards.forEach(card => {
+            // Keep some cards completely motionless (details & late-prayers)
+            if (card.classList.contains('post-details-card') ||
+                card.classList.contains('late-prayers-card')) {
+                return;
+            }
+            
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
                 const x = e.clientX - rect.left;
@@ -60,20 +66,15 @@ class AnimationsController {
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
                 
-                const rotateX = (y - centerY) / 10;
-                const rotateY = (centerX - x) / 10;
-                
+                // Rotation removed for smoother experience
                 card.style.transform = `
-                    perspective(1000px)
-                    rotateX(${rotateX}deg)
-                    rotateY(${rotateY}deg)
-                    translateY(-5px)
-                    scale3d(1.02, 1.02, 1.02)
+                    translateY(-1px)
+                    scale3d(1.005, 1.005, 1.005)
                 `;
             });
             
             card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0) scale3d(1, 1, 1)';
+                card.style.transform = 'translateY(0) scale3d(1, 1, 1)';
             });
         });
     }
@@ -170,16 +171,7 @@ class AnimationsController {
     
     // ========== PARALLAX EFFECTS ==========
     setupParallax() {
-        const parallaxElements = document.querySelectorAll('.mosque-illustration, .hero-image');
-        
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            
-            parallaxElements.forEach(element => {
-                const speed = 0.5;
-                element.style.transform = `translateY(${scrolled * speed}px)`;
-            });
-        });
+        // Parallax effects removed - no elements to animate
     }
     
     // ========== SMOOTH SCROLL TO ANCHORS ==========
@@ -212,12 +204,12 @@ class AnimationsController {
         glowElements.forEach(element => {
             element.addEventListener('mouseenter', function() {
                 this.style.filter = 'drop-shadow(0 0 15px var(--secondary))';
-                this.style.transform = 'scale(1.1) rotate(5deg)';
+                this.style.transform = 'scale(1.02)';
             });
             
             element.addEventListener('mouseleave', function() {
                 this.style.filter = 'none';
-                this.style.transform = 'scale(1) rotate(0deg)';
+                this.style.transform = 'scale(1)';
             });
         });
     }

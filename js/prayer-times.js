@@ -14,7 +14,7 @@ class PrayerTimesManager {
         this.alarms = this.loadAlarms();
         
         if (!this.userData) {
-            window.location.href = 'login.html';
+            window.location.href = 'login_page.html';
             return;
         }
         
@@ -386,7 +386,8 @@ class PrayerTimesManager {
         }
         
         if (indicator) {
-            indicator.style.transform = `rotate(${this.qiblaDirection}deg)`;
+            // Rotation removed - indicator will not rotate
+            indicator.style.transform = `translateY(0)`;
         }
     }
     
@@ -395,8 +396,8 @@ class PrayerTimesManager {
         
         const compass = document.getElementById('compassInner');
         if (compass) {
-            // Rotate compass to show north
-            compass.style.transform = `rotate(${-event.alpha}deg)`;
+            // Rotation removed - compass will not rotate
+            compass.style.transform = `translateY(0)`;
         }
     }
     

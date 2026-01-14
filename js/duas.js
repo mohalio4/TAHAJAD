@@ -16,7 +16,7 @@ class DuasManager {
         this.currentDuaId = null;
         
         if (!this.userData) {
-            window.location.href = 'login.html';
+            window.location.href = 'login_page.html';
             return;
         }
         
@@ -55,13 +55,136 @@ class DuasManager {
     
     async loadDuas() {
         try {
-            const response = await window.apiManager.getDuas();
-            if (response && response.duas) {
-                this.allDuas = response.duas;
-            } else {
-                throw new Error('No duas data');
+            // Load duas from ad3iya.json
+            const duasResponse = await fetch('../ad3iya.json');
+            if (!duasResponse.ok) {
+                throw new Error('Failed to load duas');
             }
+            const duasData = await duasResponse.json();
+            
+            // Load ziyarat from ziyara.json
+            const ziyaratResponse = await fetch('../ziyara.json');
+            if (!ziyaratResponse.ok) {
+                throw new Error('Failed to load ziyarat');
+            }
+            const ziyaratData = await ziyaratResponse.json();
+            
+            // Load taqibat from taqibat.json
+            const taqibatResponse = await fetch('../taqibat.json');
+            if (!taqibatResponse.ok) {
+                throw new Error('Failed to load taqibat');
+            }
+            const taqibatData = await taqibatResponse.json();
+            
+            // Load seerah from seerah.json
+            const seerahResponse = await fetch('../seerah.json');
+            if (!seerahResponse.ok) {
+                throw new Error('Failed to load seerah');
+            }
+            const seerahData = await seerahResponse.json();
+            
+            // Map duas from ad3iya.json
+            const duas = duasData.map((item, index) => {
+                // Extract first line or first sentence from body as preview
+                const bodyLines = item.body.split('\n').filter(line => line.trim());
+                const preview = bodyLines.length > 0 ? bodyLines[0].substring(0, 150) : item.body.substring(0, 150);
+                
+                // Determine categories from major and tags
+                const categories = ['dua']; // Always include 'dua' category
+                if (item.major === 'الدعاء' || item.major === 'الأدعية') {
+                    categories.push('prophet');
+                }
+                if (item.tags && item.tags.includes('رمضان')) {
+                    categories.push('ramadan');
+                }
+                if (item.tags && item.tags.includes('السحر')) {
+                    categories.push('sahifa');
+                }
+                if (item.tags && item.tags.includes('الصحيفة')) {
+                    categories.push('sahifa');
+                }
+                if (categories.length === 1) {
+                    categories.push('ahlulbayt');
+                }
+                
+                return {
+                    id: index + 1,
+                    arabic: preview + (item.body.length > 150 ? '...' : ''),
+                    fullArabic: item.body,
+                    translation: '', // JSON doesn't have translation
+                    categories: categories,
+                    source: item.title,
+                    benefits: item.major || '',
+                    title: item.title,
+                    tags: item.tags || '',
+                    type: 'dua'
+                };
+            });
+            
+            // Map ziyarat from ziyara.json
+            const ziyarat = ziyaratData.map((item, index) => {
+                // Extract first line or first sentence from body as preview
+                const bodyLines = item.body.split('\n').filter(line => line.trim());
+                const preview = bodyLines.length > 0 ? bodyLines[0].substring(0, 150) : item.body.substring(0, 150);
+                
+                return {
+                    id: duas.length + index + 1, // Continue ID numbering from duas
+                    arabic: preview + (item.body.length > 150 ? '...' : ''),
+                    fullArabic: item.body,
+                    translation: '', // JSON doesn't have translation
+                    categories: ['ziyarat'], // Always include 'ziyarat' category
+                    source: item.title,
+                    benefits: item.major || '',
+                    title: item.title,
+                    tags: item.tags || '',
+                    type: 'ziyarat'
+                };
+            });
+            
+            // Map taqibat from taqibat.json
+            const taqibat = taqibatData.map((item, index) => {
+                // Extract first line or first sentence from body as preview
+                const bodyLines = item.body.split('\n').filter(line => line.trim());
+                const preview = bodyLines.length > 0 ? bodyLines[0].substring(0, 150) : item.body.substring(0, 150);
+                
+                return {
+                    id: duas.length + ziyarat.length + index + 1, // Continue ID numbering
+                    arabic: preview + (item.body.length > 150 ? '...' : ''),
+                    fullArabic: item.body,
+                    translation: '', // JSON doesn't have translation
+                    categories: ['taqibat'], // Always include 'taqibat' category
+                    source: item.title,
+                    benefits: item.major || '',
+                    title: item.title,
+                    tags: item.tags || '',
+                    type: 'taqibat'
+                };
+            });
+            
+            // Map seerah from seerah.json
+            const seerah = seerahData.map((item, index) => {
+                // Extract first line or first sentence from body as preview
+                const bodyLines = item.body.split('\n').filter(line => line.trim());
+                const preview = bodyLines.length > 0 ? bodyLines[0].substring(0, 150) : item.body.substring(0, 150);
+                
+                return {
+                    id: duas.length + ziyarat.length + taqibat.length + index + 1, // Continue ID numbering
+                    arabic: preview + (item.body.length > 150 ? '...' : ''),
+                    fullArabic: item.body,
+                    translation: '', // JSON doesn't have translation
+                    categories: ['seerah'], // Always include 'seerah' category
+                    source: item.title,
+                    benefits: item.major || '',
+                    title: item.title,
+                    tags: item.tags || '',
+                    type: 'seerah'
+                };
+            });
+            
+            // Combine all arrays
+            this.allDuas = [...duas, ...ziyarat, ...taqibat, ...seerah];
         } catch (error) {
+            console.error('Error loading duas:', error);
             this.allDuas = this.getMockDuas();
         }
         
@@ -188,10 +311,7 @@ class DuasManager {
         if (!grid) return;
         
         if (!append) {
-            const existingCards = grid.querySelectorAll('.dua-card');
-            existingCards.forEach((card, index) => {
-                if (index >= 3) card.remove();
-            });
+            grid.innerHTML = '';
         }
         
         const start = append ? (this.currentPage - 1) * this.duasPerPage : 0;
@@ -199,10 +319,6 @@ class DuasManager {
         const duasToRender = this.filteredDuas.slice(start, end);
         
         duasToRender.forEach(dua => {
-            if (document.querySelector(`[data-dua-id="${dua.id}"]`) && dua.id <= 3) {
-                return;
-            }
-            
             const card = this.createDuaCard(dua);
             grid.appendChild(card);
         });
@@ -214,11 +330,15 @@ class DuasManager {
         const card = document.createElement('div');
         card.className = 'dua-card glass-card';
         card.dataset.duaId = dua.id;
-        card.dataset.category = dua.categories.join(' ');
+        // Include type in categories for filtering
+        const allCategories = dua.type ? [dua.type, ...dua.categories] : dua.categories;
+        card.dataset.category = allCategories.join(' ');
         
         const isFavorited = this.favorites.includes(dua.id);
-        const categoryLabel = this.getCategoryLabel(dua.categories[0]);
-        const categoryClass = dua.categories[0];
+        // Use type if available, otherwise use first category
+        const primaryCategory = dua.type || dua.categories[0];
+        const categoryLabel = this.getCategoryLabel(primaryCategory);
+        const categoryClass = primaryCategory;
         
         card.innerHTML = `
             <div class="dua-header">
@@ -229,9 +349,10 @@ class DuasManager {
             </div>
             
             <div class="dua-content">
+                ${dua.title ? `<h3 class="dua-title">${dua.title}</h3>` : ''}
                 <p class="dua-arabic">${dua.arabic}</p>
-                <p class="dua-translation">${dua.translation}</p>
-                ${dua.source ? `<p class="dua-source">${dua.source}</p>` : ''}
+                ${dua.translation ? `<p class="dua-translation">${dua.translation}</p>` : ''}
+                ${dua.source && dua.source !== dua.title ? `<p class="dua-source">${dua.source}</p>` : ''}
             </div>
             
             <div class="dua-footer">
@@ -263,7 +384,11 @@ class DuasManager {
             arafah: 'دعاء عرفة',
             tawassul: 'التوسل',
             faraj: 'الفرج',
-            ziyarat: 'الزيارات'
+            ziyarat: 'الزيارات',
+            dua: 'الدعاء',
+            taqibat: 'تعقيبات الصلاة',
+            seerah: 'سيرة أهل البيت',
+            ramadan: 'رمضان'
         };
         return labels[category] || 'متنوعة';
     }
@@ -353,11 +478,33 @@ class DuasManager {
     }
     
     handleSearch(query) {
-        query = query.toLowerCase();
-        this.filteredDuas = this.allDuas.filter(dua => {
-            return dua.arabic.includes(query) || 
-                   dua.translation.toLowerCase().includes(query);
-        });
+        // Make search case insensitive and normalize Arabic text
+        const normalizedQuery = query.toLowerCase().trim();
+        if (!normalizedQuery) {
+            this.filteredDuas = [...this.allDuas];
+        } else {
+            this.filteredDuas = this.allDuas.filter(dua => {
+                // Search in title (case insensitive)
+                const titleMatch = dua.title ? dua.title.toLowerCase().includes(normalizedQuery) : false;
+                
+                // Search in arabic preview (case insensitive)
+                const arabicMatch = dua.arabic ? dua.arabic.toLowerCase().includes(normalizedQuery) : false;
+                
+                // Search in full arabic content (case insensitive)
+                const fullArabicMatch = dua.fullArabic ? dua.fullArabic.toLowerCase().includes(normalizedQuery) : false;
+                
+                // Search in translation (case insensitive)
+                const translationMatch = dua.translation ? dua.translation.toLowerCase().includes(normalizedQuery) : false;
+                
+                // Search in tags (case insensitive)
+                const tagsMatch = dua.tags ? dua.tags.toLowerCase().includes(normalizedQuery) : false;
+                
+                // Search in source (case insensitive)
+                const sourceMatch = dua.source ? dua.source.toLowerCase().includes(normalizedQuery) : false;
+                
+                return titleMatch || arabicMatch || fullArabicMatch || translationMatch || tagsMatch || sourceMatch;
+            });
+        }
         
         if (this.currentFilter !== 'all') {
             this.applyFilter(this.currentFilter);
@@ -375,9 +522,13 @@ class DuasManager {
             this.filteredDuas = this.allDuas.filter(dua => 
                 this.favorites.includes(dua.id)
             );
+        } else if (category === 'taqibat') {
+            this.filteredDuas = this.allDuas.filter(dua => dua.type === 'taqibat');
+        } else if (category === 'seerah') {
+            this.filteredDuas = this.allDuas.filter(dua => dua.type === 'seerah');
         } else if (category !== 'all') {
             this.filteredDuas = this.allDuas.filter(dua =>
-                dua.categories.includes(category)
+                dua.categories.includes(category) || dua.type === category
             );
         }
         
@@ -395,9 +546,13 @@ class DuasManager {
             this.filteredDuas = this.filteredDuas.filter(dua =>
                 this.favorites.includes(dua.id)
             );
+        } else if (category === 'taqibat') {
+            this.filteredDuas = this.filteredDuas.filter(dua => dua.type === 'taqibat');
+        } else if (category === 'seerah') {
+            this.filteredDuas = this.filteredDuas.filter(dua => dua.type === 'seerah');
         } else if (category !== 'all') {
             this.filteredDuas = this.filteredDuas.filter(dua =>
-                dua.categories.includes(category)
+                dua.categories.includes(category) || dua.type === category
             );
         }
     }
@@ -524,10 +679,18 @@ function viewDetails(duaId) {
     const modal = document.getElementById('duaDetailsModal');
     if (!modal) return;
     
-    document.getElementById('modalDuaArabic').textContent = dua.arabic;
-    document.getElementById('modalDuaTranslation').textContent = dua.translation;
-    document.getElementById('modalDuaSource').textContent = dua.source || 'المصدر غير متوفر';
-    document.getElementById('modalDuaBenefits').textContent = dua.benefits || 'لا توجد فوائد مسجلة';
+    // Update modal title
+    const modalTitle = document.getElementById('modalDuaTitle');
+    if (modalTitle) {
+        modalTitle.textContent = dua.title || dua.source || 'تفاصيل الدعاء';
+    }
+    
+    // Use fullArabic if available, otherwise use arabic
+    const fullText = dua.fullArabic || dua.arabic;
+    document.getElementById('modalDuaArabic').textContent = fullText;
+    document.getElementById('modalDuaTranslation').textContent = dua.translation || 'لا يوجد ترجمة متوفرة';
+    document.getElementById('modalDuaSource').textContent = dua.title || dua.source || 'المصدر غير متوفر';
+    document.getElementById('modalDuaBenefits').textContent = dua.benefits || dua.tags || 'لا توجد فوائد مسجلة';
     
     const favoriteBtn = document.getElementById('modalFavoriteBtn');
     const isFavorited = manager.favorites.includes(duaId);

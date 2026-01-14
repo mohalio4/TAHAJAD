@@ -12,7 +12,7 @@ class DashboardManager {
         
         if (!this.userData) {
             // Redirect to login if not authenticated
-            window.location.href = 'login.html';
+            window.location.href = 'login_page.html';
             return;
         }
         

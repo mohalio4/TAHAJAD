@@ -46,9 +46,9 @@ class NavigationController {
         // Animate hamburger icon
         const spans = this.mobileMenuBtn.querySelectorAll('span');
         if (this.mobileMenuBtn.classList.contains('active')) {
-            spans[0].style.transform = 'rotate(45deg) translateY(8px)';
+            spans[0].style.transform = 'translateY(8px)';
             spans[1].style.opacity = '0';
-            spans[2].style.transform = 'rotate(-45deg) translateY(-8px)';
+            spans[2].style.transform = 'translateY(-8px)';
         } else {
             spans[0].style.transform = 'none';
             spans[1].style.opacity = '1';
@@ -201,7 +201,7 @@ class NavigationController {
         if (userData) {
             // User is logged in
             loginBtn.textContent = userData.name;
-            loginBtn.href = 'dashboard.html';
+            loginBtn.href = 'dashboard_page.html';
             registerBtn.style.display = 'none';
             
             // Add logout button
@@ -228,7 +228,7 @@ class NavigationController {
             
             // Redirect to login page
             setTimeout(() => {
-                this.navigateTo('login.html');
+                this.navigateTo('login_page.html');
             }, 1000);
         }
     }
@@ -244,14 +244,14 @@ class BreadcrumbController {
         const path = window.location.pathname;
         const pages = {
             'index.html': 'الرئيسية',
-            'prayer-times.html': 'مواقيت الصلاة',
-            'duas.html': 'الأدعية',
-            'challenges.html': 'التحديات',
+            'prayer_times_page.html': 'مواقيت الصلاة',
+            'duas_page.html': 'الأدعية',
+            'challenges_page.html': 'التحديات',
             'hijri-calendar.html': 'التقويم الهجري',
             'khirah.html': 'الخيرات',
-            'dashboard.html': 'لوحة التحكم',
-            'login.html': 'تسجيل الدخول',
-            'register.html': 'إنشاء حساب'
+            'dashboard_page.html': 'لوحة التحكم',
+            'login_page.html': 'تسجيل الدخول',
+            'register_page.html': 'إنشاء حساب'
         };
         
         const currentPage = path.split('/').pop() || 'index.html';

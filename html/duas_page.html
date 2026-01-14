@@ -6,10 +6,10 @@
     <title>مكتبة الأدعية - تهجّد</title>
     
     <!-- Link CSS Files -->
-    <link rel="stylesheet" href="css/root-variables.css">
-    <link rel="stylesheet" href="css/global-styles.css">
-    <link rel="stylesheet" href="css/duas.css">
-    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="../css/root-variables.css">
+    <link rel="stylesheet" href="../css/global-styles.css">
+    <link rel="stylesheet" href="../css/duas.css">
+    <link rel="stylesheet" href="../css/animations.css">
     
     <!-- Google Fonts - Arabic Support -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,18 +23,17 @@
     <!-- Navigation Bar -->
     <nav class="glass-nav">
         <div class="nav-container">
-            <div class="logo">
-                <span class="logo-icon">☪</span>
-                <span class="logo-text">تهجّد</span>
-            </div>
-            
+            <div class="logo"><a href="index.html"><img src="../assets/images/tahajad_logo.png" alt="تهجد" class="logo-image"></a></div>
             <ul class="nav-links">
                 <li><a href="dashboard_page.html">لوحة التحكم</a></li>
-                <li><a href="prayer-times.html">مواقيت الصلاة</a></li>
-                <li><a href="duas.html" class="active">الأدعية</a></li>
-                <li><a href="challenges.html">التحديات</a></li>
+                <li><a href="prayer_times_page.html">مواقيت الصلاة</a></li>
+                <li><a href="duas_page.html" class="active">الأدعية</a></li>
+                <li><a href="challenges_page.html">التحديات</a></li>
                 <li><a href="hijri-calendar.html">التقويم الهجري</a></li>
-                <li><a href="khirah.html">الخيرات</a></li>
+                <li><a href="khirah.html">محاسبة النفس</a></li>
+                <li><a href="istikhara.html">الاستخارة</a></li>
+                <li><a href="post_page.html">المنشورات</a></li>
+                <li><a href="hyder-ai.html">اسأل hyder.ai</a></li>
             </ul>
             
             <div class="nav-actions">
@@ -62,7 +61,14 @@
                     </div>
                 </div>
                 
-                <div class="user-profile-dropdown">
+                <!-- Not Logged In: Show Login/Register -->
+                <div id="guestActions" style="display: none;">
+                    <a href="login_page.html" class="btn-glass btn-login">تسجيل الدخول</a>
+                    <a href="register_page.html" class="btn-primary">إنشاء حساب</a>
+                </div>
+                
+                <!-- Logged In: Show User Profile -->
+                <div class="user-profile-dropdown" id="userActions" style="display: none;">
                     <button class="user-profile-btn" id="userProfileBtn">
                         <div class="user-avatar">
                             <span id="userInitials">م</span>
@@ -72,6 +78,10 @@
                     </button>
                     
                     <div class="user-dropdown" id="userDropdown">
+                        <a href="dashboard_page.html" class="dropdown-item">
+                            <span class="item-icon">📊</span>
+                            <span>لوحة التحكم</span>
+                        </a>
                         <a href="profile.html" class="dropdown-item">
                             <span class="item-icon">👤</span>
                             <span>الملف الشخصي</span>
@@ -123,26 +133,6 @@
                         <span class="filter-icon">📿</span>
                         <span>الكل</span>
                     </button>
-                    <button class="filter-btn" data-category="quran">
-                        <span class="filter-icon">📖</span>
-                        <span>من القرآن</span>
-                    </button>
-                    <button class="filter-btn" data-category="prophet">
-                        <span class="filter-icon">✨</span>
-                        <span>عن النبي (ص)</span>
-                    </button>
-                    <button class="filter-btn" data-category="ahlulbayt">
-                        <span class="filter-icon">🌟</span>
-                        <span>أهل البيت (ع)</span>
-                    </button>
-                    <button class="filter-btn" data-category="sahifa">
-                        <span class="filter-icon">📜</span>
-                        <span>الصحيفة السجادية</span>
-                    </button>
-                    <button class="filter-btn" data-category="kumayl">
-                        <span class="filter-icon">🌙</span>
-                        <span>دعاء كميل</span>
-                    </button>
                     <button class="filter-btn" data-category="favorites">
                         <span class="filter-icon">⭐</span>
                         <span>المفضلة</span>
@@ -155,40 +145,28 @@
                 <h2 class="section-title">التصنيفات السريعة</h2>
                 
                 <div class="categories-grid">
-                    <button class="category-card glass-card hover-lift" data-category="sahifa">
-                        <div class="category-icon">📜</div>
-                        <h3 class="category-title">الصحيفة السجادية</h3>
-                        <span class="category-count">54 دعاء</span>
-                    </button>
-                    
-                    <button class="category-card glass-card hover-lift" data-category="kumayl">
-                        <div class="category-icon">🌙</div>
-                        <h3 class="category-title">دعاء كميل</h3>
-                        <span class="category-count">دعاء كامل</span>
-                    </button>
-                    
-                    <button class="category-card glass-card hover-lift" data-category="arafah">
-                        <div class="category-icon">⛰️</div>
-                        <h3 class="category-title">دعاء عرفة</h3>
-                        <span class="category-count">للإمام الحسين (ع)</span>
-                    </button>
-                    
-                    <button class="category-card glass-card hover-lift" data-category="tawassul">
-                        <div class="category-icon">🤲</div>
-                        <h3 class="category-title">دعاء التوسل</h3>
-                        <span class="category-count">بأهل البيت (ع)</span>
-                    </button>
-                    
-                    <button class="category-card glass-card hover-lift" data-category="faraj">
-                        <div class="category-icon">💚</div>
-                        <h3 class="category-title">أدعية الفرج</h3>
-                        <span class="category-count">لتعجيل الظهور</span>
-                    </button>
-                    
                     <button class="category-card glass-card hover-lift" data-category="ziyarat">
                         <div class="category-icon">🕌</div>
                         <h3 class="category-title">الزيارات</h3>
-                        <span class="category-count">زيارة عاشوراء وغيرها</span>
+                        <span class="category-count">21 زيارة</span>
+                    </button>
+                    
+                    <button class="category-card glass-card hover-lift" data-category="dua">
+                        <div class="category-icon">📿</div>
+                        <h3 class="category-title">الدعاء</h3>
+                        <span class="category-count">36 دعاء</span>
+                    </button>
+                    
+                    <button class="category-card glass-card hover-lift" data-category="taqibat">
+                        <div class="category-icon">🕌</div>
+                        <h3 class="category-title">تعقيبات الصلاة</h3>
+                        <span class="category-count">5 تعقيبات</span>
+                    </button>
+                    
+                    <button class="category-card glass-card hover-lift" data-category="seerah">
+                        <div class="category-icon">📖</div>
+                        <h3 class="category-title">سيرة أهل البيت</h3>
+                        <span class="category-count">14 سيرة</span>
                     </button>
                 </div>
             </section>
@@ -208,99 +186,7 @@
                 </div>
                 
                 <div class="duas-grid" id="duasGrid">
-                    <!-- Dua Card 1: من القرآن -->
-                    <div class="dua-card glass-card" data-category="quran" data-dua-id="1">
-                        <div class="dua-header">
-                            <div class="dua-category-badge quran">من القرآن</div>
-                            <button class="favorite-btn" onclick="toggleFavorite(1)">
-                                <span class="favorite-icon">☆</span>
-                            </button>
-                        </div>
-                        
-                        <div class="dua-content">
-                            <p class="dua-arabic">رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ</p>
-                            <p class="dua-translation">ربنا أعطنا في الدنيا خيراً وفي الآخرة خيراً واحفظنا من عذاب النار</p>
-                        </div>
-                        
-                        <div class="dua-footer">
-                            <button class="dua-action-btn" onclick="playAudio(1)">
-                                <span class="btn-icon">▶️</span>
-                                <span>استماع</span>
-                            </button>
-                            <button class="dua-action-btn" onclick="shareDua(1)">
-                                <span class="btn-icon">📤</span>
-                                <span>مشاركة</span>
-                            </button>
-                            <button class="dua-action-btn" onclick="viewDetails(1)">
-                                <span class="btn-icon">👁️</span>
-                                <span>التفاصيل</span>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Dua Card 2: من الإمام علي (ع) -->
-                    <div class="dua-card glass-card" data-category="ahlulbayt" data-dua-id="2">
-                        <div class="dua-header">
-                            <div class="dua-category-badge ahlulbayt">أهل البيت (ع)</div>
-                            <button class="favorite-btn favorited" onclick="toggleFavorite(2)">
-                                <span class="favorite-icon">★</span>
-                            </button>
-                        </div>
-                        
-                        <div class="dua-content">
-                            <p class="dua-arabic">إِلَهِي كَفَى بِي عِزًّا أَنْ أَكُونَ لَكَ عَبْدًا، وَكَفَى بِي فَخْرًا أَنْ تَكُونَ لِي رَبًّا</p>
-                            <p class="dua-translation">إلهي يكفيني عزاً أن أكون عبداً لك، ويكفيني فخراً أن تكون أنت ربي</p>
-                            <p class="dua-source">من دعاء أمير المؤمنين علي بن أبي طالب (ع)</p>
-                        </div>
-                        
-                        <div class="dua-footer">
-                            <button class="dua-action-btn" onclick="playAudio(2)">
-                                <span class="btn-icon">▶️</span>
-                                <span>استماع</span>
-                            </button>
-                            <button class="dua-action-btn" onclick="shareDua(2)">
-                                <span class="btn-icon">📤</span>
-                                <span>مشاركة</span>
-                            </button>
-                            <button class="dua-action-btn" onclick="viewDetails(2)">
-                                <span class="btn-icon">👁️</span>
-                                <span>التفاصيل</span>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Dua Card 3: من الصحيفة السجادية -->
-                    <div class="dua-card glass-card" data-category="sahifa ahlulbayt" data-dua-id="3">
-                        <div class="dua-header">
-                            <div class="dua-category-badge sahifa">الصحيفة السجادية</div>
-                            <button class="favorite-btn" onclick="toggleFavorite(3)">
-                                <span class="favorite-icon">☆</span>
-                            </button>
-                        </div>
-                        
-                        <div class="dua-content">
-                            <p class="dua-arabic">اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَآلِ مُحَمَّدٍ وَاجْعَلْنِي أَخْشَاكَ كَأَنِّي أَرَاكَ</p>
-                            <p class="dua-translation">اللهم صلّ على محمد وآل محمد واجعلني أخشاك كأنني أراك</p>
-                            <p class="dua-source">من أدعية الإمام زين العابدين (ع)</p>
-                        </div>
-                        
-                        <div class="dua-footer">
-                            <button class="dua-action-btn" onclick="playAudio(3)">
-                                <span class="btn-icon">▶️</span>
-                                <span>استماع</span>
-                            </button>
-                            <button class="dua-action-btn" onclick="shareDua(3)">
-                                <span class="btn-icon">📤</span>
-                                <span>مشاركة</span>
-                            </button>
-                            <button class="dua-action-btn" onclick="viewDetails(3)">
-                                <span class="btn-icon">👁️</span>
-                                <span>التفاصيل</span>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- More cards will be loaded dynamically -->
+                    <!-- Duas will be loaded dynamically from ad3iya.json -->
                 </div>
                 
                 <!-- Loading Indicator -->
@@ -394,11 +280,15 @@
     <div id="duaToast" class="dua-toast"></div>
     
     <!-- Link JavaScript Files -->
-    <script src="js/theme-manager.js"></script>
-    <script src="js/particles.js"></script>
-    <script src="js/animations.js"></script>
-    <script src="js/navigation.js"></script>
-    <script src="js/api.js"></script>
-    <script src="js/duas.js"></script>
+    <script src="../js/theme-manager.js"></script>
+    <script src="../js/particles.js"></script>
+    <script src="../js/animations.js"></script>
+    <script src="../js/logo-loader.js"></script>
+    <script src="../js/navigation.js"></script>
+    <script src="../js/mouse-light-tracker.js"></script>
+    <script src="../js/user-navigation.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/duas.js"></script>
 </body>
 </html>
+

@@ -83,7 +83,7 @@ class AuthManager {
                 
                 // Redirect to dashboard
                 setTimeout(() => {
-                    window.location.href = 'dashboard.html';
+                    window.location.href = 'dashboard_page.html';
                 }, 1500);
             } else {
                 throw new Error(response.message || 'فشل تسجيل الدخول');
@@ -149,7 +149,7 @@ class AuthManager {
                 
                 // Redirect to dashboard
                 setTimeout(() => {
-                    window.location.href = 'dashboard.html';
+                    window.location.href = 'dashboard_page.html';
                 }, 3000);
             } else {
                 throw new Error(response.message || 'فشل إنشاء الحساب');

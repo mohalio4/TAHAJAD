@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تفاصيل المنشور - تهجّد</title>
+    
+    <!-- Link CSS Files -->
+    <link rel="stylesheet" href="../css/root-variables.css">
+    <link rel="stylesheet" href="../css/global-styles.css">
+    <link rel="stylesheet" href="../css/posts.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    
+    <!-- Google Fonts - Arabic Support -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="emerald-theme posts-page post-details-page">
+    
+    <!-- Animated Background Particles -->
+    <div class="particles-container" id="particles"></div>
+    
+    <!-- Navigation Bar -->
+    <nav class="glass-nav">
+        <div class="nav-container">
+            <div class="logo"><a href="index.html"><img src="../assets/images/tahajad_logo.png" alt="تهجد" class="logo-image"></a></div>
+            <ul class="nav-links">
+                <li><a href="dashboard_page.html">لوحة التحكم</a></li>
+                <li><a href="prayer_times_page.html">مواقيت الصلاة</a></li>
+                <li><a href="duas_page.html">الأدعية</a></li>
+                <li><a href="challenges_page.html">التحديات</a></li>
+                <li><a href="hijri-calendar.html">التقويم الهجري</a></li>
+                <li><a href="khirah.html">محاسبة النفس</a></li>
+                <li><a href="istikhara.html">الاستخارة</a></li>
+                <li><a href="post_page.html" class="active">المنشورات</a></li>
+                <li><a href="hyder-ai.html">اسأل hyder.ai</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <!-- Theme Switcher -->
+                <div class="theme-switcher">
+                    <button class="theme-btn" id="themeBtn">
+                        <span class="theme-icon">🎨</span>
+                    </button>
+                    <div class="theme-dropdown" id="themeDropdown">
+                        <button class="theme-option" data-theme="emerald">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #0d4d3d, #d4af37)"></span>
+                            <span>الزمردي</span>
+                        </button>
+                        <button class="theme-option" data-theme="gold">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #c9a961, #1a3a2e)"></span>
+                            <span>الذهبي</span>
+                        </button>
+                        <button class="theme-option" data-theme="ruby">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #8b0000, #d4af37)"></span>
+                            <span>الياقوتي</span>
+                        </button>
+                        <button class="theme-option" data-theme="night">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #1a1f2e, #2d5f5d)"></span>
+                            <span>الليلي</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Not Logged In: Show Login/Register -->
+                <div id="guestActions" style="display: none;">
+                    <a href="login_page.html" class="btn-glass btn-login">تسجيل الدخول</a>
+                    <a href="register_page.html" class="btn-primary">إنشاء حساب</a>
+                </div>
+                
+                <!-- Logged In: Show User Profile -->
+                <div class="user-profile-dropdown" id="userActions" style="display: none;">
+                    <button class="user-profile-btn" id="userProfileBtn">
+                        <div class="user-avatar">
+                            <span id="userInitials">م</span>
+                        </div>
+                        <span class="user-name" id="userName">مستخدم</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="dashboard_page.html" class="dropdown-item">
+                            <span class="item-icon">📊</span>
+                            <span>لوحة التحكم</span>
+                        </a>
+                        <a href="profile.html" class="dropdown-item">
+                            <span class="item-icon">👤</span>
+                            <span>الملف الشخصي</span>
+                        </a>
+                        <a href="settings.html" class="dropdown-item">
+                            <span class="item-icon">⚙️</span>
+                            <span>الإعدادات</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item logout-btn" id="logoutBtn">
+                            <span class="item-icon">🚪</span>
+                            <span>تسجيل الخروج</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="posts-main">
+        <div class="posts-container">
+            
+            <!-- Back Link -->
+            <section class="page-header fade-in-up">
+                <a href="post_page.html" class="back-link">
+                    <span class="back-icon">←</span>
+                    <span>العودة إلى جميع المنشورات</span>
+                </a>
+            </section>
+            
+            <!-- Post Details -->
+            <section class="post-details-section fade-in-up delay-1">
+                <article class="post-details-card glass-card">
+                    <header class="post-details-header">
+                        <div class="post-author">
+                            <div class="author-avatar" id="detailAvatar">م</div>
+                            <div class="author-info">
+                                <span class="author-name" id="detailAuthorName">...</span>
+                                <span class="post-meta" id="detailMeta">...</span>
+                            </div>
+                        </div>
+                    </header>
+                    
+                    <h1 class="post-details-title" id="detailTitle">...</h1>
+                    
+                    <figure class="post-details-image-wrapper" id="detailImageWrapper" style="display: none;">
+                        <img id="detailImage" alt="صورة المنشور" class="post-details-image">
+                    </figure>
+                    
+                    <div class="post-details-content" id="detailContent">
+                        <!-- المحتوى النصي -->
+                    </div>
+                    
+                    <section class="post-translation" id="translationSection" style="display: none;">
+                        <h2 class="translation-title">الترجمة إلى الإنجليزية</h2>
+                        <p class="translation-text" id="translationText"></p>
+                    </section>
+                    
+                    <footer class="post-details-footer">
+                        <div class="post-tags" id="detailTags">
+                            <!-- الوسوم -->
+                        </div>
+                        
+                        <div class="post-details-actions">
+                            <button class="post-action-btn" id="copyPostBtn" type="button">
+                                <span>نسخ النص</span>
+                            </button>
+                            <button class="post-action-btn" id="translatePostBtn" type="button">
+                                <span>ترجمة إلى الإنجليزية</span>
+                            </button>
+                            <button class="post-action-btn" id="sharePostBtn" type="button">
+                                <span>مشاركة</span>
+                            </button>
+                        </div>
+                    </footer>
+                </article>
+                
+                <div class="no-posts-message" id="postNotFound" style="display: none;">
+                    <p>لم يتم العثور على هذا المنشور أو لم يعد متاحاً.</p>
+                    <a href="post_page.html" class="btn-primary" style="margin-top: 1rem;">العودة إلى قائمة المنشورات</a>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <!-- Toast Notification -->
+    <div id="postDetailsToast" class="posts-toast"></div>
+    
+    <!-- Link JavaScript Files -->
+    <script src="../js/theme-manager.js"></script>
+    <script src="../js/particles.js"></script>
+    <script src="../js/animations.js"></script>
+    <script src="../js/logo-loader.js"></script>
+    <script src="../js/navigation.js"></script>
+    <script src="../js/mouse-light-tracker.js"></script>
+    <script src="../js/user-navigation.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/post-details.js"></script>
+</body>
+</html>
+
+

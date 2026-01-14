@@ -6,7 +6,12 @@
 /* ========== DASHBOARD LAYOUT ========== */
 .dashboard-page {
     min-height: 100vh;
-    padding-top: 80px;
+    padding-top: var(--nav-offset);
+}
+
+/* ========== FONT FIXES ========== */
+.dashboard-page span {
+    font-family: var(--font-primary);
 }
 
 .dashboard-main {
@@ -60,7 +65,7 @@
 }
 
 .user-profile-btn.active .dropdown-arrow {
-    transform: rotate(180deg);
+    transform: translateY(-1px);
 }
 
 .user-dropdown {
@@ -148,6 +153,7 @@
     font-size: 1.25rem;
     color: var(--text-secondary);
     font-weight: 400;
+    font-family: var(--font-primary);
 }
 
 .user-name-display {
@@ -155,6 +161,7 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    font-family: var(--font-primary);
 }
 
 .welcome-subtitle {
@@ -180,7 +187,7 @@
 }
 
 .stat-badge:hover {
-    transform: translateY(-2px);
+    transform: translateY(-1px);
     box-shadow: var(--shadow-glow);
 }
 
@@ -197,11 +204,13 @@
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--secondary);
+    font-family: var(--font-primary);
 }
 
 .badge-label {
     font-size: 0.875rem;
     color: var(--text-muted);
+    font-family: var(--font-primary);
 }
 
 /* ========== TIME INDICATOR ========== */
@@ -230,7 +239,7 @@
     height: 200%;
     background: radial-gradient(circle, var(--secondary) 0%, transparent 70%);
     opacity: 0.1;
-    animation: rotate 20s linear infinite;
+    /* Rotation removed for smoother experience */
 }
 
 .next-prayer {
@@ -290,12 +299,12 @@
     text-align: center;
     cursor: pointer;
     border: 1px solid var(--glass-border);
-    transition: all var(--transition-normal);
+    transition: transform 0.3s ease-out, background 0.3s ease-out, box-shadow 0.3s ease-out;
 }
 
 .action-card:hover {
     background: var(--glass-bg-hover);
-    transform: translateY(-5px);
+    transform: translateY(-1px);
     box-shadow: var(--shadow-glow);
 }
 
@@ -388,7 +397,7 @@
 }
 
 .progress-circle {
-    transform: rotate(-90deg);
+    transform: none;
 }
 
 .progress-circle-bg {
@@ -747,7 +756,7 @@
 
 .modal-close:hover {
     background: var(--glass-bg-hover);
-    transform: rotate(90deg);
+    transform: translateY(-1px);
 }
 
 .modal-title {

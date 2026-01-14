@@ -77,6 +77,9 @@
     --z-dropdown: 200;
     --z-modal: 1000;
     --z-particles: 0;
+    
+    /* ========== LAYOUT OFFSETS ========== */
+    --nav-offset: 110px;
 }
 
 /* ========== GOLD MAJESTY THEME ========== */

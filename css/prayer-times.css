@@ -6,7 +6,7 @@
 /* ========== PAGE LAYOUT ========== */
 .prayer-times-page {
     min-height: 100vh;
-    padding-top: 80px;
+    padding-top: var(--nav-offset);
 }
 
 .prayer-times-main {
@@ -94,7 +94,7 @@
 }
 
 .detect-location-btn:hover {
-    transform: scale(1.1) rotate(45deg);
+    transform: scale(1.02);
     box-shadow: var(--shadow-glow);
 }
 
@@ -138,7 +138,7 @@
     height: 200%;
     background: radial-gradient(circle, var(--secondary) 0%, transparent 70%);
     opacity: 0.05;
-    animation: rotate 30s linear infinite;
+    /* Rotation removed for smoother experience */
 }
 
 .current-prayer-content {
@@ -228,7 +228,7 @@
 }
 
 .progress-ring {
-    transform: rotate(-90deg);
+    transform: none;
 }
 
 .progress-ring-bg {
@@ -278,12 +278,12 @@
 .prayer-card {
     padding: var(--spacing-lg);
     position: relative;
-    transition: all var(--transition-normal);
+    transition: transform 0.3s ease-out, border-color 0.3s ease-out, box-shadow 0.3s ease-out;
     border: 2px solid transparent;
 }
 
 .prayer-card:hover:not(.info-only) {
-    transform: translateY(-5px);
+    transform: translateY(-1px);
     box-shadow: var(--shadow-glow);
     border-color: var(--secondary);
 }
@@ -381,9 +381,9 @@
 }
 
 @keyframes ring {
-    0%, 100% { transform: rotate(0deg); }
-    10%, 30% { transform: rotate(-10deg); }
-    20%, 40% { transform: rotate(10deg); }
+    0%, 100% { transform: scale(1); }
+    10%, 30% { transform: scale(1.05); }
+    20%, 40% { transform: scale(1.05); }
 }
 
 /* ========== PRAYER STATUS BADGE ========== */
@@ -590,7 +590,7 @@
 }
 
 .calibrate-btn:hover {
-    transform: translateY(-2px);
+    transform: translateY(-1px);
     box-shadow: var(--shadow-glow);
 }
 

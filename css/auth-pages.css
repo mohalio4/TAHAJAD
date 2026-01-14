@@ -10,7 +10,9 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: var(--spacing-xl) 0;
 }
 
 /* ========== BACKGROUND ========== */
@@ -49,7 +51,7 @@
     gap: var(--spacing-xs);
     padding: 0.75rem 1.5rem;
     background: var(--glass-bg);
-    backdrop-filter: blur(var(--blur-strength));
+    backdrop-filter: blur(20px) saturate(180%);
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-md);
     color: var(--text-primary);
@@ -59,8 +61,8 @@
 
 .back-home:hover {
     background: var(--glass-bg-hover);
-    transform: translateX(5px);
-    box-shadow: var(--shadow-glow);
+    transform: translateX(3px);
+    box-shadow: var(--shadow-md);
 }
 
 .back-icon {
@@ -69,7 +71,7 @@
 }
 
 .back-home:hover .back-icon {
-    transform: translateX(5px);
+    transform: translateX(3px);
 }
 
 /* ========== AUTH CONTAINER ========== */
@@ -133,7 +135,7 @@
     padding: var(--spacing-sm);
     margin-bottom: var(--spacing-sm);
     background: var(--glass-bg);
-    backdrop-filter: blur(var(--blur-strength));
+    backdrop-filter: blur(15px);
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-md);
     transition: all var(--transition-normal);
@@ -141,7 +143,7 @@
 
 .feature-item:hover {
     background: var(--glass-bg-hover);
-    transform: translateX(-5px);
+    transform: translateX(-2px);
 }
 
 .feature-icon {
@@ -194,7 +196,7 @@
     padding: var(--spacing-sm);
     margin-bottom: var(--spacing-sm);
     background: var(--glass-bg);
-    backdrop-filter: blur(var(--blur-strength));
+    backdrop-filter: blur(15px);
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-md);
     transition: all var(--transition-normal);
@@ -305,6 +307,13 @@
     color: var(--secondary);
     margin-bottom: var(--spacing-md);
 }
+
+.auth-logo .logo-image {
+    height: 80px;
+    width: auto;
+    object-fit: contain;
+}
+
 
 .auth-title {
     font-size: 2rem;
@@ -581,8 +590,8 @@
 }
 
 .btn-submit:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-glow-strong);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-glow);
 }
 
 .btn-submit:disabled {
@@ -625,7 +634,7 @@
 
 .btn-next:hover,
 .btn-back:hover {
-    transform: translateY(-2px);
+    transform: translateY(-1px);
     box-shadow: var(--shadow-md);
 }
 
@@ -695,7 +704,7 @@
 
 .social-btn:hover {
     background: var(--glass-bg-hover);
-    transform: translateY(-2px);
+    transform: translateY(-1px);
 }
 
 .social-icon {
@@ -829,7 +838,7 @@
     right: 20px;
     padding: 1rem 1.5rem;
     background: var(--glass-bg);
-    backdrop-filter: blur(var(--blur-strength));
+    backdrop-filter: blur(20px) saturate(180%);
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-md);
     color: var(--text-primary);

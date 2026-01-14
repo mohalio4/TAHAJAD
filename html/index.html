@@ -6,10 +6,10 @@
     <title>تهجّد - تطبيقك الإسلامي الشامل</title>
     
     <!-- Link CSS Files -->
-    <link rel="stylesheet" href="css/root-variables.css">
-    <link rel="stylesheet" href="css/global-styles.css">
-    <link rel="stylesheet" href="css/landing-page.css">
-    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="../css/root-variables.css">
+    <link rel="stylesheet" href="../css/global-styles.css">
+    <link rel="stylesheet" href="../css/landing-page.css">
+    <link rel="stylesheet" href="../css/animations.css">
     
     <!-- Google Fonts - Arabic Support -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,18 +23,19 @@
     <!-- Navigation Bar -->
     <nav class="glass-nav">
         <div class="nav-container">
-            <div class="logo">
-                <span class="logo-icon">☪</span>
-                <span class="logo-text">تهجّد</span>
-            </div>
+            <div class="logo"><a href="index.html"><img src="../assets/images/tahajad_logo.png" alt="تهجد" class="logo-image"></a></div>
             
             <ul class="nav-links">
                 <li><a href="index.html" class="active">الرئيسية</a></li>
+                <li><a href="dashboard_page.html">لوحة التحكم</a></li>
                 <li><a href="prayer_times_page.html">مواقيت الصلاة</a></li>
                 <li><a href="duas_page.html">الأدعية</a></li>
                 <li><a href="challenges_page.html">التحديات</a></li>
                 <li><a href="hijri-calendar.html">التقويم الهجري</a></li>
-                <li><a href="khirah.html">الخيرات</a></li>
+                <li><a href="khirah.html">محاسبة النفس</a></li>
+                <li><a href="istikhara.html">الاستخارة</a></li>
+                <li><a href="post_page.html">المنشورات</a></li>
+                <li><a href="hyder-ai.html">اسأل hyder.ai</a></li>
             </ul>
             
             <div class="nav-actions">
@@ -63,8 +64,42 @@
                     </div>
                 </div>
                 
-                <a href="login_page.html" class="btn-glass btn-login">تسجيل الدخول</a>
-                <a href="register_page.html" class="btn-primary">إنشاء حساب</a>
+                <!-- Not Logged In: Show Login/Register -->
+                <div id="guestActions" style="display: none;">
+                    <a href="login_page.html" class="btn-glass btn-login">تسجيل الدخول</a>
+                    <a href="register_page.html" class="btn-primary">إنشاء حساب</a>
+                </div>
+                
+                <!-- Logged In: Show User Profile -->
+                <div class="user-profile-dropdown" id="userActions" style="display: none;">
+                    <button class="user-profile-btn" id="userProfileBtn">
+                        <div class="user-avatar">
+                            <span id="userInitials">م</span>
+                        </div>
+                        <span class="user-name" id="userName">مستخدم</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="dashboard_page.html" class="dropdown-item">
+                            <span class="item-icon">📊</span>
+                            <span>لوحة التحكم</span>
+                        </a>
+                        <a href="profile.html" class="dropdown-item">
+                            <span class="item-icon">👤</span>
+                            <span>الملف الشخصي</span>
+                        </a>
+                        <a href="settings.html" class="dropdown-item">
+                            <span class="item-icon">⚙️</span>
+                            <span>الإعدادات</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item logout-btn" id="logoutBtn">
+                            <span class="item-icon">🚪</span>
+                            <span>تسجيل الخروج</span>
+                        </button>
+                    </div>
+                </div>
             </div>
             
             <!-- Mobile Menu Toggle -->
@@ -114,41 +149,6 @@
                         <span class="stat-number">50+</span>
                         <span class="stat-label">تحدي يومي</span>
                     </div>
-                </div>
-            </div>
-            
-            <!-- Hero Image / Illustration -->
-            <div class="hero-image fade-in-up delay-1">
-                <div class="mosque-illustration">
-                    <div class="mosque-silhouette">
-                        <!-- SVG Mosque Illustration -->
-                        <svg viewBox="0 0 400 300" class="mosque-svg">
-                            <defs>
-                                <linearGradient id="mosqueGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                                    <stop offset="0%" style="stop-color:var(--accent-light);stop-opacity:0.8" />
-                                    <stop offset="100%" style="stop-color:var(--primary);stop-opacity:1" />
-                                </linearGradient>
-                            </defs>
-                            <!-- Central Dome -->
-                            <ellipse cx="200" cy="120" rx="60" ry="35" fill="url(#mosqueGradient)" />
-                            <rect x="170" y="120" width="60" height="80" fill="url(#mosqueGradient)" />
-                            <!-- Side Domes -->
-                            <ellipse cx="120" cy="140" rx="40" ry="25" fill="url(#mosqueGradient)" opacity="0.9" />
-                            <rect x="100" y="140" width="40" height="60" fill="url(#mosqueGradient)" opacity="0.9" />
-                            <ellipse cx="280" cy="140" rx="40" ry="25" fill="url(#mosqueGradient)" opacity="0.9" />
-                            <rect x="260" y="140" width="40" height="60" fill="url(#mosqueGradient)" opacity="0.9" />
-                            <!-- Minarets -->
-                            <rect x="60" y="80" width="15" height="120" fill="url(#mosqueGradient)" />
-                            <ellipse cx="67.5" cy="80" rx="10" ry="15" fill="var(--secondary)" />
-                            <rect x="325" y="80" width="15" height="120" fill="url(#mosqueGradient)" />
-                            <ellipse cx="332.5" cy="80" rx="10" ry="15" fill="var(--secondary)" />
-                            <!-- Crescent Moons -->
-                            <text x="200" y="90" text-anchor="middle" font-size="24" fill="var(--secondary)">☪</text>
-                            <text x="67" y="70" text-anchor="middle" font-size="16" fill="var(--secondary)">☪</text>
-                            <text x="333" y="70" text-anchor="middle" font-size="16" fill="var(--secondary)">☪</text>
-                        </svg>
-                    </div>
-                    <div class="glow-effect"></div>
                 </div>
             </div>
         </div>
@@ -226,17 +226,30 @@
                 <!-- Feature 5: Khirah Tracker -->
                 <div class="feature-card glass-card hover-lift">
                     <div class="feature-icon">💚</div>
-                    <h3 class="feature-title">سجل الخيرات</h3>
+                    <h3 class="feature-title">محاسبة النفس</h3>
                     <p class="feature-description">
-                        سجل أعمالك الصالحة وصدقاتك لتتبع رحلتك الإيمانية
+                        حاسب نفسك قبل أن تُحاسب - سجل أعمالك الصالحة والسيئة وطور نفسك يومياً
                     </p>
                     <a href="khirah.html" class="feature-link">
-                        <span>ابدأ التسجيل</span>
+                        <span>ابدأ المحاسبة</span>
                         <span class="arrow">←</span>
                     </a>
                 </div>
                 
-                <!-- Feature 6: Achievements -->
+                <!-- Feature 6: Istikhara -->
+                <div class="feature-card glass-card hover-lift">
+                    <div class="feature-icon">🤲</div>
+                    <h3 class="feature-title">الاستخارة بالقرآن</h3>
+                    <p class="feature-description">
+                        استخر لله في أمورك المباحة واطلب الهداية من القرآن الكريم
+                    </p>
+                    <a href="istikhara.html" class="feature-link">
+                        <span>ابدأ الاستخارة</span>
+                        <span class="arrow">←</span>
+                    </a>
+                </div>
+                
+                <!-- Feature 7: Achievements -->
                 <div class="feature-card glass-card hover-lift">
                     <div class="feature-icon">🏆</div>
                     <h3 class="feature-title">الإنجازات والشارات</h3>
@@ -309,9 +322,56 @@
     </footer>
     
     <!-- Link JavaScript Files -->
-    <script src="js/theme-manager.js"></script>
-    <script src="js/particles.js"></script>
-    <script src="js/animations.js"></script>
-    <script src="js/navigation.js"></script>
+    <script src="../js/logo-loader.js"></script>
+    <script src="../js/theme-manager.js"></script>
+    <script src="../js/particles.js"></script>
+    <script src="../js/animations.js"></script>
+    <script src="../js/navigation.js"></script>
+    <script src="../js/mouse-light-tracker.js"></script>
+    
+    <!-- Dynamic User Actions -->
+    <script>
+        // Check if user is logged in
+        const userData = localStorage.getItem('userData');
+        const guestActions = document.getElementById('guestActions');
+        const userActions = document.getElementById('userActions');
+        
+        if (userData) {
+            // User is logged in - show profile
+            if (userActions) userActions.style.display = 'flex';
+            if (guestActions) guestActions.style.display = 'none';
+            
+            // Set user info
+            const user = JSON.parse(userData);
+            const userName = document.getElementById('userName');
+            const userInitials = document.getElementById('userInitials');
+            
+            if (userName) userName.textContent = user.name || 'مستخدم';
+            if (userInitials) {
+                const names = (user.name || 'م').trim().split(' ');
+                if (names.length >= 2) {
+                    userInitials.textContent = names[0].charAt(0) + names[1].charAt(0);
+                } else {
+                    userInitials.textContent = (user.name || 'م').charAt(0);
+                }
+            }
+            
+            // Logout functionality
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', () => {
+                    if (confirm('هل أنت متأكد من تسجيل الخروج؟')) {
+                        localStorage.removeItem('userData');
+                        localStorage.removeItem('authToken');
+                        window.location.href = 'index.html';
+                    }
+                });
+            }
+        } else {
+            // User is NOT logged in - show login/register
+            if (guestActions) guestActions.style.display = 'flex';
+            if (userActions) userActions.style.display = 'none';
+        }
+    </script>
 </body>
 </html>

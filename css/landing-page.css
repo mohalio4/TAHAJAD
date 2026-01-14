@@ -13,6 +13,7 @@
     overflow: hidden;
 }
 
+
 .hero-content {
     max-width: 1400px;
     margin: 0 auto;
@@ -21,6 +22,8 @@
     grid-template-columns: 1fr 1fr;
     gap: var(--spacing-2xl);
     align-items: center;
+    position: relative;
+    z-index: 1;
 }
 
 .hero-text {
@@ -70,8 +73,8 @@
 }
 
 .btn-hero-primary:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-glow-strong);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-glow);
 }
 
 .btn-arrow {
@@ -80,7 +83,7 @@
 }
 
 .btn-hero-primary:hover .btn-arrow {
-    transform: translateX(-5px);
+    transform: translateX(-3px);
 }
 
 .btn-hero-secondary {
@@ -89,7 +92,7 @@
     gap: var(--spacing-sm);
     padding: 1.25rem 2.5rem;
     background: var(--glass-bg);
-    backdrop-filter: blur(var(--blur-strength));
+    backdrop-filter: blur(20px) saturate(180%);
     border: 1px solid var(--glass-border);
     color: var(--text-primary);
     border-radius: var(--radius-md);
@@ -100,7 +103,7 @@
 
 .btn-hero-secondary:hover {
     background: var(--glass-bg-hover);
-    transform: translateY(-3px);
+    transform: translateY(-1px);
 }
 
 /* Hero Stats */
@@ -129,52 +132,6 @@
     color: var(--text-muted);
 }
 
-/* ========== HERO IMAGE ========== */
-.hero-image {
-    position: relative;
-    z-index: 1;
-}
-
-.mosque-illustration {
-    position: relative;
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
-}
-
-.mosque-silhouette {
-    position: relative;
-    animation: float 6s ease-in-out infinite;
-}
-
-.mosque-svg {
-    width: 100%;
-    height: auto;
-    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
-}
-
-.glow-effect {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80%;
-    height: 80%;
-    background: radial-gradient(circle, var(--secondary) 0%, transparent 70%);
-    opacity: 0.2;
-    animation: pulse 3s ease-in-out infinite;
-    z-index: -1;
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 0.2; transform: translate(-50%, -50%) scale(1); }
-    50% { opacity: 0.3; transform: translate(-50%, -50%) scale(1.1); }
-}
 
 /* ========== SCROLL INDICATOR ========== */
 .scroll-indicator {
@@ -189,6 +146,7 @@
     color: var(--text-muted);
     font-size: 0.875rem;
     animation: bounce 2s infinite;
+    z-index: 2;
 }
 
 .mouse {
@@ -312,7 +270,7 @@
 }
 
 .feature-link:hover .arrow {
-    transform: translateX(-5px);
+    transform: translateX(-3px);
 }
 
 /* ========== CTA SECTION ========== */
@@ -339,12 +297,12 @@
     height: 200%;
     background: radial-gradient(circle, var(--secondary) 0%, transparent 50%);
     opacity: 0.05;
-    animation: rotate 20s linear infinite;
+    /* Rotation removed for smoother experience */
 }
 
 @keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from { transform: scale(1); }
+    to { transform: scale(1); }
 }
 
 .cta-title {
@@ -376,8 +334,8 @@
 }
 
 .btn-cta:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 0 60px var(--secondary);
+    transform: translateY(-1px) scale(1.02);
+    box-shadow: 0 0 40px var(--secondary);
 }
 
 /* ========== FOOTER ========== */
@@ -425,7 +383,7 @@
 
 .footer-links a:hover {
     color: var(--secondary);
-    padding-right: var(--spacing-xs);
+    padding-right: 5px;
 }
 
 .social-links {
@@ -448,8 +406,8 @@
 
 .social-link:hover {
     background: var(--gradient-primary);
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-glow);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
 }
 
 .footer-bottom {

@@ -6,10 +6,10 @@
     <title>مواقيت الصلاة - تهجّد</title>
     
     <!-- Link CSS Files -->
-    <link rel="stylesheet" href="css/root-variables.css">
-    <link rel="stylesheet" href="css/global-styles.css">
-    <link rel="stylesheet" href="css/prayer-times.css">
-    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="../css/root-variables.css">
+    <link rel="stylesheet" href="../css/global-styles.css">
+    <link rel="stylesheet" href="../css/prayer-times.css">
+    <link rel="stylesheet" href="../css/animations.css">
     
     <!-- Google Fonts - Arabic Support -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,18 +23,17 @@
     <!-- Navigation Bar -->
     <nav class="glass-nav">
         <div class="nav-container">
-            <div class="logo">
-                <span class="logo-icon">☪</span>
-                <span class="logo-text">تهجّد</span>
-            </div>
-            
+            <div class="logo"><a href="index.html"><img src="../assets/images/tahajad_logo.png" alt="تهجد" class="logo-image"></a></div>
             <ul class="nav-links">
                 <li><a href="dashboard_page.html">لوحة التحكم</a></li>
-                <li><a href="prayer-times.html" class="active">مواقيت الصلاة</a></li>
-                <li><a href="duas.html">الأدعية</a></li>
-                <li><a href="challenges.html">التحديات</a></li>
+                <li><a href="prayer_times_page.html" class="active">مواقيت الصلاة</a></li>
+                <li><a href="duas_page.html">الأدعية</a></li>
+                <li><a href="challenges_page.html">التحديات</a></li>
                 <li><a href="hijri-calendar.html">التقويم الهجري</a></li>
-                <li><a href="khirah.html">الخيرات</a></li>
+                <li><a href="khirah.html">محاسبة النفس</a></li>
+                <li><a href="istikhara.html">الاستخارة</a></li>
+                <li><a href="post_page.html">المنشورات</a></li>
+                <li><a href="hyder-ai.html">اسأل hyder.ai</a></li>
             </ul>
             
             <div class="nav-actions">
@@ -63,8 +62,14 @@
                     </div>
                 </div>
                 
-                <!-- User Profile -->
-                <div class="user-profile-dropdown">
+                <!-- Not Logged In: Show Login/Register -->
+                <div id="guestActions" style="display: none;">
+                    <a href="login_page.html" class="btn-glass btn-login">تسجيل الدخول</a>
+                    <a href="register_page.html" class="btn-primary">إنشاء حساب</a>
+                </div>
+                
+                <!-- Logged In: Show User Profile -->
+                <div class="user-profile-dropdown" id="userActions" style="display: none;">
                     <button class="user-profile-btn" id="userProfileBtn">
                         <div class="user-avatar">
                             <span id="userInitials">م</span>
@@ -74,6 +79,10 @@
                     </button>
                     
                     <div class="user-dropdown" id="userDropdown">
+                        <a href="dashboard_page.html" class="dropdown-item">
+                            <span class="item-icon">📊</span>
+                            <span>لوحة التحكم</span>
+                        </a>
                         <a href="profile.html" class="dropdown-item">
                             <span class="item-icon">👤</span>
                             <span>الملف الشخصي</span>
@@ -411,11 +420,15 @@
     <div id="prayerToast" class="prayer-toast"></div>
     
     <!-- Link JavaScript Files -->
-    <script src="js/theme-manager.js"></script>
-    <script src="js/particles.js"></script>
-    <script src="js/animations.js"></script>
-    <script src="js/navigation.js"></script>
-    <script src="js/api.js"></script>
-    <script src="js/prayer-times.js"></script>
+    <script src="../js/theme-manager.js"></script>
+    <script src="../js/particles.js"></script>
+    <script src="../js/animations.js"></script>
+    <script src="../js/logo-loader.js"></script>
+    <script src="../js/navigation.js"></script>
+    <script src="../js/mouse-light-tracker.js"></script>
+    <script src="../js/user-navigation.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/prayer-times.js"></script>
 </body>
 </html>
+

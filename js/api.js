@@ -44,11 +44,30 @@ class APIManager {
             getHijriMonth: '/hijri-calendar/month',
             getSpecialDays: '/hijri-calendar/special-days',
             
+            // Translation endpoints
+            translateText: '/translate/text',
+            
+            // Posts endpoints
+            getPosts: '/posts',
+            getPostById: '/posts/:id',
+            createPost: '/posts',
+            updatePost: '/posts/:id',
+            deletePost: '/posts/:id',
+            toggleSavePost: '/posts/:id/toggle-save',
+            getSavedPosts: '/posts/saved',
+            
             // Khirah (good deeds) endpoints
             getKhirahEntries: '/khirah',
             addKhirahEntry: '/khirah/add',
             deleteKhirahEntry: '/khirah/:id',
             getKhirahStats: '/khirah/stats',
+            
+            // Late prayers (Qada) endpoints
+            getLatePrayers: '/late-prayers',
+            createLatePrayer: '/late-prayers',
+            updateLatePrayer: '/late-prayers/:id',
+            deleteLatePrayer: '/late-prayers/:id',
+            incrementLatePrayer: '/late-prayers/:id/increment',
             
             // Admin endpoints
             getAdminContent: '/admin/content',
@@ -131,8 +150,8 @@ class APIManager {
         localStorage.removeItem('userData');
         
         // Redirect to login if not already there
-        if (!window.location.pathname.includes('login.html')) {
-            window.location.href = 'login.html';
+        if (!window.location.pathname.includes('login_page.html')) {
+            window.location.href = 'login_page.html';
         }
     }
     
@@ -169,7 +188,7 @@ class APIManager {
             // Clear local data regardless
             localStorage.removeItem('authToken');
             localStorage.removeItem('userData');
-            window.location.href = 'login.html';
+            window.location.href = 'login_page.html';
         }
     }
     
@@ -287,6 +306,100 @@ class APIManager {
         return await this.request(this.endpoints.getSpecialDays);
     }
     
+    // ========== TRANSLATION API ==========
+    
+    async translateText(text, targetLang = 'en') {
+        // For development/demo, provide a simple mock translation
+        if (this.isDevelopmentMode()) {
+            return this.mockTranslateText(text, targetLang);
+        }
+        
+        return await this.request(
+            this.endpoints.translateText,
+            'POST',
+            { text, target_lang: targetLang }
+        );
+    }
+    
+    // ========== POSTS API ==========
+    
+    async getPosts(params = {}) {
+        const searchParams = new URLSearchParams();
+        if (params.search) searchParams.append('q', params.search);
+        if (params.filter) searchParams.append('filter', params.filter);
+        if (params.page) searchParams.append('page', params.page);
+        
+        const query = searchParams.toString();
+        const endpoint = query ? `${this.endpoints.getPosts}?${query}` : this.endpoints.getPosts;
+        return await this.request(endpoint);
+    }
+    
+    async getPostById(id) {
+        return await this.request(this.endpoints.getPostById.replace(':id', id));
+    }
+    
+    async createPost(postData) {
+        return await this.request(this.endpoints.createPost, 'POST', postData);
+    }
+    
+    async updatePost(id, postData) {
+        return await this.request(
+            this.endpoints.updatePost.replace(':id', id),
+            'PUT',
+            postData
+        );
+    }
+    
+    async deletePost(id) {
+        return await this.request(
+            this.endpoints.deletePost.replace(':id', id),
+            'DELETE'
+        );
+    }
+    
+    async toggleSavePost(id) {
+        return await this.request(
+            this.endpoints.toggleSavePost.replace(':id', id),
+            'POST'
+        );
+    }
+    
+    async getSavedPosts() {
+        return await this.request(this.endpoints.getSavedPosts);
+    }
+    
+    // ========== LATE PRAYERS (QADA) API ==========
+    
+    async getLatePrayers() {
+        return await this.request(this.endpoints.getLatePrayers);
+    }
+    
+    async createLatePrayer(task) {
+        return await this.request(this.endpoints.createLatePrayer, 'POST', task);
+    }
+    
+    async updateLatePrayer(id, task) {
+        return await this.request(
+            this.endpoints.updateLatePrayer.replace(':id', id),
+            'PUT',
+            task
+        );
+    }
+    
+    async deleteLatePrayer(id) {
+        return await this.request(
+            this.endpoints.deleteLatePrayer.replace(':id', id),
+            'DELETE'
+        );
+    }
+    
+    async incrementLatePrayer(id) {
+        return await this.request(
+            this.endpoints.incrementLatePrayer.replace(':id', id),
+            'POST'
+        );
+    }
+    
     // ========== KHIRAH API ==========
     
     async getKhirahEntries(page = 1) {
@@ -395,6 +508,17 @@ class APIManager {
                     }
                 });
             }, 1500);
+        });
+    }
+    
+    mockTranslateText(text, targetLang) {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve({
+                    success: true,
+                    translation: `[${targetLang.toUpperCase()} demo translation] This is a placeholder translation. Backend will provide real translation later.\n\n` + text
+                });
+            }, 800);
         });
     }
     

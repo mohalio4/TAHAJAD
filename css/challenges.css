@@ -6,7 +6,7 @@
 /* ========== PAGE LAYOUT ========== */
 .challenges-page {
     min-height: 100vh;
-    padding-top: 80px;
+    padding-top: var(--nav-offset);
 }
 
 .challenges-main {
@@ -52,11 +52,11 @@
     display: flex;
     align-items: center;
     gap: var(--spacing-md);
-    transition: all var(--transition-normal);
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
 }
 
 .stat-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-1px);
     box-shadow: var(--shadow-glow);
 }
 
@@ -104,13 +104,13 @@
     display: flex;
     flex-direction: column;
     gap: var(--spacing-lg);
-    transition: all var(--transition-normal);
+    transition: transform 0.3s ease-out, border-color 0.3s ease-out, box-shadow 0.3s ease-out;
     border: 2px solid transparent;
 }
 
 .challenge-card:hover {
     border-color: var(--secondary);
-    transform: translateY(-3px);
+    transform: translateY(-1px);
     box-shadow: var(--shadow-glow);
 }
 
@@ -513,7 +513,7 @@
 }
 
 .btn-mark-complete:hover {
-    transform: translateY(-2px);
+    transform: translateY(-1px);
     box-shadow: var(--shadow-glow-strong);
 }
 
@@ -574,7 +574,7 @@
 }
 
 .achievement-badge.unlocked:hover {
-    transform: translateY(-5px);
+    transform: translateY(-1px);
     box-shadow: var(--shadow-glow);
 }
 
@@ -692,7 +692,7 @@
 
 .modal-close:hover {
     background: var(--glass-bg-hover);
-    transform: rotate(90deg);
+    transform: translateY(-1px);
 }
 
 .modal-header {
@@ -784,7 +784,7 @@
 .btn-modal-action:hover {
     background: var(--gradient-primary);
     border-color: var(--secondary);
-    transform: translateY(-2px);
+    transform: translateY(-1px);
 }
 
 /* ========== CELEBRATION MODAL ========== */
