@@ -483,7 +483,7 @@ class DuasManager {
         if (!normalizedQuery) {
             this.filteredDuas = [...this.allDuas];
         } else {
-            this.filteredDuas = this.allDuas.filter(dua => {
+        this.filteredDuas = this.allDuas.filter(dua => {
                 // Search in title (case insensitive)
                 const titleMatch = dua.title ? dua.title.toLowerCase().includes(normalizedQuery) : false;
                 
@@ -503,7 +503,7 @@ class DuasManager {
                 const sourceMatch = dua.source ? dua.source.toLowerCase().includes(normalizedQuery) : false;
                 
                 return titleMatch || arabicMatch || fullArabicMatch || translationMatch || tagsMatch || sourceMatch;
-            });
+        });
         }
         
         if (this.currentFilter !== 'all') {

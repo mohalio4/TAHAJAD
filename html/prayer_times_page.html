@@ -121,18 +121,12 @@
             
             <!-- Location & Date Bar -->
             <section class="location-date-bar fade-in-up delay-1">
-                <div class="location-selector glass-card">
+                <div class="location-display glass-card">
                     <span class="selector-icon">📍</span>
-                    <select id="locationSelect" class="location-select">
-                        <option value="beirut">بيروت</option>
-                        <option value="tripoli">طرابلس</option>
-                        <option value="sidon">صيدا</option>
-                        <option value="tyre">صور</option>
-                        <option value="baalbek">بعلبك</option>
-                        <option value="zahle">زحلة</option>
-                        <option value="nabatieh">النبطية</option>
-                        <option value="custom">موقع مخصص</option>
-                    </select>
+                    <div class="location-text">
+                        <span class="location-label">المدينة:</span>
+                        <span class="location-name" id="locationName">بيروت</span>
+                    </div>
                     <button class="detect-location-btn" id="detectLocationBtn" title="تحديد موقعي تلقائياً">
                         <span>🎯</span>
                     </button>
@@ -142,7 +136,9 @@
                     <span class="date-icon">📅</span>
                     <div class="date-text">
                         <span class="gregorian-date" id="gregorianDate">الأحد، 3 ديسمبر 2025</span>
-                        <span class="hijri-date" id="hijriDate">20 جمادى الأولى 1447</span>
+                        <a href="hijri-calendar.html" class="hijri-date-link">
+                            <span class="hijri-date" id="hijriDate">20 جمادى الأولى 1447</span>
+                        </a>
                     </div>
                 </div>
             </section>
@@ -197,6 +193,20 @@
                 <h2 class="section-title">جميع الأوقات</h2>
                 
                 <div class="prayers-grid">
+                    <!-- Imsak -->
+                    <div class="prayer-card glass-card info-only">
+                        <div class="prayer-card-header">
+                            <div class="prayer-icon">🌙</div>
+                            <div class="prayer-info">
+                                <h3 class="prayer-name">الإمساك</h3>
+                                <span class="prayer-time" id="imsakTime">05:20</span>
+                            </div>
+                        </div>
+                        <div class="prayer-note">
+                            <span class="note-text">وقت بدء الصيام</span>
+                        </div>
+                    </div>
+                    
                     <!-- Fajr -->
                     <div class="prayer-card glass-card" data-prayer="fajr">
                         <div class="prayer-card-header">
@@ -325,90 +335,19 @@
                             <span class="status-text">لم يصلّ</span>
                         </div>
                     </div>
-                </div>
-            </section>
-            
-            <!-- Qibla Direction -->
-            <section class="qibla-section fade-in-up delay-4">
-                <h2 class="section-title">اتجاه القبلة</h2>
-                
-                <div class="qibla-compass glass-card">
-                    <div class="compass-container">
-                        <div class="compass-outer">
-                            <div class="compass-inner" id="compassInner">
-                                <div class="compass-needle">
-                                    <div class="needle-north"></div>
-                                </div>
-                                <div class="compass-center"></div>
-                                
-                                <!-- Cardinal Directions -->
-                                <span class="direction north">ش</span>
-                                <span class="direction east">ر</span>
-                                <span class="direction south">ج</span>
-                                <span class="direction west">غ</span>
-                            </div>
-                            
-                            <!-- Qibla Indicator -->
-                            <div class="qibla-indicator" id="qiblaIndicator">
-                                <div class="kaaba-icon">🕋</div>
-                            </div>
-                        </div>
-                        
-                        <div class="compass-info">
-                            <div class="qibla-degree">
-                                <span class="degree-label">اتجاه القبلة</span>
-                                <span class="degree-value" id="qiblaDegree">135°</span>
-                            </div>
-                            <div class="distance-info">
-                                <span class="distance-label">المسافة إلى مكة</span>
-                                <span class="distance-value" id="distanceToMecca">1,250 كم</span>
-                            </div>
-                        </div>
-                    </div>
                     
-                    <button class="calibrate-btn" id="calibrateBtn">
-                        <span class="btn-icon">🧭</span>
-                        <span>معايرة البوصلة</span>
-                    </button>
-                </div>
-            </section>
-            
-            <!-- Additional Settings -->
-            <section class="settings-section fade-in-up delay-5">
-                <h2 class="section-title">الإعدادات</h2>
-                
-                <div class="settings-grid">
-                    <div class="setting-card glass-card">
-                        <div class="setting-header">
-                            <span class="setting-icon">🔔</span>
-                            <h3 class="setting-title">التنبيهات</h3>
+                    <!-- Midnight -->
+                    <div class="prayer-card glass-card info-only">
+                        <div class="prayer-card-header">
+                            <div class="prayer-icon">🌌</div>
+                            <div class="prayer-info">
+                                <h3 class="prayer-name">منتصف الليل</h3>
+                                <span class="prayer-time" id="midnightTime">00:15</span>
+                            </div>
                         </div>
-                        <div class="setting-options">
-                            <label class="setting-option">
-                                <span class="option-label">تنبيه قبل الأذان بـ 10 دقائق</span>
-                                <input type="checkbox" class="toggle-switch" id="preAlarmToggle" checked>
-                                <span class="toggle-slider"></span>
-                            </label>
-                            <label class="setting-option">
-                                <span class="option-label">صوت الأذان</span>
-                                <input type="checkbox" class="toggle-switch" id="adhanSoundToggle" checked>
-                                <span class="toggle-slider"></span>
-                            </label>
+                        <div class="prayer-note">
+                            <span class="note-text">منتصف الليل الشرعي</span>
                         </div>
-                    </div>
-                    
-                    <div class="setting-card glass-card">
-                        <div class="setting-header">
-                            <span class="setting-icon">⚙️</span>
-                            <h3 class="setting-title">طريقة الحساب</h3>
-                        </div>
-                        <select class="calculation-method" id="calculationMethod">
-                            <option value="mwl">رابطة العالم الإسلامي</option>
-                            <option value="isna">الجمعية الإسلامية لأمريكا الشمالية</option>
-                            <option value="egypt">الهيئة المصرية العامة للمساحة</option>
-                            <option value="makkah">أم القرى، مكة المكرمة</option>
-                            <option value="karachi">جامعة العلوم الإسلامية، كراتشي</option>
-                        </select>
                     </div>
                 </div>
             </section>

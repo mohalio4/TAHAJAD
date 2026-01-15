@@ -56,9 +56,27 @@ class HijriCalendarManager {
     
     // ========== HIJRI DATE CALCULATIONS ==========
     calculateCurrentHijriDate() {
-        // Simple Hijri calculation (approximation)
-        // In production, use proper Hijri date library
-        const hijriDate = this.gregorianToHijri(this.currentGregorianDate);
+        // Check if Hijri date is set from prayer times page
+        const savedHijriDate = localStorage.getItem('currentHijriDate');
+        let hijriDate;
+        
+        if (savedHijriDate) {
+            try {
+                hijriDate = JSON.parse(savedHijriDate);
+                // Validate the date
+                if (hijriDate.day && hijriDate.month && hijriDate.year) {
+                    this.currentHijriMonth = hijriDate.month;
+                    this.currentHijriYear = hijriDate.year;
+                    this.updateTodayDisplay(hijriDate);
+                    return;
+                }
+            } catch (e) {
+                console.error('Error parsing saved Hijri date:', e);
+            }
+        }
+        
+        // Fallback to calculation if no saved date
+        hijriDate = this.gregorianToHijri(this.currentGregorianDate);
         this.currentHijriMonth = hijriDate.month;
         this.currentHijriYear = hijriDate.year;
         
