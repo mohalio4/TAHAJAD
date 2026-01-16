@@ -36,8 +36,9 @@ class PrayerTimesManager {
         // Aladhan API method (using MWL - Muslim World League for Lebanon)
         this.method = 3; // MWL method
         
+        // Don't redirect if not logged in - just don't initialize
+        // This allows the manager to work on all pages
         if (!this.userData) {
-            window.location.href = 'login_page.html';
             return;
         }
         
@@ -45,7 +46,7 @@ class PrayerTimesManager {
     }
     
     async init() {
-        // Setup user profile
+        // Setup user profile (only if elements exist)
         this.setupUserProfile();
         
         // Ensure coordinates are set first (load from storage or use default)
@@ -56,14 +57,14 @@ class PrayerTimesManager {
             };
             this.saveUserCoordinates(this.userCoordinates);
             
-            // Set default city name
+            // Set default city name (only if element exists)
             const locationNameEl = document.getElementById('locationName');
             if (locationNameEl) {
                 locationNameEl.textContent = this.lebanonCities.beirut.name;
             }
         }
         
-        // Load dates
+        // Load dates (only if elements exist)
         this.loadDates();
         
         // Load prayer times immediately (with default or saved coordinates)
@@ -75,13 +76,13 @@ class PrayerTimesManager {
             console.log('Location request completed (may have been denied):', err);
         });
         
-        // Start countdown
+        // Start countdown (works globally, updates UI only if elements exist)
         this.startCountdown();
         
-        // Setup event listeners
+        // Setup event listeners (only if elements exist)
         this.setupEventListeners();
         
-        // Load saved settings
+        // Load saved settings (only if elements exist)
         this.loadSettings();
     }
     
@@ -546,14 +547,6 @@ class PrayerTimesManager {
         
         // Update progress ring
         this.updateProgressRing(diff);
-        
-        // Check for pre-alarm (10 minutes before)
-        if (diff <= 10 * 60 * 1000 && diff > 9 * 60 * 1000) {
-            const preAlarmEnabled = document.getElementById('preAlarmToggle')?.checked;
-            if (preAlarmEnabled) {
-                this.showPreAlarmNotification();
-            }
-        }
     }
     
     updateProgressRing(diff) {
@@ -573,11 +566,8 @@ class PrayerTimesManager {
     }
     
     async handlePrayerTimeReached() {
-        // Show adhan notification
-        const adhanEnabled = document.getElementById('adhanSoundToggle')?.checked;
-        if (adhanEnabled) {
-            this.playAdhan();
-        }
+        // Play adhan sound
+        this.playAdhan();
         
         this.showPrayerNotification();
         
@@ -617,32 +607,56 @@ class PrayerTimesManager {
         }
     }
     
-    showPreAlarmNotification() {
-        if (Notification.permission === 'granted') {
-            new Notification('تنبيه الصلاة', {
-                body: `حان وقت ${this.nextPrayer.name} بعد 10 دقائق`,
-                icon: '/assets/icons/mosque.png'
-            });
-        }
-        
-        this.showToast(`حان وقت ${this.nextPrayer.name} بعد 10 دقائق`, 'info');
-    }
-    
     showPrayerNotification() {
+        // Show browser notification (works even when page is in background)
         if (Notification.permission === 'granted') {
             new Notification('حان وقت الصلاة', {
                 body: `حان وقت ${this.nextPrayer.name}`,
-                icon: '/assets/icons/mosque.png'
+                icon: '../assets/images/tahajad_logo.png',
+                badge: '../assets/images/tahajad_logo.png',
+                tag: 'prayer-time', // Replace previous notifications with same tag
+                requireInteraction: false,
+                silent: false // Ensure sound plays
+            });
+        } else if (Notification.permission === 'default') {
+            // Request permission if not yet asked
+            Notification.requestPermission().then(permission => {
+                if (permission === 'granted') {
+                    new Notification('حان وقت الصلاة', {
+                        body: `حان وقت ${this.nextPrayer.name}`,
+                        icon: '../assets/images/tahajad_logo.png',
+                        tag: 'prayer-time'
+                    });
+                }
             });
         }
         
+        // Show toast only if element exists (on prayer times page)
         this.showToast(`حان وقت ${this.nextPrayer.name}!`, 'success');
     }
     
     playAdhan() {
-        // Play adhan audio
-        const audio = new Audio('/assets/audio/adhan.mp3');
-        audio.play().catch(e => console.log('Could not play adhan:', e));
+        // Play adhan audio - works on all pages
+        // Try multiple paths to ensure it works regardless of page location
+        const audioPaths = [
+            '../assets/audio/adhan.mp3',
+            'assets/audio/adhan.mp3',
+            '/assets/audio/adhan.mp3'
+        ];
+        
+        let audioPlayed = false;
+        for (const path of audioPaths) {
+            const audio = new Audio(path);
+            audio.play().then(() => {
+                audioPlayed = true;
+            }).catch(e => {
+                // Try next path
+                if (!audioPlayed && audioPaths.indexOf(path) === audioPaths.length - 1) {
+                    console.log('Could not play adhan from any path:', e);
+                }
+            });
+            if (audioPlayed) break;
+        }
     }
     
     // ========== ALARMS ==========
@@ -696,25 +710,6 @@ class PrayerTimesManager {
         if (detectBtn) {
             detectBtn.addEventListener('click', () => {
                 this.detectLocation();
-            });
-        }
-        
-        // Settings toggles
-        const preAlarmToggle = document.getElementById('preAlarmToggle');
-        const adhanToggle = document.getElementById('adhanSoundToggle');
-        
-        if (preAlarmToggle) {
-            preAlarmToggle.addEventListener('change', (e) => {
-                this.saveSettings();
-                if (e.target.checked) {
-                    this.requestNotificationPermission();
-                }
-            });
-        }
-        
-        if (adhanToggle) {
-            adhanToggle.addEventListener('change', () => {
-                this.saveSettings();
             });
         }
         
@@ -775,39 +770,72 @@ class PrayerTimesManager {
     
     // ========== SETTINGS ==========
     loadSettings() {
-        const saved = localStorage.getItem('prayerSettings');
-        if (saved) {
-            const settings = JSON.parse(saved);
-            
-            const preAlarmToggle = document.getElementById('preAlarmToggle');
-            const adhanToggle = document.getElementById('adhanSoundToggle');
-            
-            if (preAlarmToggle) preAlarmToggle.checked = settings.preAlarm !== false;
-            if (adhanToggle) adhanToggle.checked = settings.adhanSound !== false;
-        }
-        
+        // Settings loading removed - no longer needed
     }
     
     saveSettings() {
-        const settings = {
-            preAlarm: document.getElementById('preAlarmToggle')?.checked,
-            adhanSound: document.getElementById('adhanSoundToggle')?.checked
-        };
-        
-        localStorage.setItem('prayerSettings', JSON.stringify(settings));
+        // Settings saving removed - no longer needed
     }
     
     // ========== UI HELPERS ==========
     showToast(message, type = 'success') {
-        const toast = document.getElementById('prayerToast');
-        if (!toast) return;
+        // Get or create toast element
+        let toast = document.getElementById('prayerToast');
+        
+        if (!toast) {
+            // Create toast element dynamically if it doesn't exist
+            toast = document.createElement('div');
+            toast.id = 'prayerToast';
+            toast.className = 'prayer-toast';
+            document.body.appendChild(toast);
+            
+            // Ensure CSS is loaded (add styles if needed)
+            if (!document.getElementById('prayerToastStyles')) {
+                const style = document.createElement('style');
+                style.id = 'prayerToastStyles';
+                style.textContent = `
+                    .prayer-toast {
+                        position: fixed;
+                        top: 100px;
+                        right: 20px;
+                        padding: 1rem 1.5rem;
+                        background: rgba(255, 255, 255, 0.1);
+                        backdrop-filter: blur(20px) saturate(180%);
+                        border: 1px solid rgba(255, 255, 255, 0.2);
+                        border-radius: 12px;
+                        color: var(--text-primary, #ffffff);
+                        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+                        z-index: 10001;
+                        transform: translateX(400px);
+                        transition: transform 0.3s ease;
+                        font-size: 1rem;
+                        font-weight: 500;
+                        max-width: 350px;
+                        word-wrap: break-word;
+                    }
+                    .prayer-toast.show {
+                        transform: translateX(0);
+                    }
+                    .prayer-toast.success {
+                        border-right: 4px solid #10b981;
+                    }
+                    .prayer-toast.error {
+                        border-right: 4px solid #ef4444;
+                    }
+                    .prayer-toast.info {
+                        border-right: 4px solid #3b82f6;
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
         
         toast.textContent = message;
         toast.className = `prayer-toast show ${type}`;
         
         setTimeout(() => {
             toast.classList.remove('show');
-        }, 3000);
+        }, 5000);
     }
 }
 
@@ -850,9 +878,23 @@ function toggleAlarm(prayerName) {
 }
 
 // ========== INITIALIZATION ==========
+// Initialize globally on all pages
 document.addEventListener('DOMContentLoaded', () => {
-    window.prayerTimesManager = new PrayerTimesManager();
+    // Only initialize if not already initialized (prevent duplicates)
+    if (!window.prayerTimesManager) {
+        window.prayerTimesManager = new PrayerTimesManager();
+    }
 });
+
+// Also initialize immediately if DOM is already loaded (for dynamic page loads)
+if (document.readyState === 'loading') {
+    // DOM is still loading, wait for DOMContentLoaded
+} else {
+    // DOM is already loaded, initialize immediately
+    if (!window.prayerTimesManager) {
+        window.prayerTimesManager = new PrayerTimesManager();
+    }
+}
 
 // Clean up on page unload
 window.addEventListener('beforeunload', () => {

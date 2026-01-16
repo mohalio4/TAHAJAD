@@ -148,25 +148,21 @@
                     <button class="category-card glass-card hover-lift" data-category="ziyarat">
                         <div class="category-icon">🕌</div>
                         <h3 class="category-title">الزيارات</h3>
-                        <span class="category-count">21 زيارة</span>
                     </button>
                     
                     <button class="category-card glass-card hover-lift" data-category="dua">
                         <div class="category-icon">📿</div>
                         <h3 class="category-title">الدعاء</h3>
-                        <span class="category-count">36 دعاء</span>
                     </button>
                     
                     <button class="category-card glass-card hover-lift" data-category="taqibat">
                         <div class="category-icon">🕌</div>
                         <h3 class="category-title">تعقيبات الصلاة</h3>
-                        <span class="category-count">5 تعقيبات</span>
                     </button>
                     
                     <button class="category-card glass-card hover-lift" data-category="seerah">
                         <div class="category-icon">📖</div>
                         <h3 class="category-title">سيرة أهل البيت</h3>
-                        <span class="category-count">14 سيرة</span>
                     </button>
                 </div>
             </section>
@@ -221,42 +217,33 @@
             </div>
             
             <div class="modal-body">
+                <div class="youtube-player-section" id="youtubePlayerSection" style="display: none;">
+                    <h3 class="section-heading">استماع الدعاء</h3>
+                    <div class="youtube-player-container">
+                        <iframe 
+                            id="youtubePlayer" 
+                            class="youtube-iframe"
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+                
                 <div class="dua-text-section">
-                    <h3 class="section-heading">النص العربي</h3>
-                    <p class="dua-arabic-large" id="modalDuaArabic"></p>
-                </div>
-                
-                <div class="dua-translation-section">
-                    <h3 class="section-heading">المعنى</h3>
-                    <p class="dua-translation-large" id="modalDuaTranslation"></p>
-                </div>
-                
-                <div class="dua-source-section">
-                    <h3 class="section-heading">المصدر</h3>
-                    <p class="dua-source" id="modalDuaSource"></p>
-                </div>
-                
-                <div class="dua-benefits-section">
-                    <h3 class="section-heading">الفضل والفوائد</h3>
-                    <p class="dua-benefits" id="modalDuaBenefits"></p>
-                </div>
-                
-                <div class="audio-player" id="audioPlayerSection">
-                    <button class="play-pause-btn" id="playPauseBtn">
-                        <span class="play-icon">▶️</span>
-                    </button>
-                    <div class="audio-progress">
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="audioProgress"></div>
-                        </div>
-                        <div class="audio-time">
-                            <span id="currentTime">0:00</span>
-                            <span id="duration">0:00</span>
+                    <div class="section-heading-with-controls">
+                        <h3 class="section-heading">النص العربي</h3>
+                        <div class="font-size-controls">
+                            <button class="font-size-btn" id="decreaseFontBtn" onclick="adjustDuaFontSize(-1)">
+                                <span>−</span>
+                            </button>
+                            <span class="font-size-display" id="fontSizeDisplay">100%</span>
+                            <button class="font-size-btn" id="increaseFontBtn" onclick="adjustDuaFontSize(1)">
+                                <span>+</span>
+                            </button>
                         </div>
                     </div>
-                    <button class="volume-btn" id="volumeBtn">
-                        <span>🔊</span>
-                    </button>
+                    <p class="dua-arabic-large" id="modalDuaArabic"></p>
                 </div>
             </div>
             
@@ -288,6 +275,7 @@
     <script src="../js/mouse-light-tracker.js"></script>
     <script src="../js/user-navigation.js"></script>
     <script src="../js/api.js"></script>
+    <script src="../js/prayer-times.js"></script>
     <script src="../js/duas.js"></script>
 </body>
 </html>

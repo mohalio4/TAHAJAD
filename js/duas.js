@@ -117,7 +117,8 @@ class DuasManager {
                     benefits: item.major || '',
                     title: item.title,
                     tags: item.tags || '',
-                    type: 'dua'
+                    type: 'dua',
+                    youtubeUrl: item.youtubeUrl || '' // Get YouTube URL from JSON
                 };
             });
             
@@ -157,7 +158,8 @@ class DuasManager {
                     benefits: item.major || '',
                     title: item.title,
                     tags: item.tags || '',
-                    type: 'taqibat'
+                    type: 'taqibat',
+                    youtubeUrl: item.youtubeUrl || '' // Get YouTube URL from JSON
                 };
             });
             
@@ -177,7 +179,8 @@ class DuasManager {
                     benefits: item.major || '',
                     title: item.title,
                     tags: item.tags || '',
-                    type: 'seerah'
+                    type: 'seerah',
+                    youtubeUrl: item.youtubeUrl || '' // Get YouTube URL from JSON
                 };
             });
             
@@ -334,6 +337,15 @@ class DuasManager {
         const allCategories = dua.type ? [dua.type, ...dua.categories] : dua.categories;
         card.dataset.category = allCategories.join(' ');
         
+        // Make card clickable to open details
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', (e) => {
+            // Don't trigger if clicking on favorite button
+            if (!e.target.closest('.favorite-btn')) {
+                viewDetails(dua.id);
+            }
+        });
+        
         const isFavorited = this.favorites.includes(dua.id);
         // Use type if available, otherwise use first category
         const primaryCategory = dua.type || dua.categories[0];
@@ -343,7 +355,7 @@ class DuasManager {
         card.innerHTML = `
             <div class="dua-header">
                 <div class="dua-category-badge ${categoryClass}">${categoryLabel}</div>
-                <button class="favorite-btn ${isFavorited ? 'favorited' : ''}" onclick="toggleFavorite(${dua.id})">
+                <button class="favorite-btn ${isFavorited ? 'favorited' : ''}" onclick="event.stopPropagation(); toggleFavorite(${dua.id})">
                     <span class="favorite-icon">${isFavorited ? '★' : '☆'}</span>
                 </button>
             </div>
@@ -353,21 +365,6 @@ class DuasManager {
                 <p class="dua-arabic">${dua.arabic}</p>
                 ${dua.translation ? `<p class="dua-translation">${dua.translation}</p>` : ''}
                 ${dua.source && dua.source !== dua.title ? `<p class="dua-source">${dua.source}</p>` : ''}
-            </div>
-            
-            <div class="dua-footer">
-                <button class="dua-action-btn" onclick="playAudio(${dua.id})">
-                    <span class="btn-icon">▶️</span>
-                    <span>استماع</span>
-                </button>
-                <button class="dua-action-btn" onclick="shareDua(${dua.id})">
-                    <span class="btn-icon">📤</span>
-                    <span>مشاركة</span>
-                </button>
-                <button class="dua-action-btn" onclick="viewDetails(${dua.id})">
-                    <span class="btn-icon">👁️</span>
-                    <span>التفاصيل</span>
-                </button>
             </div>
         `;
         
@@ -616,7 +613,13 @@ function toggleFavorite(duaId) {
     const manager = window.duasManager;
     const index = manager.favorites.indexOf(duaId);
     
-    if (index > -1) {
+    // Get all favorite buttons for this dua (card and modal)
+    const btns = document.querySelectorAll(`[onclick*="toggleFavorite(${duaId})"], #modalFavoriteBtn`);
+    const isCurrentlyFavorited = index > -1;
+    const willBeFavorited = !isCurrentlyFavorited;
+    
+    // Update state immediately
+    if (isCurrentlyFavorited) {
         manager.favorites.splice(index, 1);
         manager.showToast('تمت الإزالة من المفضلة', 'success');
     } else {
@@ -626,11 +629,22 @@ function toggleFavorite(duaId) {
     
     manager.saveFavorites();
     
-    const btns = document.querySelectorAll(`[onclick="toggleFavorite(${duaId})"]`);
+    // Update all buttons immediately with visual feedback
     btns.forEach(btn => {
-        const isFavorited = manager.favorites.includes(duaId);
-        btn.classList.toggle('favorited', isFavorited);
-        btn.querySelector('.favorite-icon').textContent = isFavorited ? '★' : '☆';
+        // Add glow effect class
+        btn.classList.add('favorite-glow');
+        
+        // Update state immediately
+        btn.classList.toggle('favorited', willBeFavorited);
+        const icon = btn.querySelector('.favorite-icon');
+        if (icon) {
+            icon.textContent = willBeFavorited ? '★' : '☆';
+        }
+        
+        // Remove glow effect after animation
+        setTimeout(() => {
+            btn.classList.remove('favorite-glow');
+        }, 600);
     });
 }
 
@@ -688,9 +702,23 @@ function viewDetails(duaId) {
     // Use fullArabic if available, otherwise use arabic
     const fullText = dua.fullArabic || dua.arabic;
     document.getElementById('modalDuaArabic').textContent = fullText;
-    document.getElementById('modalDuaTranslation').textContent = dua.translation || 'لا يوجد ترجمة متوفرة';
-    document.getElementById('modalDuaSource').textContent = dua.title || dua.source || 'المصدر غير متوفر';
-    document.getElementById('modalDuaBenefits').textContent = dua.benefits || dua.tags || 'لا توجد فوائد مسجلة';
+    
+    // Load YouTube player if URL exists
+    const youtubePlayerSection = document.getElementById('youtubePlayerSection');
+    const youtubePlayer = document.getElementById('youtubePlayer');
+    if (dua.youtubeUrl) {
+        // Extract YouTube video ID from URL
+        const videoId = extractYouTubeId(dua.youtubeUrl);
+        if (videoId) {
+            youtubePlayer.src = `https://www.youtube.com/embed/${videoId}`;
+            youtubePlayerSection.style.display = 'block';
+        } else {
+            youtubePlayerSection.style.display = 'none';
+        }
+    } else {
+        youtubePlayerSection.style.display = 'none';
+        youtubePlayer.src = ''; // Clear previous video
+    }
     
     const favoriteBtn = document.getElementById('modalFavoriteBtn');
     const isFavorited = manager.favorites.includes(duaId);
@@ -698,9 +726,72 @@ function viewDetails(duaId) {
     favoriteBtn.querySelector('.favorite-icon').textContent = isFavorited ? '★' : '☆';
     favoriteBtn.onclick = () => toggleFavorite(duaId);
     
+    // Load and apply saved font size
+    const savedFontSize = localStorage.getItem('duaFontSize') || 100;
+    applyDuaFontSize(parseInt(savedFontSize));
+    
     manager.currentDuaId = duaId;
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
+}
+
+function adjustDuaFontSize(change) {
+    const arabicElement = document.getElementById('modalDuaArabic');
+    if (!arabicElement) return;
+    
+    // Get current font size from style or default
+    const currentSize = parseInt(arabicElement.style.fontSize) || 32; // 2rem = 32px default
+    const baseSize = 32; // 2rem base size
+    const currentPercentage = Math.round((currentSize / baseSize) * 100);
+    
+    // Calculate new percentage (min 50%, max 200%)
+    const newPercentage = Math.max(50, Math.min(200, currentPercentage + (change * 5)));
+    
+    // Apply new font size
+    applyDuaFontSize(newPercentage);
+    
+    // Save to localStorage
+    localStorage.setItem('duaFontSize', newPercentage.toString());
+}
+
+function applyDuaFontSize(percentage) {
+    const arabicElement = document.getElementById('modalDuaArabic');
+    const fontSizeDisplay = document.getElementById('fontSizeDisplay');
+    
+    if (!arabicElement) return;
+    
+    const baseSize = 32; // 2rem = 32px
+    const newSize = (baseSize * percentage) / 100;
+    arabicElement.style.fontSize = `${newSize}px`;
+    
+    // Update display
+    if (fontSizeDisplay) {
+        fontSizeDisplay.textContent = `${percentage}%`;
+    }
+}
+
+function extractYouTubeId(url) {
+    if (!url) return null;
+    
+    // Handle various YouTube URL formats
+    const patterns = [
+        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/,
+        /youtube\.com\/watch\?.*v=([^&\n?#]+)/
+    ];
+    
+    for (const pattern of patterns) {
+        const match = url.match(pattern);
+        if (match && match[1]) {
+            return match[1];
+        }
+    }
+    
+    // If URL is just the video ID
+    if (/^[a-zA-Z0-9_-]{11}$/.test(url)) {
+        return url;
+    }
+    
+    return null;
 }
 
 function closeModal() {
@@ -713,23 +804,66 @@ function closeModal() {
         if (manager.audio) {
             manager.audio.pause();
         }
+        
+        // Stop YouTube video
+        const youtubePlayer = document.getElementById('youtubePlayer');
+        if (youtubePlayer) {
+            youtubePlayer.src = ''; // Clear video to stop playback
+        }
     }
 }
 
 function shareDuaFromModal() {
     const manager = window.duasManager;
-    if (manager.currentDuaId) {
-        shareDua(manager.currentDuaId);
+    if (!manager.currentDuaId) return;
+    
+    const dua = manager.allDuas.find(d => d.id === manager.currentDuaId);
+    if (!dua) return;
+    
+    const title = dua.title || dua.source || 'دعاء';
+    const arabic = document.getElementById('modalDuaArabic').textContent;
+    const websiteLink = 'https://tahajad.com'; // TODO: Update with actual website link
+    const text = `${title}\n\n${arabic}\n\n${websiteLink}`;
+    
+    if (navigator.share) {
+        navigator.share({
+            title: title,
+            text: text
+        }).catch(e => {
+            // Fallback to copy if share fails
+            navigator.clipboard.writeText(text).then(() => {
+                manager.showToast('تم نسخ النص', 'success');
+            }).catch(err => {
+                manager.showToast('حدث خطأ في المشاركة', 'error');
+            });
+        });
+    } else {
+        // Fallback to copy if share API not available
+        navigator.clipboard.writeText(text).then(() => {
+            manager.showToast('تم نسخ النص', 'success');
+        }).catch(err => {
+            manager.showToast('حدث خطأ في النسخ', 'error');
+        });
     }
 }
 
 function copyDuaText() {
-    const arabic = document.getElementById('modalDuaArabic').textContent;
-    const translation = document.getElementById('modalDuaTranslation').textContent;
-    const text = `${arabic}\n\n${translation}`;
+    const manager = window.duasManager;
+    if (!manager.currentDuaId) return;
     
-    navigator.clipboard.writeText(text);
-    window.duasManager.showToast('تم نسخ النص', 'success');
+    const dua = manager.allDuas.find(d => d.id === manager.currentDuaId);
+    if (!dua) return;
+    
+    const title = dua.title || dua.source || 'دعاء';
+    const arabic = document.getElementById('modalDuaArabic').textContent;
+    const websiteLink = 'https://tahajad.com'; // TODO: Update with actual website link
+    const text = `${title}\n\n${arabic}\n\n${websiteLink}`;
+    
+    navigator.clipboard.writeText(text).then(() => {
+        manager.showToast('تم نسخ النص', 'success');
+    }).catch(err => {
+        manager.showToast('حدث خطأ في النسخ', 'error');
+    });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
