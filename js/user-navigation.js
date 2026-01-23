@@ -110,6 +110,7 @@
                                 document.body.classList.contains('challenges-page') ||
                                 document.body.classList.contains('hijri-calendar-page') ||
                                 document.body.classList.contains('khirah-page') ||
+                                currentPage.includes('self-accountability') ||
                                 document.body.classList.contains('istikhara-page') ||
                                 document.body.classList.contains('posts-page');
             
@@ -145,6 +146,7 @@
                                    currentPage.includes('challenges') ||
                                    currentPage.includes('hijri') ||
                                    currentPage.includes('khirah') ||
+                                   currentPage.includes('self-accountability') ||
                                    currentPage.includes('istikhara') ||
                                    currentPage.includes('post_page');
             

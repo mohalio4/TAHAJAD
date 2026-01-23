@@ -248,7 +248,7 @@ class BreadcrumbController {
             'duas_page.html': 'الأدعية',
             'challenges_page.html': 'التحديات',
             'hijri-calendar.html': 'التقويم الهجري',
-            'khirah.html': 'الخيرات',
+            'self-accountability.html': 'محاسبة النفس',
             'dashboard_page.html': 'لوحة التحكم',
             'login_page.html': 'تسجيل الدخول',
             'register_page.html': 'إنشاء حساب'

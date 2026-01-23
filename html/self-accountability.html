@@ -30,7 +30,7 @@
                 <li><a href="duas_page.html">الأدعية</a></li>
                 <li><a href="challenges_page.html">التحديات</a></li>
                 <li><a href="hijri-calendar.html">التقويم الهجري</a></li>
-                <li><a href="khirah.html" class="active">محاسبة النفس</a></li>
+                <li><a href="self-accountability.html" class="active">محاسبة النفس</a></li>
                 <li><a href="istikhara.html">الاستخارة</a></li>
                 <li><a href="post_page.html">المنشورات</a></li>
                 <li><a href="hyder-ai.html">اسأل hyder.ai</a></li>
@@ -170,43 +170,6 @@
                 </div>
             </section>
             
-            <!-- Statistics Cards -->
-            <section class="stats-section fade-in-up delay-2">
-                <div class="stats-grid">
-                    <div class="stat-card glass-card stat-good">
-                        <div class="stat-icon">📿</div>
-                        <div class="stat-info">
-                            <div class="stat-value" id="totalGoodDeeds">0</div>
-                            <div class="stat-label">أعمال صالحة</div>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card glass-card stat-bad">
-                        <div class="stat-icon">⚠️</div>
-                        <div class="stat-info">
-                            <div class="stat-value" id="totalBadDeeds">0</div>
-                            <div class="stat-label">تقصيرات</div>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card glass-card stat-journal">
-                        <div class="stat-icon">📝</div>
-                        <div class="stat-info">
-                            <div class="stat-value" id="journalDays">0</div>
-                            <div class="stat-label">أيام محاسبة</div>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card glass-card stat-streak">
-                        <div class="stat-icon">🔥</div>
-                        <div class="stat-info">
-                            <div class="stat-value" id="currentStreak">0</div>
-                            <div class="stat-label">أيام متواصلة</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            
             <!-- Late Prayers (Qada) -->
             <section class="late-prayers-section fade-in-up delay-3">
                 <div class="late-prayers-card glass-card">
@@ -262,27 +225,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
-            
-            <!-- Improvement Goals -->
-            <section class="goals-section fade-in-up delay-4">
-                <div class="goals-header">
-                    <h3 class="section-title">خطة التطوير الذاتي</h3>
-                    <button class="btn-small" onclick="openGoalModal()">
-                        <span>➕</span>
-                        <span>هدف جديد</span>
-                    </button>
-                </div>
-                
-                <div class="goals-grid" id="goalsContainer">
-                    <!-- Goals will be populated by JavaScript -->
-                </div>
-                
-                <div class="empty-goals" id="emptyGoals" style="display: none;">
-                    <div class="empty-icon">🎯</div>
-                    <p>لم تحدد أهداف التطوير بعد</p>
-                    <button class="btn-primary" onclick="openGoalModal()">حدد هدفك الأول</button>
                 </div>
             </section>
             
@@ -509,58 +451,6 @@
         </div>
     </div>
     
-    <!-- Improvement Goal Modal -->
-    <div id="goalModal" class="modal" style="display: none;">
-        <div class="modal-overlay" onclick="closeGoalModal()"></div>
-        <div class="modal-content glass-card">
-            <button class="modal-close" onclick="closeGoalModal()">✕</button>
-            
-            <h2 class="modal-title">🎯 هدف تطوير جديد</h2>
-            
-            <form id="goalForm" class="khirah-form">
-                <div class="form-group">
-                    <label class="form-label">
-                        <span class="label-icon">🎯</span>
-                        <span>الهدف</span>
-                    </label>
-                    <input type="text" class="form-input" id="goalTitle" placeholder="مثال: ترك السهر والاستيقاظ لصلاة الفجر" required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">
-                        <span class="label-icon">📝</span>
-                        <span>وصف الهدف</span>
-                    </label>
-                    <textarea class="form-input" id="goalDescription" rows="3" placeholder="اكتب تفاصيل الهدف..."></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">
-                        <span class="label-icon">🗓️</span>
-                        <span>مدة التحقيق (بالأيام)</span>
-                    </label>
-                    <input type="number" class="form-input" id="goalDuration" min="1" value="30" required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">
-                        <span class="label-icon">📋</span>
-                        <span>خطوات التنفيذ</span>
-                    </label>
-                    <textarea class="form-input" id="goalSteps" rows="4" placeholder="1. النوم مبكراً قبل 11 مساءً&#10;2. ضبط المنبه&#10;3. قراءة أذكار النوم"></textarea>
-                </div>
-                
-                <div class="form-actions">
-                    <button type="button" class="btn-secondary" onclick="closeGoalModal()">إلغاء</button>
-                    <button type="submit" class="btn-primary">
-                        <span class="btn-icon">✓</span>
-                        <span>إنشاء الهدف</span>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-    
     <!-- Toast Notification -->
     <div id="khirahToast" class="khirah-toast"></div>
     
@@ -577,5 +467,4 @@
     <script src="../js/khirah.js"></script>
 </body>
 </html>
-
 
