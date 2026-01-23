@@ -8,6 +8,13 @@ class IstikharaManager {
         this.userData = this.getUserData();
         this.history = this.loadHistory();
         this.apiBaseUrl = 'https://khotabaa.com/istikhara/kazem';
+        // CORS proxy options - try multiple proxies for reliability
+        this.corsProxies = [
+            'https://api.allorigins.win/raw?url=',
+            'https://corsproxy.io/?',
+            'https://api.codetabs.com/v1/proxy?quest='
+        ];
+        this.currentProxyIndex = 0;
         
         if (!this.userData) {
             window.location.href = 'login_page.html';
@@ -106,13 +113,58 @@ class IstikharaManager {
             const apiUrl = `${this.apiBaseUrl}/${pageNumber}`;
             console.log('API URL:', apiUrl);
             
-            // Call API
-            const response = await fetch(apiUrl, {
-                method: 'GET',
-                headers: {
-                    'accept': 'application/json'
+            // Try direct fetch first, then use CORS proxy if needed
+            let response;
+            
+            try {
+                response = await fetch(apiUrl, {
+                    method: 'GET',
+                    headers: {
+                        'accept': 'application/json'
+                    },
+                    mode: 'cors'
+                });
+            } catch (corsError) {
+                // CORS error - use proxy
+                console.log('Direct fetch failed (CORS), trying with proxy...', corsError);
+                
+                // Try each proxy until one works
+                let proxySuccess = false;
+                for (let i = 0; i < this.corsProxies.length; i++) {
+                    try {
+                        const proxyUrl = this.corsProxies[i] + encodeURIComponent(apiUrl);
+                        console.log(`Trying proxy ${i + 1}/${this.corsProxies.length}:`, proxyUrl);
+                        
+                        response = await fetch(proxyUrl, {
+                            method: 'GET',
+                            headers: {
+                                'accept': 'application/json'
+                            },
+                            mode: 'cors'
+                        });
+                        
+                        if (response.ok) {
+                            this.currentProxyIndex = i;
+                            proxySuccess = true;
+                            console.log('Proxy succeeded!');
+                            break;
+                        } else {
+                            throw new Error(`Proxy returned status ${response.status}`);
+                        }
+                    } catch (proxyError) {
+                        console.log(`Proxy ${i + 1} failed:`, proxyError);
+                        if (i === this.corsProxies.length - 1) {
+                            // Last proxy failed
+                            throw new Error('جميع محاولات الاتصال فشلت. يرجى المحاولة مرة أخرى لاحقاً.');
+                        }
+                        continue;
+                    }
                 }
-            });
+                
+                if (!proxySuccess) {
+                    throw new Error('فشل الاتصال بالخادم. يرجى المحاولة مرة أخرى.');
+                }
+            }
             
             console.log('API Response status:', response.status);
             
@@ -126,6 +178,11 @@ class IstikharaManager {
             // Check if we got valid data
             if (!data || typeof data !== 'object') {
                 throw new Error('البيانات المستلمة غير صحيحة');
+            }
+            
+            // Check if API returned an error message
+            if (data.error || data.message) {
+                throw new Error(data.error || data.message || 'حدث خطأ في الاستجابة من الخادم');
             }
             
             // Process and display result
@@ -148,7 +205,19 @@ class IstikharaManager {
         } catch (error) {
             console.error('Istikhara API Error:', error);
             console.error('Error details:', error.message);
-            this.showToast('حدث خطأ في الحصول على النتيجة. تأكد من الاتصال بالإنترنت وحاول مرة أخرى.', 'error');
+            console.error('Error stack:', error.stack);
+            
+            // Show more specific error message
+            let errorMessage = 'حدث خطأ في الحصول على النتيجة.';
+            if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                errorMessage = 'فشل الاتصال بالخادم. تأكد من الاتصال بالإنترنت وحاول مرة أخرى.';
+            } else if (error.message.includes('Status:')) {
+                errorMessage = `خطأ في الخادم: ${error.message}`;
+            } else {
+                errorMessage = error.message || errorMessage;
+            }
+            
+            this.showToast(errorMessage, 'error');
             this.hideLoading();
             return false;
         }
@@ -214,22 +283,24 @@ class IstikharaManager {
                 indicatorText.textContent = 'تأمل واستشر';
         }
         
-        // Set Quran text (aya)
-        const ayaText = apiData.aya || 'بسم الله الرحمن الرحيم';
+        // Set Quran text (aya) - check multiple possible field names
+        const ayaText = apiData.aya || apiData.ayaText || apiData.text || apiData.quranText || 'بسم الله الرحمن الرحيم';
         quranText.textContent = ayaText;
         
         // Build interpretation text from all guidance fields
         let fullInterpretation = '';
         
         if (apiData.general) {
-            fullInterpretation += `📌 التوجيه العام:\n${apiData.general}\n\n`;
+            fullInterpretation += `📌 التوجيه العام:\n${apiData.general}`;
         }
         
         if (apiData.economy) {
-            fullInterpretation += `💰 في الأمور الاقتصادية:\n${apiData.economy}\n\n`;
+            if (fullInterpretation) fullInterpretation += '\n\n';
+            fullInterpretation += `💰 في الأمور الاقتصادية:\n${apiData.economy}`;
         }
         
         if (apiData.marriage) {
+            if (fullInterpretation) fullInterpretation += '\n\n';
             fullInterpretation += `💍 في أمور الزواج:\n${apiData.marriage}`;
         }
         
@@ -237,6 +308,10 @@ class IstikharaManager {
         
         // Show result section
         resultSection.style.display = 'block';
+        resultSection.style.visibility = 'visible';
+        resultSection.style.opacity = '1';
+        
+        console.log('Result section displayed:', resultSection.style.display);
         
         // Scroll to result
         setTimeout(() => {
@@ -459,19 +534,35 @@ class IstikharaManager {
     }
     
     async handleFormSubmit() {
-        const pageNumber = parseInt(document.getElementById('pageNumber').value);
-        const reason = document.getElementById('istikharaReason').value.trim();
+        console.log('Form submitted!');
+        const pageInput = document.getElementById('pageNumber');
+        const reasonInput = document.getElementById('istikharaReason');
         
-        if (!pageNumber || pageNumber < 1) {
+        if (!pageInput) {
+            console.error('Page number input not found!');
+            this.showToast('خطأ في النموذج - لم يتم العثور على حقل رقم الصفحة', 'error');
+            return;
+        }
+        
+        const pageNumber = parseInt(pageInput.value);
+        const reason = reasonInput ? reasonInput.value.trim() : '';
+        
+        console.log('Page number:', pageNumber);
+        console.log('Reason:', reason);
+        
+        if (!pageNumber || pageNumber < 1 || isNaN(pageNumber)) {
             this.showToast('الرجاء إدخال رقم صفحة صحيح', 'error');
+            pageInput.focus();
             return;
         }
         
         if (pageNumber % 2 === 0) {
             this.showToast('يجب أن يكون رقم الصفحة فردياً (1، 3، 5...)', 'error');
+            pageInput.focus();
             return;
         }
         
+        console.log('Calling performIstikhara with:', { pageNumber, reason });
         await this.performIstikhara(pageNumber, reason);
     }
     
