@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تفاصيل المنشور - تهجّد</title>
+    <title>فكر القائد - تهجّد</title>
     
     <!-- Link CSS Files -->
     <link rel="stylesheet" href="../css/root-variables.css">
     <link rel="stylesheet" href="../css/global-styles.css">
-    <link rel="stylesheet" href="../css/posts.css">
+    <link rel="stylesheet" href="../css/leaderthink.css">
     <link rel="stylesheet" href="../css/animations.css">
     
     <!-- Google Fonts - Arabic Support -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body class="emerald-theme posts-page post-details-page">
+<body class="emerald-theme leaderthink-page">
     
     <!-- Animated Background Particles -->
     <div class="particles-container" id="particles"></div>
@@ -30,10 +30,10 @@
                 <li><a href="duas_page.html">الأدعية</a></li>
                 <li><a href="challenges_page.html">التحديات</a></li>
                 <li><a href="hijri-calendar.html">التقويم الهجري</a></li>
-                <li><a href="khirah.html">محاسبة النفس</a></li>
+                <li><a href="self-accountability.html">محاسبة النفس</a></li>
                 <li><a href="istikhara.html">الاستخارة</a></li>
-                <li><a href="post_page.html" class="active">المنشورات</a></li>
-                <li><a href="leaderthink.html">فكر القائد</a></li>
+                <li><a href="post_page.html">المنشورات</a></li>
+                <li><a href="leaderthink.html" class="active">فكر القائد</a></li>
                 <li><a href="thaqalayn.html">الثقلين</a></li>
                 <li><a href="hyder-ai.html">اسأل hyder.ai</a></li>
             </ul>
@@ -101,98 +101,76 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Mobile Menu Toggle -->
-            <button class="mobile-menu-toggle" id="mobileMenuBtn">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
         </div>
     </nav>
     
     <!-- Main Content -->
-    <main class="posts-main">
-        <div class="posts-container">
+    <main class="leaderthink-main">
+        <div class="leaderthink-container">
             
-            <!-- Back Link -->
-            <section class="page-header fade-in-up">
-                <a href="post_page.html" class="back-link">
-                    <span class="back-icon">←</span>
-                    <span>العودة إلى جميع المنشورات</span>
-                </a>
-            </section>
+            <!-- Page Header -->
+            <header class="leaderthink-header fade-in-up">
+                <div class="header-content glass-card">
+                    <div class="header-icon">💭</div>
+                    <h1 class="page-title">فكر القائد</h1>
+                    <p class="page-subtitle">مكتبة شاملة لأفكار وتكليفات الإمام الخامنئي</p>
+                </div>
+            </header>
             
-            <!-- Post Details -->
-            <section class="post-details-section fade-in-up delay-1">
-                <article class="post-details-card glass-card">
-                    <header class="post-details-header">
-                        <div class="post-author">
-                            <div class="author-avatar" id="detailAvatar">م</div>
-                            <div class="author-info">
-                                <span class="author-name" id="detailAuthorName">...</span>
-                                <span class="post-meta" id="detailMeta">...</span>
-                            </div>
-                        </div>
-                    </header>
-                    
-                    <h1 class="post-details-title" id="detailTitle">...</h1>
-                    
-                    <figure class="post-details-image-wrapper" id="detailImageWrapper" style="display: none;">
-                        <img id="detailImage" alt="صورة المنشور" class="post-details-image">
-                    </figure>
-                    
-                    <div class="post-details-content" id="detailContent">
-                        <!-- المحتوى النصي -->
+            <!-- Search and Filter Section -->
+            <section class="search-section fade-in-up delay-1">
+                <div class="search-container glass-card">
+                    <div class="search-wrapper">
+                        <div class="search-icon">🔍</div>
+                        <input 
+                            type="text" 
+                            id="searchInput" 
+                            class="search-input" 
+                            placeholder="ابحث في الأفكار والتكليفات..."
+                            autocomplete="off">
+                        <button class="clear-search" id="clearSearch" style="display: none;">✕</button>
                     </div>
                     
-                    <section class="post-translation" id="translationSection" style="display: none;">
-                        <h2 class="translation-title">الترجمة إلى الإنجليزية</h2>
-                        <p class="translation-text" id="translationText"></p>
-                    </section>
+                    <div class="filter-wrapper">
+                        <label for="sectionFilter" class="filter-label">
+                            <span class="filter-icon">📚</span>
+                            <span>اختر القسم:</span>
+                        </label>
+                        <select id="sectionFilter" class="filter-select">
+                            <option value="">جميع الأقسام</option>
+                        </select>
+                    </div>
                     
-                    <footer class="post-details-footer">
-                        <div class="post-tags" id="detailTags">
-                            <!-- الوسوم -->
-                        </div>
-                        
-                        <div class="post-details-actions">
-                            <button class="post-action-btn" id="copyPostBtn" type="button">
-                                <span>نسخ النص</span>
-                            </button>
-                            <button class="post-action-btn" id="translatePostBtn" type="button">
-                                <span>ترجمة إلى الإنجليزية</span>
-                            </button>
-                            <button class="post-action-btn" id="sharePostBtn" type="button">
-                                <span>مشاركة</span>
-                            </button>
-                        </div>
-                    </footer>
-                </article>
-                
-                <div class="no-posts-message" id="postNotFound" style="display: none;">
-                    <p>لم يتم العثور على هذا المنشور أو لم يعد متاحاً.</p>
-                    <a href="post_page.html" class="btn-primary" style="margin-top: 1rem;">العودة إلى قائمة المنشورات</a>
+                    <div class="results-info" id="resultsInfo">
+                        <span id="resultsCount">0</span> نتيجة
+                    </div>
                 </div>
             </section>
+            
+            <!-- Content Display Area -->
+            <section class="content-section" id="contentSection">
+                <div class="loading-state" id="loadingState">
+                    <div class="loading-spinner"></div>
+                    <p>جاري تحميل المحتوى...</p>
+                </div>
+                
+                <div class="empty-state" id="emptyState" style="display: none;">
+                    <div class="empty-icon">📖</div>
+                    <p>لم يتم العثور على نتائج</p>
+                    <p class="empty-hint">جرب البحث بكلمات مختلفة أو اختر قسمًا آخر</p>
+                </div>
+                
+                <div class="ideas-container" id="ideasContainer" style="display: none;"></div>
+            </section>
+            
         </div>
     </main>
     
-    <!-- Toast Notification -->
-    <div id="postDetailsToast" class="posts-toast"></div>
-    
-    <!-- Link JavaScript Files -->
-    <script src="../js/theme-manager.js"></script>
-    <script src="../js/particles.js"></script>
-    <script src="../js/animations.js"></script>
-    <script src="../js/logo-loader.js"></script>
+    <!-- Scripts -->
+    <script src="../js/theme-switcher.js"></script>
     <script src="../js/navigation.js"></script>
-    <script src="../js/mouse-light-tracker.js"></script>
-    <script src="../js/user-navigation.js"></script>
-    <script src="../js/api.js"></script>
-    <script src="../js/prayer-times.js"></script>
-    <script src="../js/post-details.js"></script>
+    <script src="../js/particles.js"></script>
+    <script src="../js/leaderthink.js"></script>
 </body>
 </html>
-
 
