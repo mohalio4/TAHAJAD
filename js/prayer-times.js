@@ -508,7 +508,7 @@ class PrayerTimesManager {
         if (!this.nextPrayer) {
             // If no next prayer, try to find it
             this.findNextPrayer();
-            if (!this.nextPrayer) return;
+        if (!this.nextPrayer) return;
             this.updateCurrentPrayerDisplay();
         }
         
@@ -567,7 +567,7 @@ class PrayerTimesManager {
     
     async handlePrayerTimeReached() {
         // Play adhan sound
-        this.playAdhan();
+            this.playAdhan();
         
         this.showPrayerNotification();
         
@@ -626,8 +626,8 @@ class PrayerTimesManager {
                         body: `حان وقت ${this.nextPrayer.name}`,
                         icon: '../assets/images/tahajad_logo.png',
                         tag: 'prayer-time'
-                    });
-                }
+            });
+        }
             });
         }
         
@@ -653,7 +653,7 @@ class PrayerTimesManager {
                 // Try next path
                 if (!audioPlayed && audioPaths.indexOf(path) === audioPaths.length - 1) {
                     console.log('Could not play adhan from any path:', e);
-                }
+        }
             });
             if (audioPlayed) break;
         }
@@ -882,7 +882,7 @@ function toggleAlarm(prayerName) {
 document.addEventListener('DOMContentLoaded', () => {
     // Only initialize if not already initialized (prevent duplicates)
     if (!window.prayerTimesManager) {
-        window.prayerTimesManager = new PrayerTimesManager();
+    window.prayerTimesManager = new PrayerTimesManager();
     }
 });
 

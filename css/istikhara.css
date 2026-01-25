@@ -141,17 +141,12 @@
 }
 
 .form-card {
-    padding: var(--spacing-xl);
-    background: var(--glass-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-md);
+    transition: transform 0.3s ease-out, background 0.3s ease-out, box-shadow 0.3s ease-out, border-color 0.3s ease-out;
 }
 
 .form-card:hover {
-    /* No changes on hover - maintain same appearance */
+    transform: translateY(-1px);
+    padding: var(--spacing-xl);
 }
 
 .istikhara-form {
@@ -186,6 +181,10 @@
     font-size: 1.125rem;
     font-family: var(--font-primary);
     transition: all var(--transition-normal);
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    box-sizing: border-box;
 }
 
 .form-input:focus {
@@ -195,15 +194,38 @@
     box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
 }
 
+input[type="number"].form-input {
+    -moz-appearance: textfield;
+}
+
+input[type="number"].form-input::-webkit-outer-spin-button,
+input[type="number"].form-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 .page-input {
     font-size: 1.5rem;
     font-weight: 700;
     text-align: center;
+    border-radius: var(--radius-md);
 }
 
 textarea.form-input {
     resize: vertical;
     min-height: 80px;
+    border-radius: var(--radius-md);
+}
+
+select.form-input {
+    background: rgba(20, 30, 25, 0.95) !important;
+    color: var(--text-primary) !important;
+}
+
+select.form-input option {
+    background: rgba(20, 30, 25, 0.98);
+    color: var(--text-primary);
+    padding: 0.5rem;
 }
 
 .input-hint {
@@ -410,6 +432,8 @@ textarea.form-input {
 
 .interpretation-text {
     font-family: var(--font-arabic);
+    white-space: pre-line;
+    line-height: 2;
 }
 
 .result-actions {

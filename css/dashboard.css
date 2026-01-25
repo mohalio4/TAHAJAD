@@ -353,13 +353,19 @@
 
 .period-selector {
     padding: 0.5rem 1rem;
-    background: var(--glass-bg);
+    background: rgba(20, 30, 25, 0.95) !important;
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-sm);
-    color: var(--text-primary);
+    color: var(--text-primary) !important;
     font-size: 0.9rem;
     cursor: pointer;
     transition: all var(--transition-normal);
+}
+
+.period-selector option {
+    background: rgba(20, 30, 25, 0.98);
+    color: var(--text-primary);
+    padding: 0.5rem;
 }
 
 .period-selector:focus {
@@ -840,6 +846,19 @@
 .good-deed-form textarea.form-input {
     resize: vertical;
     min-height: 80px;
+}
+
+.good-deed-form select.form-input,
+select.form-input {
+    background: rgba(20, 30, 25, 0.95) !important;
+    color: var(--text-primary) !important;
+}
+
+.good-deed-form select.form-input option,
+select.form-input option {
+    background: rgba(20, 30, 25, 0.98);
+    color: var(--text-primary);
+    padding: 0.5rem;
 }
 
 /* ========== RESPONSIVE ========== */
