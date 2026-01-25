@@ -141,12 +141,20 @@
 }
 
 .form-card {
+    padding: var(--spacing-xl);
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
     transition: transform 0.3s ease-out, background 0.3s ease-out, box-shadow 0.3s ease-out, border-color 0.3s ease-out;
 }
 
 .form-card:hover {
     transform: translateY(-1px);
-    padding: var(--spacing-xl);
+    background: var(--glass-bg-hover);
+    box-shadow: var(--shadow-lg);
 }
 
 .istikhara-form {

@@ -8,13 +8,8 @@ class IstikharaManager {
         this.userData = this.getUserData();
         this.history = this.loadHistory();
         this.apiBaseUrl = 'https://khotabaa.com/istikhara/kazem';
-        // CORS proxy options - try multiple proxies for reliability
-        this.corsProxies = [
-            'https://api.allorigins.win/raw?url=',
-            'https://corsproxy.io/?',
-            'https://api.codetabs.com/v1/proxy?quest='
-        ];
-        this.currentProxyIndex = 0;
+        // Use only the second proxy (corsproxy.io) as it always works
+        this.corsProxy = 'https://corsproxy.io/?';
         
         if (!this.userData) {
             window.location.href = 'login_page.html';
@@ -113,58 +108,17 @@ class IstikharaManager {
             const apiUrl = `${this.apiBaseUrl}/${pageNumber}`;
             console.log('API URL:', apiUrl);
             
-            // Try direct fetch first, then use CORS proxy if needed
-            let response;
+            // Use the CORS proxy directly (corsproxy.io always works)
+            const proxyUrl = this.corsProxy + encodeURIComponent(apiUrl);
+            console.log('Using proxy:', proxyUrl);
             
-            try {
-                response = await fetch(apiUrl, {
-                    method: 'GET',
-                    headers: {
-                        'accept': 'application/json'
-                    },
-                    mode: 'cors'
-                });
-            } catch (corsError) {
-                // CORS error - use proxy
-                console.log('Direct fetch failed (CORS), trying with proxy...', corsError);
-                
-                // Try each proxy until one works
-                let proxySuccess = false;
-                for (let i = 0; i < this.corsProxies.length; i++) {
-                    try {
-                        const proxyUrl = this.corsProxies[i] + encodeURIComponent(apiUrl);
-                        console.log(`Trying proxy ${i + 1}/${this.corsProxies.length}:`, proxyUrl);
-                        
-                        response = await fetch(proxyUrl, {
-                            method: 'GET',
-                            headers: {
-                                'accept': 'application/json'
-                            },
-                            mode: 'cors'
-                        });
-                        
-                        if (response.ok) {
-                            this.currentProxyIndex = i;
-                            proxySuccess = true;
-                            console.log('Proxy succeeded!');
-                            break;
-                        } else {
-                            throw new Error(`Proxy returned status ${response.status}`);
-                        }
-                    } catch (proxyError) {
-                        console.log(`Proxy ${i + 1} failed:`, proxyError);
-                        if (i === this.corsProxies.length - 1) {
-                            // Last proxy failed
-                            throw new Error('جميع محاولات الاتصال فشلت. يرجى المحاولة مرة أخرى لاحقاً.');
-                        }
-                        continue;
-                    }
-                }
-                
-                if (!proxySuccess) {
-                    throw new Error('فشل الاتصال بالخادم. يرجى المحاولة مرة أخرى.');
-                }
-            }
+            const response = await fetch(proxyUrl, {
+                method: 'GET',
+                headers: {
+                    'accept': 'application/json'
+                },
+                mode: 'cors'
+            });
             
             console.log('API Response status:', response.status);
             
