@@ -1,0 +1,503 @@
+/* ====================================
+   QURAN SURAH READER STYLES
+   Display individual surah with verses
+   ==================================== */
+
+/* ========== PAGE LAYOUT ========== */
+.quran-page {
+    min-height: 100vh;
+    padding-top: var(--nav-offset);
+}
+
+.quran-main {
+    padding: var(--spacing-xl) 0 var(--spacing-2xl);
+}
+
+.quran-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+}
+
+/* ========== SURAH HEADER ========== */
+.surah-reader-header {
+    margin-bottom: var(--spacing-xl);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-md);
+    position: relative;
+}
+
+.btn-back {
+    align-self: flex-start;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: 0.75rem 1.5rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.3s ease-out, background 0.3s ease-out, box-shadow 0.3s ease-out, border-color 0.3s ease-out;
+    text-decoration: none;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.btn-back:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--secondary);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.surah-title-section {
+    text-align: center;
+    width: 100%;
+}
+
+.surah-title {
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-sm);
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-family: var(--font-arabic);
+}
+
+.surah-info {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.surah-actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-md);
+}
+
+.btn-save-progress {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: 0.75rem 1.5rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.3s ease-out, background 0.3s ease-out, box-shadow 0.3s ease-out, border-color 0.3s ease-out;
+}
+
+.btn-save-progress:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--secondary);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* ========== VERSES CONTAINER ========== */
+.surah-content-section {
+    margin-bottom: var(--spacing-2xl);
+}
+
+.verses-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2xl);
+}
+
+/* ========== QURAN PAGE CONTENT STYLE ========== */
+.quran-page-content {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-2xl);
+    box-shadow: var(--shadow-md);
+    transition: transform 0.3s ease-out, background 0.3s ease-out, box-shadow 0.3s ease-out, border-color 0.3s ease-out;
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.quran-page-content:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--secondary);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-1px);
+}
+
+.btn-save-page-icon {
+    position: absolute;
+    top: var(--spacing-md);
+    left: var(--spacing-md);
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-round);
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: transform 0.3s ease-out, background 0.3s ease-out, box-shadow 0.3s ease-out, border-color 0.3s ease-out;
+    z-index: 10;
+    padding: 0;
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-save-page-icon:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--secondary);
+    transform: translateY(-1px) scale(1.05);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-save-page-icon:active {
+    transform: translateY(0) scale(0.95);
+}
+
+.btn-save-page-icon span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-xl);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 2px solid var(--glass-border);
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+}
+
+.page-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.surah-name-page {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--secondary);
+    font-family: var(--font-arabic);
+}
+
+.page-number {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+.verse-range {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    padding: 0.5rem 1rem;
+    background: var(--glass-bg);
+    border-radius: var(--radius-md);
+}
+
+.verses-content {
+    flex: 1;
+    padding: var(--spacing-lg) 0;
+}
+
+.surah-separator {
+    margin: var(--spacing-xl) 0;
+    padding: var(--spacing-lg);
+    text-align: center;
+    border-top: 2px solid var(--glass-border);
+    border-bottom: 2px solid var(--glass-border);
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.05), rgba(212, 175, 55, 0.02));
+    border-radius: var(--radius-md);
+}
+
+.bismillah {
+    font-size: 2rem;
+    color: var(--secondary);
+    font-family: 'Amiri', 'Scheherazade New', 'Noto Naskh Arabic', serif;
+    font-weight: 700;
+    margin-bottom: var(--spacing-sm);
+    line-height: 3;
+    text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.surah-title-in-page {
+    font-size: 1.75rem;
+    color: var(--text-primary);
+    font-weight: 700;
+    font-family: var(--font-arabic);
+    margin-top: var(--spacing-xs);
+}
+
+.verse-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    transition: background 0.3s ease-out;
+}
+
+.verse-item:hover {
+    background: var(--glass-bg-hover);
+}
+
+.verse-number {
+    width: 2rem;
+    height: 2rem;
+    background: var(--gradient-secondary);
+    color: var(--bg-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.875rem;
+    flex-shrink: 0;
+    box-shadow: var(--shadow-sm);
+    margin-top: 0.25rem;
+}
+
+.verse-text {
+    flex: 1;
+    font-size: 2rem;
+    line-height: 3.5;
+    color: var(--text-primary);
+    font-family: 'Amiri', 'Scheherazade New', 'Noto Naskh Arabic', serif;
+    font-weight: 400;
+    text-align: justify;
+    direction: rtl;
+    word-spacing: 0.15em;
+    letter-spacing: 0.02em;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.page-footer {
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-md);
+    border-top: 2px solid var(--glass-border);
+    display: flex;
+    justify-content: center;
+}
+
+.btn-save-page {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: 0.75rem 1.5rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: transform 0.3s ease-out, background 0.3s ease-out, box-shadow 0.3s ease-out, border-color 0.3s ease-out;
+}
+
+.btn-save-page:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--secondary);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* ========== NAVIGATION FOOTER ========== */
+.surah-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+    padding: var(--spacing-xl);
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    margin-top: var(--spacing-2xl);
+    flex-wrap: wrap;
+    transition: transform 0.3s ease-out, background 0.3s ease-out, box-shadow 0.3s ease-out, border-color 0.3s ease-out;
+}
+
+.surah-navigation:hover {
+    background: var(--glass-bg-hover);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-1px);
+}
+
+.nav-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: 0.875rem 1.5rem;
+    background: var(--gradient-primary);
+    color: var(--text-primary);
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+    box-shadow: var(--shadow-sm);
+}
+
+.nav-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-glow);
+}
+
+.nav-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.page-navigation {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.page-input {
+    width: 80px;
+    padding: 0.875rem;
+    background: var(--glass-bg);
+    border: 2px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-family: var(--font-primary);
+    text-align: center;
+    transition: border-color 0.3s ease-out, background 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+
+.page-input:focus {
+    outline: none;
+    border-color: var(--secondary);
+    background: var(--glass-bg-hover);
+    box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+}
+
+.page-total {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    white-space: nowrap;
+}
+
+.surah-selector {
+    flex: 1;
+    min-width: 200px;
+}
+
+.surah-select {
+    width: 100%;
+    padding: 0.875rem 1.25rem;
+    background: rgba(20, 30, 25, 0.95) !important;
+    border: 2px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary) !important;
+    font-size: 1rem;
+    font-family: var(--font-primary);
+    cursor: pointer;
+    transition: border-color 0.3s ease-out, background 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+
+.surah-select:focus {
+    outline: none;
+    border-color: var(--secondary);
+    background: rgba(20, 30, 25, 0.98) !important;
+    box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+}
+
+.surah-select option {
+    background: rgba(20, 30, 25, 0.98);
+    color: var(--text-primary);
+    padding: 0.5rem;
+}
+
+/* ========== RESPONSIVE DESIGN ========== */
+@media (max-width: 768px) {
+    .surah-title {
+        font-size: 2rem;
+    }
+    
+    .verse-text {
+        font-size: 1.5rem;
+        line-height: 2.5;
+    }
+    
+    .bismillah {
+        font-size: 1.5rem;
+        line-height: 2.5;
+    }
+    
+    .btn-save-page-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.25rem;
+        top: var(--spacing-sm);
+        left: var(--spacing-sm);
+    }
+    
+    .verse-number {
+        width: 2rem;
+        height: 2rem;
+        font-size: 0.875rem;
+    }
+    
+    .surah-navigation {
+        flex-direction: column;
+    }
+    
+    .nav-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .surah-selector {
+        width: 100%;
+    }
+    
+    .page-navigation {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .surah-navigation {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+    
+    .nav-btn {
+        width: 100%;
+    }
+}
+

@@ -59,7 +59,7 @@ class ThaqalaynProvider {
                 if (query) {
                     clearSearch.style.display = 'flex';
                     searchTimeout = setTimeout(() => {
-                        this.searchAllBooks(query);
+                        this.performSearchAllBooks(query);
                     }, 500);
                 } else {
                     clearSearch.style.display = 'none';
@@ -82,9 +82,9 @@ class ThaqalaynProvider {
                 const query = searchInput.value.trim();
                 if (query) {
                     if (this.selectedBookId) {
-                        this.searchInBook(this.selectedBookId, query);
+                        this.performSearchInBook(this.selectedBookId, query);
                     } else {
-                        this.searchAllBooks(query);
+                        this.performSearchAllBooks(query);
                     }
                 }
             });
@@ -185,7 +185,7 @@ class ThaqalaynProvider {
         }
     }
     
-    async searchAllBooks(query) {
+    async performSearchAllBooks(query) {
         if (!query.trim()) {
             this.clearSearch();
             return;
@@ -197,7 +197,7 @@ class ThaqalaynProvider {
         
         try {
             const data = await this.searchAllBooks(query);
-            this.searchResults = data.map(item => this.parseHadith(item));
+            this.searchResults = Array.isArray(data) ? data.map(item => this.parseHadith(item)) : [];
             this.renderSearchResults();
         } catch (e) {
             this.searchError = e.message;
@@ -208,7 +208,7 @@ class ThaqalaynProvider {
         }
     }
     
-    async searchInBook(bookId, query) {
+    async performSearchInBook(bookId, query) {
         if (!query.trim()) {
             this.clearSearch();
             return;
@@ -220,7 +220,7 @@ class ThaqalaynProvider {
         
         try {
             const data = await this.searchInBook(bookId, query);
-            this.searchResults = data.map(item => this.parseHadith(item));
+            this.searchResults = Array.isArray(data) ? data.map(item => this.parseHadith(item)) : [];
             this.renderSearchResults();
         } catch (e) {
             this.searchError = e.message;
@@ -334,7 +334,7 @@ class ThaqalaynProvider {
         const grid = document.getElementById('booksGrid');
         if (!grid) return;
         
-        if (this.books.length === 0) {
+        if (!Array.isArray(this.books) || this.books.length === 0) {
             grid.style.display = 'none';
             return;
         }
@@ -377,7 +377,8 @@ class ThaqalaynProvider {
         const viewBtn = card.querySelector('.btn-view-book');
         if (viewBtn) {
             viewBtn.addEventListener('click', () => {
-                this.loadBookHadiths(book.id);
+                // Navigate to book hadiths page
+                window.location.href = `thaqalayn-book.html?bookId=${book.id}`;
             });
         }
         
@@ -478,7 +479,7 @@ class ThaqalaynProvider {
         
         try {
             const data = await this.getAllHadithOfBook(bookId);
-            this.searchResults = data.map(item => this.parseHadith(item));
+            this.searchResults = Array.isArray(data) ? data.map(item => this.parseHadith(item)) : [];
             this.renderSearchResults();
             
             const section = document.getElementById('searchResultsSection');
@@ -502,13 +503,15 @@ class ThaqalaynProvider {
         // Clear existing options except "all books"
         filter.innerHTML = '<option value="">جميع الكتب</option>';
         
-        this.books.forEach(bookData => {
-            const book = this.parseBook(bookData);
-            const option = document.createElement('option');
-            option.value = book.id;
-            option.textContent = book.title;
-            filter.appendChild(option);
-        });
+        if (Array.isArray(this.books) && this.books.length > 0) {
+            this.books.forEach(bookData => {
+                const book = this.parseBook(bookData);
+                const option = document.createElement('option');
+                option.value = book.id;
+                option.textContent = book.title;
+                filter.appendChild(option);
+            });
+        }
     }
     
     showBooksError() {

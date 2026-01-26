@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تفاصيل المنشور - تهجّد</title>
+    <title>قراءة السورة - القرآن الكريم - تهجّد</title>
     
     <!-- Link CSS Files -->
     <link rel="stylesheet" href="../css/root-variables.css">
     <link rel="stylesheet" href="../css/global-styles.css">
-    <link rel="stylesheet" href="../css/posts.css">
+    <link rel="stylesheet" href="../css/quran.css">
+    <link rel="stylesheet" href="../css/quran-surah.css">
     <link rel="stylesheet" href="../css/animations.css">
     
     <!-- Google Fonts - Arabic Support -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700&family=Scheherazade+New:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body class="emerald-theme posts-page post-details-page">
+<body class="emerald-theme quran-page">
     
     <!-- Animated Background Particles -->
     <div class="particles-container" id="particles"></div>
@@ -32,10 +33,10 @@
                 <li><a href="hijri-calendar.html">التقويم الهجري</a></li>
                 <li><a href="self-accountability.html">محاسبة النفس</a></li>
                 <li><a href="istikhara.html">الاستخارة</a></li>
-                <li><a href="post_page.html" class="active">المنشورات</a></li>
+                <li><a href="post_page.html">المنشورات</a></li>
                 <li><a href="leaderthink.html">فكر القائد</a></li>
                 <li><a href="thaqalayn.html">الثقلين</a></li>
-                <li><a href="quran.html">القرآن الكريم</a></li>
+                <li><a href="quran.html" class="active">القرآن الكريم</a></li>
                 <li><a href="hyder-ai.html">اسأل hyder.ai</a></li>
             </ul>
             
@@ -102,98 +103,81 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Mobile Menu Toggle -->
-            <button class="mobile-menu-toggle" id="mobileMenuBtn">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
         </div>
     </nav>
     
     <!-- Main Content -->
-    <main class="posts-main">
-        <div class="posts-container">
+    <main class="quran-main">
+        <div class="quran-container">
             
-            <!-- Back Link -->
-            <section class="page-header fade-in-up">
-                <a href="post_page.html" class="back-link">
-                    <span class="back-icon">←</span>
-                    <span>العودة إلى جميع المنشورات</span>
-                </a>
-            </section>
-            
-            <!-- Post Details -->
-            <section class="post-details-section fade-in-up delay-1">
-                <article class="post-details-card glass-card">
-                    <header class="post-details-header">
-                        <div class="post-author">
-                            <div class="author-avatar" id="detailAvatar">م</div>
-                            <div class="author-info">
-                                <span class="author-name" id="detailAuthorName">...</span>
-                                <span class="post-meta" id="detailMeta">...</span>
-                            </div>
-                        </div>
-                    </header>
-                    
-                    <h1 class="post-details-title" id="detailTitle">...</h1>
-                    
-                    <figure class="post-details-image-wrapper" id="detailImageWrapper" style="display: none;">
-                        <img id="detailImage" alt="صورة المنشور" class="post-details-image">
-                    </figure>
-                    
-                    <div class="post-details-content" id="detailContent">
-                        <!-- المحتوى النصي -->
-                    </div>
-                    
-                    <section class="post-translation" id="translationSection" style="display: none;">
-                        <h2 class="translation-title">الترجمة إلى الإنجليزية</h2>
-                        <p class="translation-text" id="translationText"></p>
-                    </section>
-                    
-                    <footer class="post-details-footer">
-                        <div class="post-tags" id="detailTags">
-                            <!-- الوسوم -->
-                        </div>
-                        
-                        <div class="post-details-actions">
-                            <button class="post-action-btn" id="copyPostBtn" type="button">
-                                <span>نسخ النص</span>
-                            </button>
-                            <button class="post-action-btn" id="translatePostBtn" type="button">
-                                <span>ترجمة إلى الإنجليزية</span>
-                            </button>
-                            <button class="post-action-btn" id="sharePostBtn" type="button">
-                                <span>مشاركة</span>
-                            </button>
-                        </div>
-                    </footer>
-                </article>
+            <!-- Surah Header -->
+            <header class="surah-reader-header fade-in-up">
+                <button class="btn-back" onclick="window.location.href='quran.html'">
+                    <span>←</span>
+                    <span>العودة إلى السور</span>
+                </button>
                 
-                <div class="no-posts-message" id="postNotFound" style="display: none;">
-                    <p>لم يتم العثور على هذا المنشور أو لم يعد متاحاً.</p>
-                    <a href="post_page.html" class="btn-primary" style="margin-top: 1rem;">العودة إلى قائمة المنشورات</a>
+                <div class="surah-title-section">
+                    <h1 class="surah-title" id="surahTitle">جاري التحميل...</h1>
+                    <p class="surah-info" id="surahInfo"></p>
+                </div>
+            </header>
+            
+            <!-- Loading State -->
+            <div class="loading-state" id="loadingState">
+                <div class="loading-spinner"></div>
+                <p>جاري تحميل السورة...</p>
+            </div>
+            
+            <!-- Error State -->
+            <div class="error-state" id="errorState" style="display: none;"></div>
+            
+            <!-- Surah Content -->
+            <section class="surah-content-section" id="surahContentSection" style="display: none;">
+                <div class="verses-container" id="versesContainer">
+                    <!-- Verses will be populated by JavaScript -->
                 </div>
             </section>
+            
+            <!-- Navigation Footer -->
+            <footer class="surah-navigation" id="surahNavigation" style="display: none;">
+                <button class="nav-btn prev-btn" id="btnPrevSurah">
+                    <span>←</span>
+                    <span>الصفحة السابقة</span>
+                </button>
+                <div class="page-navigation">
+                    <input 
+                        type="number" 
+                        id="pageInput" 
+                        class="page-input" 
+                        min="1" 
+                        max="604" 
+                        placeholder="رقم الصفحة"
+                        value="1">
+                    <span class="page-total">من 604</span>
+                </div>
+                <div class="surah-selector">
+                    <select id="surahSelector" class="surah-select">
+                        <option value="">اختر سورة</option>
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                </div>
+                <button class="nav-btn next-btn" id="btnNextSurah">
+                    <span>الصفحة التالية</span>
+                    <span>→</span>
+                </button>
+            </footer>
+            
         </div>
     </main>
     
-    <!-- Toast Notification -->
-    <div id="postDetailsToast" class="posts-toast"></div>
-    
-    <!-- Link JavaScript Files -->
+    <!-- Scripts -->
     <script src="../js/theme-manager.js"></script>
+    <script src="../js/navigation.js"></script>
     <script src="../js/particles.js"></script>
     <script src="../js/animations.js"></script>
-    <script src="../js/logo-loader.js"></script>
-    <script src="../js/navigation.js"></script>
-    <script src="../js/mouse-light-tracker.js"></script>
     <script src="../js/user-navigation.js"></script>
-    <script src="../js/api.js"></script>
-    <script src="../js/prayer-times.js"></script>
-    <script src="../js/post-details.js"></script>
+    <script src="../js/quran-surah.js"></script>
 </body>
 </html>
-
 

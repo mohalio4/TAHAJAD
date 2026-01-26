@@ -479,6 +479,69 @@
     color: var(--text-secondary);
 }
 
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: var(--spacing-md);
+    opacity: 0.5;
+}
+
+.empty-text {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+}
+
+/* ========== BOOK HADITHS PAGE ========== */
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: 0.75rem 1.5rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    margin-top: var(--spacing-md);
+    text-decoration: none;
+}
+
+.btn-back:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--secondary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.book-hadiths-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+.search-wrapper-inline {
+    position: relative;
+    flex: 1;
+    max-width: 400px;
+}
+
+.hadith-number {
+    position: absolute;
+    top: -0.5rem;
+    right: -0.5rem;
+    background: var(--gradient-secondary);
+    color: var(--bg-primary);
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.875rem;
+    box-shadow: var(--shadow-md);
+}
+
 /* ========== RESPONSIVE DESIGN ========== */
 @media (max-width: 768px) {
     .thaqalayn-container {

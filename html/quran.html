@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الثقلين - تهجّد</title>
+    <title>القرآن الكريم - تهجّد</title>
     
     <!-- Link CSS Files -->
     <link rel="stylesheet" href="../css/root-variables.css">
     <link rel="stylesheet" href="../css/global-styles.css">
-    <link rel="stylesheet" href="../css/thaqalayn.css">
+    <link rel="stylesheet" href="../css/quran.css">
     <link rel="stylesheet" href="../css/animations.css">
     
     <!-- Google Fonts - Arabic Support -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body class="emerald-theme thaqalayn-page">
+<body class="emerald-theme quran-page">
     
     <!-- Animated Background Particles -->
     <div class="particles-container" id="particles"></div>
@@ -34,8 +34,8 @@
                 <li><a href="istikhara.html">الاستخارة</a></li>
                 <li><a href="post_page.html">المنشورات</a></li>
                 <li><a href="leaderthink.html">فكر القائد</a></li>
-                <li><a href="thaqalayn.html" class="active">الثقلين</a></li>
-                <li><a href="quran.html">القرآن الكريم</a></li>
+                <li><a href="thaqalayn.html">الثقلين</a></li>
+                <li><a href="quran.html" class="active">القرآن الكريم</a></li>
                 <li><a href="hyder-ai.html">اسأل hyder.ai</a></li>
             </ul>
             
@@ -106,120 +106,104 @@
     </nav>
     
     <!-- Main Content -->
-    <main class="thaqalayn-main">
-        <div class="thaqalayn-container">
+    <main class="quran-main">
+        <div class="quran-container">
             
             <!-- Page Header -->
-            <header class="thaqalayn-header fade-in-up">
+            <header class="quran-header fade-in-up">
                 <div class="header-content glass-card">
-                    <div class="header-icon">📚</div>
-                    <h1 class="page-title">الثقلين</h1>
-                    <p class="page-subtitle">مكتبة شاملة للأحاديث والكتب الإسلامية</p>
+                    <div class="header-icon">📖</div>
+                    <h1 class="page-title">القرآن الكريم</h1>
+                    <p class="page-subtitle">اقرأ وتدبر في كلام الله تعالى</p>
                 </div>
             </header>
             
-            <!-- Random Hadith Section -->
-            <section class="random-hadith-section fade-in-up delay-1">
-                <div class="random-hadith-card glass-card">
-                    <div class="section-header-row">
-                        <h2 class="section-title">
-                            <span class="title-icon">🎲</span>
-                            <span>حديث عشوائي</span>
-                        </h2>
-                        <button class="btn-refresh" id="refreshRandomBtn">
-                            <span class="refresh-icon">🔄</span>
-                            <span>تحديث</span>
+            <!-- Continue Reading Section -->
+            <section class="continue-reading-section fade-in-up delay-1" id="continueReadingSection" style="display: none;">
+                <div class="continue-card glass-card">
+                    <div class="continue-header">
+                        <span class="continue-icon">📌</span>
+                        <h2 class="continue-title">تابع القراءة</h2>
+                    </div>
+                    <div class="continue-content">
+                        <p class="continue-text" id="continueText"></p>
+                        <button class="btn-continue" id="btnContinue">
+                            <span>متابعة القراءة</span>
+                            <span>→</span>
                         </button>
-                    </div>
-                    
-                    <div class="loading-state" id="randomLoading" style="display: none;">
-                        <div class="loading-spinner"></div>
-                        <p>جاري التحميل...</p>
-                    </div>
-                    
-                    <div class="error-state" id="randomError" style="display: none;"></div>
-                    
-                    <div class="random-hadith-content" id="randomHadithContent" style="display: none;">
-                        <div class="hadith-book-name" id="randomBookName"></div>
-                        <div class="hadith-text" id="randomArabicText"></div>
-                        <div class="hadith-text-english" id="randomEnglishText"></div>
-                        <div class="hadith-meta">
-                            <span class="hadith-narrator" id="randomNarrator"></span>
-                            <span class="hadith-grade" id="randomGrade"></span>
-                        </div>
-                        <a href="#" id="randomReference" target="_blank" class="hadith-reference" style="display: none;">المصدر</a>
+                        <button class="btn-remove-continue" id="btnRemoveContinue">
+                            <span>إزالة</span>
+                        </button>
                     </div>
                 </div>
             </section>
             
-            <!-- Search Section -->
-            <section class="search-section fade-in-up delay-2">
-                <div class="search-container glass-card">
+            <!-- Saved Pages Section -->
+            <section class="saved-pages-section fade-in-up delay-1" id="savedPagesSection" style="display: none;">
+                <div class="saved-pages-card glass-card">
+                    <div class="section-header-row">
+                        <h2 class="section-title">
+                            <span class="title-icon">💾</span>
+                            <span>الصفحات المحفوظة</span>
+                        </h2>
+                        <button class="btn-clear-saved" id="btnClearSaved">
+                            <span>🗑️</span>
+                            <span>مسح الكل</span>
+                        </button>
+                    </div>
+                    <div class="saved-pages-list" id="savedPagesList">
+                        <!-- Saved pages will be populated by JavaScript -->
+                    </div>
+                    <div class="empty-saved" id="emptySaved" style="display: none;">
+                        <div class="empty-icon">📖</div>
+                        <p class="empty-text">لا توجد صفحات محفوظة</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Search and Filter Section -->
+            <section class="search-filter-section fade-in-up delay-2">
+                <div class="search-filter-container glass-card">
                     <div class="search-wrapper">
                         <div class="search-icon">🔍</div>
                         <input 
                             type="text" 
                             id="searchInput" 
                             class="search-input" 
-                            placeholder="ابحث في الأحاديث..."
+                            placeholder="ابحث عن سورة..."
                             autocomplete="off">
                         <button class="clear-search" id="clearSearch" style="display: none;">✕</button>
                     </div>
                     
-                    <div class="filter-wrapper">
-                        <label for="bookFilter" class="filter-label">
-                            <span class="filter-icon">📖</span>
-                            <span>اختر الكتاب:</span>
-                        </label>
-                        <select id="bookFilter" class="filter-select">
-                            <option value="">جميع الكتب</option>
-                        </select>
-                    </div>
-                    
-                    <div class="results-info" id="searchResultsInfo" style="display: none;">
-                        <span id="searchResultsCount">0</span> نتيجة
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">
+                            <span>الكل</span>
+                        </button>
+                        <button class="filter-btn" data-filter="makki">
+                            <span>مكية</span>
+                        </button>
+                        <button class="filter-btn" data-filter="madani">
+                            <span>مدنية</span>
+                        </button>
                     </div>
                 </div>
             </section>
             
-            <!-- Books Section -->
-            <section class="books-section fade-in-up delay-3">
-                <div class="section-header-row">
-                    <h2 class="section-title">
-                        <span class="title-icon">📚</span>
-                        <span>الكتب</span>
-                    </h2>
-                    <button class="btn-refresh" id="refreshBooksBtn">
-                        <span class="refresh-icon">🔄</span>
-                        <span>تحديث</span>
-                    </button>
+            <!-- Surahs Grid -->
+            <section class="surahs-section fade-in-up delay-3">
+                <div class="surahs-grid" id="surahsGrid">
+                    <!-- Surahs will be populated by JavaScript -->
                 </div>
                 
-                <div class="loading-state" id="booksLoading">
+                <div class="loading-state" id="loadingState">
                     <div class="loading-spinner"></div>
-                    <p>جاري تحميل الكتب...</p>
+                    <p>جاري تحميل السور...</p>
                 </div>
                 
-                <div class="error-state" id="booksError" style="display: none;"></div>
-                
-                <div class="books-grid" id="booksGrid" style="display: none;"></div>
-            </section>
-            
-            <!-- Search Results Section -->
-            <section class="search-results-section" id="searchResultsSection" style="display: none;">
-                <h2 class="section-title">
-                    <span class="title-icon">🔍</span>
-                    <span>نتائج البحث</span>
-                </h2>
-                
-                <div class="loading-state" id="searchLoading" style="display: none;">
-                    <div class="loading-spinner"></div>
-                    <p>جاري البحث...</p>
+                <div class="empty-state" id="emptyState" style="display: none;">
+                    <div class="empty-icon">📖</div>
+                    <p class="empty-text">لا توجد نتائج</p>
                 </div>
-                
-                <div class="error-state" id="searchError" style="display: none;"></div>
-                
-                <div class="hadiths-list" id="searchResultsList"></div>
             </section>
             
         </div>
@@ -231,7 +215,7 @@
     <script src="../js/particles.js"></script>
     <script src="../js/animations.js"></script>
     <script src="../js/user-navigation.js"></script>
-    <script src="../js/thaqalayn.js"></script>
+    <script src="../js/quran.js"></script>
 </body>
 </html>
 
