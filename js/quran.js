@@ -4,6 +4,40 @@
 
 class QuranManager {
     constructor() {
+        // Quran Ajzaa (30 parts) with their surahs
+        this.ajzaa = [
+            { number: 1, surahs: [1, 2], startSurah: 1, endSurah: 2, startAyah: 1, endAyah: 141 },
+            { number: 2, surahs: [2], startSurah: 2, endSurah: 2, startAyah: 142, endAyah: 252 },
+            { number: 3, surahs: [2], startSurah: 2, endSurah: 2, startAyah: 253, endAyah: 286 },
+            { number: 4, surahs: [3], startSurah: 3, endSurah: 3, startAyah: 1, endAyah: 92 },
+            { number: 5, surahs: [3, 4], startSurah: 3, endSurah: 4, startAyah: 93, endAyah: 176 },
+            { number: 6, surahs: [4, 5], startSurah: 4, endSurah: 5, startAyah: 177, endAyah: 120 },
+            { number: 7, surahs: [5, 6], startSurah: 5, endSurah: 6, startAyah: 121, endAyah: 165 },
+            { number: 8, surahs: [6, 7], startSurah: 6, endSurah: 7, startAyah: 166, endAyah: 206 },
+            { number: 9, surahs: [7, 8], startSurah: 7, endSurah: 8, startAyah: 207, endAyah: 75 },
+            { number: 10, surahs: [8, 9], startSurah: 8, endSurah: 9, startAyah: 76, endAyah: 129 },
+            { number: 11, surahs: [9, 10, 11], startSurah: 9, endSurah: 11, startAyah: 130, endAyah: 123 },
+            { number: 12, surahs: [11, 12], startSurah: 11, endSurah: 12, startAyah: 124, endAyah: 111 },
+            { number: 13, surahs: [12, 13, 14], startSurah: 12, endSurah: 14, startAyah: 112, endAyah: 52 },
+            { number: 14, surahs: [15, 16], startSurah: 15, endSurah: 16, startAyah: 1, endAyah: 128 },
+            { number: 15, surahs: [17, 18], startSurah: 17, endSurah: 18, startAyah: 1, endAyah: 110 },
+            { number: 16, surahs: [18, 19, 20], startSurah: 18, endSurah: 20, startAyah: 111, endAyah: 135 },
+            { number: 17, surahs: [21, 22], startSurah: 21, endSurah: 22, startAyah: 1, endAyah: 78 },
+            { number: 18, surahs: [23, 24, 25], startSurah: 23, endSurah: 25, startAyah: 1, endAyah: 77 },
+            { number: 19, surahs: [25, 26, 27], startSurah: 25, endSurah: 27, startAyah: 78, endAyah: 93 },
+            { number: 20, surahs: [27, 28, 29], startSurah: 27, endSurah: 29, startAyah: 94, endAyah: 69 },
+            { number: 21, surahs: [29, 30, 31, 32, 33], startSurah: 29, endSurah: 33, startAyah: 70, endAyah: 73 },
+            { number: 22, surahs: [33, 34, 35, 36], startSurah: 33, endSurah: 36, startAyah: 74, endAyah: 83 },
+            { number: 23, surahs: [36, 37, 38, 39], startSurah: 36, endSurah: 39, startAyah: 84, endAyah: 75 },
+            { number: 24, surahs: [39, 40, 41], startSurah: 39, endSurah: 41, startAyah: 76, endAyah: 54 },
+            { number: 25, surahs: [41, 42, 43, 44, 45], startSurah: 41, endSurah: 45, startAyah: 55, endAyah: 37 },
+            { number: 26, surahs: [46, 47, 48, 49, 50], startSurah: 46, endSurah: 50, startAyah: 1, endAyah: 45 },
+            { number: 27, surahs: [51, 52, 53, 54, 55], startSurah: 51, endSurah: 55, startAyah: 1, endAyah: 78 },
+            { number: 28, surahs: [56, 57, 58, 59, 60, 61], startSurah: 56, endSurah: 61, startAyah: 1, endAyah: 14 },
+            { number: 29, surahs: [62, 63, 64, 65, 66, 67], startSurah: 62, endSurah: 67, startAyah: 1, endAyah: 30 },
+            { number: 30, surahs: [67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114], startSurah: 67, endSurah: 114, startAyah: 31, endAyah: 6 }
+        ];
+        
         // All 114 surahs data
         this.surahs = [
             { number: 1, name: 'الفاتحة', englishName: 'Al-Fatiha', ayahs: 7, type: 'makki', revelationOrder: 5 },
@@ -122,64 +156,61 @@ class QuranManager {
             { number: 114, name: 'الناس', englishName: 'An-Nas', ayahs: 6, type: 'makki', revelationOrder: 21 }
         ];
         
-        this.currentFilter = 'all';
-        this.searchQuery = '';
         this.savedProgress = this.loadSavedProgress();
         
         this.init();
     }
     
     init() {
-        this.renderSurahs();
+        this.renderSurahsList();
         this.setupEventListeners();
         this.updateContinueReading();
         this.renderSavedPages();
     }
     
+    getJuzForSurah(surahNumber) {
+        for (const juz of this.ajzaa) {
+            if (juz.surahs.includes(surahNumber)) {
+                return juz.number;
+            }
+        }
+        return null;
+    }
+    
     setupEventListeners() {
-        const searchInput = document.getElementById('searchInput');
-        const clearSearch = document.getElementById('clearSearch');
-        const filterButtons = document.querySelectorAll('.filter-btn');
         const btnContinue = document.getElementById('btnContinue');
         const btnRemoveContinue = document.getElementById('btnRemoveContinue');
+        const quranSearchInput = document.getElementById('quranSearchInput');
+        const clearQuranSearch = document.getElementById('clearQuranSearch');
         
-        if (searchInput) {
+        // Quran search functionality
+        if (quranSearchInput) {
             let searchTimeout;
-            searchInput.addEventListener('input', (e) => {
+            quranSearchInput.addEventListener('input', (e) => {
                 clearTimeout(searchTimeout);
-                this.searchQuery = e.target.value.trim();
+                const query = e.target.value.trim();
                 
-                if (this.searchQuery) {
-                    if (clearSearch) clearSearch.style.display = 'flex';
+                if (query) {
+                    if (clearQuranSearch) clearQuranSearch.style.display = 'flex';
                     searchTimeout = setTimeout(() => {
-                        this.renderSurahs();
+                        this.searchQuran(query);
                     }, 300);
                 } else {
-                    if (clearSearch) clearSearch.style.display = 'none';
-                    this.renderSurahs();
+                    if (clearQuranSearch) clearQuranSearch.style.display = 'none';
+                    this.clearSearchResults();
                 }
             });
         }
         
-        if (clearSearch) {
-            clearSearch.addEventListener('click', () => {
-                if (searchInput) {
-                    searchInput.value = '';
-                    this.searchQuery = '';
-                    clearSearch.style.display = 'none';
-                    this.renderSurahs();
+        if (clearQuranSearch) {
+            clearQuranSearch.addEventListener('click', () => {
+                if (quranSearchInput) {
+                    quranSearchInput.value = '';
+                    this.clearSearchResults();
+                    if (clearQuranSearch) clearQuranSearch.style.display = 'none';
                 }
             });
         }
-        
-        filterButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterButtons.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                this.currentFilter = btn.dataset.filter;
-                this.renderSurahs();
-            });
-        });
         
         if (btnContinue) {
             btnContinue.addEventListener('click', () => {
@@ -205,7 +236,49 @@ class QuranManager {
         }
     }
     
-    renderSurahs() {
+    renderSurahsList() {
+        const list = document.getElementById('surahsList');
+        if (!list) return;
+        
+        list.innerHTML = '';
+        
+        // Get unique surahs with their juz numbers
+        const surahsWithJuz = this.surahs.map(surah => {
+            const juzNumber = this.getJuzForSurah(surah.number);
+            return { ...surah, juz: juzNumber };
+        });
+        
+        surahsWithJuz.forEach(surah => {
+            const surahItem = this.createSurahListItem(surah);
+            list.appendChild(surahItem);
+        });
+    }
+    
+    createSurahListItem(surah) {
+        const item = document.createElement('div');
+        item.className = 'surah-list-item';
+        item.dataset.surah = surah.number;
+        
+        item.innerHTML = `
+            <div class="surah-list-number">${surah.number}</div>
+            <div class="surah-list-info">
+                <div class="surah-list-name">${surah.name}</div>
+                <div class="surah-list-english">${surah.englishName}</div>
+            </div>
+            <div class="surah-list-meta">
+                ${surah.juz ? `<span class="surah-list-juz">الجزء ${surah.juz}</span>` : ''}
+                <span class="surah-list-type ${surah.type}">${surah.type === 'makki' ? 'مكية' : 'مدنية'}</span>
+            </div>
+        `;
+        
+        item.addEventListener('click', () => {
+            this.openSurah(surah.number);
+        });
+        
+        return item;
+    }
+    
+    renderSurahs(filteredSurahs = null) {
         const grid = document.getElementById('surahsGrid');
         const loading = document.getElementById('loadingState');
         const empty = document.getElementById('emptyState');
@@ -215,22 +288,29 @@ class QuranManager {
         if (loading) loading.style.display = 'none';
         
         // Filter surahs
-        let filtered = this.surahs.filter(surah => {
-            // Filter by type
-            if (this.currentFilter !== 'all' && surah.type !== this.currentFilter) {
-                return false;
-            }
-            
-            // Filter by search query
-            if (this.searchQuery) {
-                const query = this.searchQuery.toLowerCase();
-                return surah.name.includes(this.searchQuery) ||
-                       surah.englishName.toLowerCase().includes(query) ||
-                       surah.number.toString().includes(query);
-            }
-            
-            return true;
-        });
+        let filtered;
+        
+        // If filteredSurahs is provided (from juz view), use it
+        if (filteredSurahs) {
+            filtered = this.surahs.filter(surah => filteredSurahs.includes(surah.number));
+        } else {
+            filtered = this.surahs.filter(surah => {
+                // Filter by type
+                if (this.currentFilter !== 'all' && surah.type !== this.currentFilter) {
+                    return false;
+                }
+                
+                // Filter by search query
+                if (this.searchQuery) {
+                    const query = this.searchQuery.toLowerCase();
+                    return surah.name.includes(this.searchQuery) ||
+                           surah.englishName.toLowerCase().includes(query) ||
+                           surah.number.toString().includes(query);
+                }
+                
+                return true;
+            });
+        }
         
         if (filtered.length === 0) {
             grid.style.display = 'none';
@@ -413,6 +493,152 @@ class QuranManager {
     clearSavedPages() {
         localStorage.removeItem('quranSavedPages');
         this.renderSavedPages();
+    }
+    
+    async searchQuran(query) {
+        const searchResults = document.getElementById('searchResults');
+        const searchResultsList = document.getElementById('searchResultsList');
+        const searchEmpty = document.getElementById('searchEmpty');
+        const resultsCount = document.getElementById('resultsCount');
+        
+        if (!searchResults || !searchResultsList) return;
+        
+        // Show loading state
+        searchResults.style.display = 'block';
+        searchResultsList.innerHTML = '<div class="search-loading">جاري البحث...</div>';
+        if (searchEmpty) searchEmpty.style.display = 'none';
+        
+        try {
+            const queryLower = query.toLowerCase().trim();
+            const queryArabic = query.trim();
+            
+            // Search in surahs
+            const surahMatches = this.surahs.filter(surah => {
+                return surah.name.includes(queryArabic) ||
+                       surah.englishName.toLowerCase().includes(queryLower) ||
+                       surah.number.toString() === query ||
+                       surah.name.toLowerCase().includes(queryLower);
+            });
+            
+            // Remove duplicates (keep only first occurrence)
+            const seenSurahs = new Set();
+            const uniqueSurahMatches = surahMatches.filter(surah => {
+                if (seenSurahs.has(surah.number)) {
+                    return false;
+                }
+                seenSurahs.add(surah.number);
+                return true;
+            });
+            
+            // Search in verses using API
+            let verseMatches = [];
+            try {
+                // Try Arabic search first
+                const response = await fetch(`https://api.alquran.cloud/v1/search/${encodeURIComponent(queryArabic)}/all/ar`);
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.data && data.data.matches) {
+                        // Remove duplicate verses (same surah and verse number)
+                        const seenVerses = new Set();
+                        verseMatches = data.data.matches.filter(match => {
+                            const key = `${match.surah.number}-${match.numberInSurah}`;
+                            if (seenVerses.has(key)) {
+                                return false;
+                            }
+                            seenVerses.add(key);
+                            return true;
+                        }).slice(0, 20); // Limit to 20 results
+                    }
+                }
+            } catch (error) {
+                console.log('Verse search API error:', error);
+            }
+            
+            // Combine and display results
+            const totalResults = uniqueSurahMatches.length + verseMatches.length;
+            
+            if (totalResults === 0) {
+                searchResults.style.display = 'none';
+                if (searchEmpty) searchEmpty.style.display = 'block';
+                return;
+            }
+            
+            if (searchEmpty) searchEmpty.style.display = 'none';
+            searchResults.style.display = 'block';
+            
+            if (resultsCount) {
+                resultsCount.textContent = `تم العثور على ${totalResults} نتيجة`;
+            }
+            
+            searchResultsList.innerHTML = '';
+            
+            // Display surah matches
+            if (uniqueSurahMatches.length > 0) {
+                const surahSection = document.createElement('div');
+                surahSection.className = 'search-results-section';
+                surahSection.innerHTML = '<h3 class="results-section-title">السور</h3>';
+                
+                uniqueSurahMatches.forEach(surah => {
+                    const surahItem = document.createElement('div');
+                    surahItem.className = 'search-result-item surah-result';
+                    surahItem.innerHTML = `
+                        <div class="result-icon">📖</div>
+                        <div class="result-content">
+                            <div class="result-title">${surah.name}</div>
+                            <div class="result-subtitle">${surah.englishName} • ${surah.type === 'makki' ? 'مكية' : 'مدنية'}</div>
+                        </div>
+                        <div class="result-action">→</div>
+                    `;
+                    surahItem.addEventListener('click', () => {
+                        this.openSurah(surah.number);
+                    });
+                    surahSection.appendChild(surahItem);
+                });
+                
+                searchResultsList.appendChild(surahSection);
+            }
+            
+            // Display verse matches
+            if (verseMatches.length > 0) {
+                const verseSection = document.createElement('div');
+                verseSection.className = 'search-results-section';
+                verseSection.innerHTML = '<h3 class="results-section-title">الآيات</h3>';
+                
+                verseMatches.forEach(match => {
+                    const verseItem = document.createElement('div');
+                    verseItem.className = 'search-result-item verse-result';
+                    const surah = this.surahs.find(s => s.number === match.surah.number);
+                    verseItem.innerHTML = `
+                        <div class="result-icon">📜</div>
+                        <div class="result-content">
+                            <div class="result-title">${surah ? surah.name : 'سورة ' + match.surah.number} - آية ${match.numberInSurah}</div>
+                            <div class="result-text">${match.text}</div>
+                        </div>
+                        <div class="result-action">→</div>
+                    `;
+                    verseItem.addEventListener('click', () => {
+                        // Calculate page number from verse (approximate)
+                        const page = Math.max(1, Math.ceil(match.numberInSurah / 20)); // Rough estimate
+                        this.openSurah(match.surah.number, page);
+                    });
+                    verseSection.appendChild(verseItem);
+                });
+                
+                searchResultsList.appendChild(verseSection);
+            }
+            
+        } catch (error) {
+            console.error('Search error:', error);
+            searchResultsList.innerHTML = '<div class="search-error">حدث خطأ أثناء البحث</div>';
+        }
+    }
+    
+    clearSearchResults() {
+        const searchResults = document.getElementById('searchResults');
+        const searchEmpty = document.getElementById('searchEmpty');
+        
+        if (searchResults) searchResults.style.display = 'none';
+        if (searchEmpty) searchEmpty.style.display = 'none';
     }
 }
 

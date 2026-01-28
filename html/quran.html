@@ -40,6 +40,7 @@
                 <li><a href="thaqalayn.html">الثقلين</a></li>
                 <li><a href="quran.html" class="active">القرآن الكريم</a></li>
                 <li><a href="hyder-ai.html">اسأل hyder.ai</a></li>
+                <li><a href="maktaba-masmouaa.html">مكتبة مسموعة</a></li>
             </ul>
             
             <div class="nav-actions">
@@ -145,6 +146,39 @@
                 </div>
             </section>
             
+            <!-- Search Section -->
+            <section class="search-section fade-in-up delay-1">
+                <div class="search-card glass-card">
+                    <div class="search-header">
+                        <span class="search-icon-large">🔍</span>
+                        <h2 class="search-title">البحث في القرآن</h2>
+                    </div>
+                    <div class="search-content">
+                        <div class="search-input-wrapper">
+                            <input 
+                                type="text" 
+                                id="quranSearchInput" 
+                                class="quran-search-input" 
+                                placeholder="ابحث عن سورة أو آية..."
+                                autocomplete="off">
+                            <button class="clear-search-btn" id="clearQuranSearch" style="display: none;">✕</button>
+                        </div>
+                        <div class="search-results" id="searchResults" style="display: none;">
+                            <div class="search-results-header">
+                                <span class="results-count" id="resultsCount"></span>
+                            </div>
+                            <div class="search-results-list" id="searchResultsList">
+                                <!-- Search results will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        <div class="search-empty" id="searchEmpty" style="display: none;">
+                            <div class="empty-icon">🔍</div>
+                            <p>لا توجد نتائج</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
             <!-- Saved Pages Section -->
             <section class="saved-pages-section fade-in-up delay-1" id="savedPagesSection" style="display: none;">
                 <div class="saved-pages-card glass-card">
@@ -168,37 +202,9 @@
                 </div>
             </section>
             
-            <!-- Search and Filter Section -->
-            <section class="search-filter-section fade-in-up delay-2">
-                <div class="search-filter-container glass-card">
-                    <div class="search-wrapper">
-                        <div class="search-icon">🔍</div>
-                        <input 
-                            type="text" 
-                            id="searchInput" 
-                            class="search-input" 
-                            placeholder="ابحث عن سورة..."
-                            autocomplete="off">
-                        <button class="clear-search" id="clearSearch" style="display: none;">✕</button>
-                    </div>
-                    
-                    <div class="filter-buttons">
-                        <button class="filter-btn active" data-filter="all">
-                            <span>الكل</span>
-                        </button>
-                        <button class="filter-btn" data-filter="makki">
-                            <span>مكية</span>
-                        </button>
-                        <button class="filter-btn" data-filter="madani">
-                            <span>مدنية</span>
-                        </button>
-                    </div>
-                </div>
-            </section>
-            
-            <!-- Surahs Grid -->
-            <section class="surahs-section fade-in-up delay-3">
-                <div class="surahs-grid" id="surahsGrid">
+            <!-- Surahs List -->
+            <section class="surahs-list-section fade-in-up delay-2" id="surahsListSection">
+                <div class="surahs-list" id="surahsList">
                     <!-- Surahs will be populated by JavaScript -->
                 </div>
                 

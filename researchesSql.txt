@@ -1,0 +1,240 @@
+
+supabase codes:
+
+
+Here’s everything merged into one SQL script you can paste into Supabase 👇
+
+```sql
+-- ================================
+-- 1. PROFILES TABLE + RLS
+-- ================================
+
+create table public.profiles (
+  id    uuid primary key references auth.users(id) on delete cascade,
+  name  text,
+  role  text not null default 'viewer' check (role in ('viewer', 'publisher', 'admin')),
+  created_at timestamptz not null default now()
+);
+
+alter table public.profiles enable row level security;
+
+-- Clean up any old policies (safe even if they don't exist)
+drop policy if exists "Users can read own profile" on public.profiles;
+drop policy if exists "Admins can read all profiles" on public.profiles;
+drop policy if exists "Users can update own profile" on public.profiles;
+drop policy if exists "Users can update own profile (no role change)" on public.profiles;
+drop policy if exists "Admins can update all profiles" on public.profiles;
+
+-- Users can read their own profile
+create policy "Users can read own profile"
+on public.profiles
+for select
+to authenticated
+using (auth.uid() = id);
+
+-- Admins can read any profile
+create policy "Admins can read all profiles"
+on public.profiles
+for select
+to authenticated
+using (
+  exists (
+    select 1
+    from public.profiles p
+    where p.id = auth.uid()
+      and p.role = 'admin'
+  )
+);
+
+-- Users can update own profile (no role change)
+create policy "Users can update own profile (no role change)"
+on public.profiles
+for update
+to authenticated
+using (auth.uid() = id)
+with check (
+  auth.uid() = id
+  and role = 'viewer'  -- non-admin users can't change their role
+);
+
+-- Admins can update any profile (including changing roles)
+create policy "Admins can update all profiles"
+on public.profiles
+for update
+to authenticated
+using (
+  exists (
+    select 1
+    from public.profiles p
+    where p.id = auth.uid()
+      and p.role = 'admin'
+  )
+)
+with check (
+  exists (
+    select 1
+    from public.profiles p
+    where p.id = auth.uid()
+      and p.role = 'admin'
+  )
+);
+
+-- ================================
+-- 2. RESEARCHES TABLE + TRIGGER
+-- ================================
+
+create table public.researches (
+  id             bigserial primary key,
+  title          text        not null,
+  content_plain  text        not null,
+  content_html   text        not null,
+  published_at   date        not null default current_date,
+  writer         text        not null,
+  publisher      text        not null,
+  keywords       text[]      default '{}',
+  views          bigint      not null default 0,
+
+  -- link to profiles (not directly to auth.users)
+  created_by     uuid        not null references public.profiles(id) on delete cascade,
+
+  created_at     timestamptz not null default now(),
+  updated_at     timestamptz not null default now()
+);
+
+-- Auto-update updated_at on update
+create or replace function public.set_researches_updated_at()
+returns trigger as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$ language plpgsql;
+
+drop trigger if exists trg_researches_updated_at on public.researches;
+
+create trigger trg_researches_updated_at
+before update on public.researches
+for each row execute procedure public.set_researches_updated_at();
+
+alter table public.researches enable row level security;
+
+-- ================================
+-- 3. RLS POLICIES FOR RESEARCHES
+-- ================================
+
+-- Clean up old policies if any
+drop policy if exists "Public can read researches" on public.researches;
+drop policy if exists "Publishers can insert researches" on public.researches;
+drop policy if exists "Owner or admin can update research" on public.researches;
+drop policy if exists "Owner or admin can delete research" on public.researches;
+
+-- 3.1 Everyone (even anon) can read
+create policy "Public can read researches"
+on public.researches
+for select
+using (true);
+
+-- 3.2 Only publishers/admins can INSERT (and they must own the row)
+create policy "Publishers can insert researches"
+on public.researches
+for insert
+to authenticated
+with check (
+  created_by = auth.uid()
+  and exists (
+    select 1
+    from public.profiles p
+    where p.id = auth.uid()
+      and p.role in ('publisher', 'admin')
+  )
+);
+
+-- 3.3 UPDATE: only owner or admin
+create policy "Owner or admin can update research"
+on public.researches
+for update
+to authenticated
+using (
+  created_by = auth.uid()
+  or exists (
+    select 1
+    from public.profiles p
+    where p.id = auth.uid()
+      and p.role = 'admin'
+  )
+)
+with check (
+  created_by = auth.uid()
+  or exists (
+    select 1
+    from public.profiles p
+    where p.id = auth.uid()
+      and p.role = 'admin'
+  )
+);
+
+-- 3.4 DELETE: only owner or admin
+create policy "Owner or admin can delete research"
+on public.researches
+for delete
+to authenticated
+using (
+  created_by = auth.uid()
+  or exists (
+    select 1
+    from public.profiles p
+    where p.id = auth.uid()
+      and p.role = 'admin'
+  )
+);
+
+-- ================================
+-- 4. INCREMENT VIEWS FUNCTION
+-- ================================
+
+drop function if exists public.increment_research_views(bigint);
+
+create or replace function public.increment_research_views(row_id bigint)
+returns void
+language sql
+security definer
+set search_path = public
+as $$
+  update public.researches
+  set views = views + 1
+  where id = row_id;
+$$;
+
+grant execute on function public.increment_research_views(bigint)
+  to anon, authenticated;
+
+-- ================================
+-- 5. (OPTIONAL) EXAMPLE ROLE ASSIGNMENTS
+-- ================================
+-- After creating users in Auth, insert profiles like this:
+--
+-- insert into public.profiles (id, name, role)
+-- values
+--   ('<PUBLISHER_UUID_HERE>', 'Publisher Name', 'publisher');
+--
+-- insert into public.profiles (id, name, role)
+-- values
+--   ('<ADMIN_UUID_HERE>', 'Admin Name', 'admin');
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
