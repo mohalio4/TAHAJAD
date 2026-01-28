@@ -13,6 +13,7 @@ class PrayerTimesManager {
         this.prayerAdjustments = this.loadPrayerAdjustments(); // Individual adjustments for each prayer
         this.hijriDateAdjustment = this.loadHijriDateAdjustment(); // Days to adjust from API date
         this.userCoordinates = this.loadUserCoordinates(); // User's actual lat/lng
+        this.alarmTimeouts = {}; // Track alarm timeout IDs
         
         // If no coordinates saved, initialize with Beirut default
         if (!this.userCoordinates || !this.userCoordinates.lat) {
@@ -84,6 +85,13 @@ class PrayerTimesManager {
         
         // Load saved settings (only if elements exist)
         this.loadSettings();
+        
+        // Update alarm button states and schedule alarms
+        this.updateAlarmButtons();
+        this.scheduleAlarms();
+        
+        // Request notification permission
+        this.requestNotificationPermission();
     }
     
     loadUserCoordinates() {
@@ -338,9 +346,7 @@ class PrayerTimesManager {
                     fajr: this.adjustTime(timings.Fajr, 'fajr'),
                     sunrise: timings.Sunrise,
                     dhuhr: this.adjustTime(timings.Dhuhr, 'dhuhr'),
-                    asr: this.adjustTime(timings.Asr, 'asr'),
-                    maghrib: this.adjustTime(timings.Maghrib, 'maghrib'),
-                    isha: this.adjustTime(timings.Isha, 'isha')
+                    maghrib: this.adjustTime(timings.Maghrib, 'maghrib')
                 };
                 
                 // Calculate Midnight (midpoint between Maghrib and Fajr of next day)
@@ -365,6 +371,9 @@ class PrayerTimesManager {
         // Update UI
         this.updatePrayerTimesUI();
         this.findNextPrayer();
+        
+        // Reschedule alarms with new times
+        this.scheduleAlarms();
     }
     
     adjustTime(timeString, prayerName) {
@@ -422,15 +431,13 @@ class PrayerTimesManager {
             fajr: '05:30',
             sunrise: '06:45',
             dhuhr: '12:15',
-            asr: '15:30',
             maghrib: '18:00',
-            isha: '19:30',
             midnight: '00:15'
         };
     }
     
     updatePrayerTimesUI() {
-        const prayers = ['imsak', 'fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha', 'midnight'];
+        const prayers = ['imsak', 'fajr', 'sunrise', 'dhuhr', 'maghrib', 'midnight'];
         
         prayers.forEach(prayer => {
             const timeElement = document.getElementById(`${prayer}Time`);
@@ -447,9 +454,7 @@ class PrayerTimesManager {
         const prayers = [
             { name: 'الفجر', key: 'fajr', time: this.prayerTimes.fajr },
             { name: 'الظهر', key: 'dhuhr', time: this.prayerTimes.dhuhr },
-            { name: 'العصر', key: 'asr', time: this.prayerTimes.asr },
-            { name: 'المغرب', key: 'maghrib', time: this.prayerTimes.maghrib },
-            { name: 'العشاء', key: 'isha', time: this.prayerTimes.isha }
+            { name: 'المغرب', key: 'maghrib', time: this.prayerTimes.maghrib }
         ];
         
         // Remove active class from all cards
@@ -492,15 +497,24 @@ class PrayerTimesManager {
     
     // ========== COUNTDOWN ==========
     startCountdown() {
+        // Clear any existing interval
+        if (this.countdownInterval) {
+            clearInterval(this.countdownInterval);
+        }
+        
+        if (!this.nextPrayer) {
+            this.findNextPrayer();
+        }
+        
         if (!this.nextPrayer) return;
         
-        const prayerNameEl = document.getElementById('currentPrayerName');
-        const prayerTimeEl = document.getElementById('currentPrayerTime');
+        // Update display immediately
+        this.updateCurrentPrayerDisplay();
         
-        if (prayerNameEl) prayerNameEl.textContent = this.nextPrayer.name;
-        if (prayerTimeEl) prayerTimeEl.textContent = this.nextPrayer.time;
-        
+        // Update countdown immediately
         this.updateCountdown();
+        
+        // Start interval
         this.countdownInterval = setInterval(() => this.updateCountdown(), 1000);
     }
     
@@ -508,7 +522,7 @@ class PrayerTimesManager {
         if (!this.nextPrayer) {
             // If no next prayer, try to find it
             this.findNextPrayer();
-        if (!this.nextPrayer) return;
+            if (!this.nextPrayer) return;
             this.updateCurrentPrayerDisplay();
         }
         
@@ -526,10 +540,17 @@ class PrayerTimesManager {
         const [prayerHours, prayerMinutes] = this.nextPrayer.time.split(':').map(Number);
         const prayerTime = prayerHours * 60 + prayerMinutes;
         
-        // If current time has passed the prayer time, find next prayer
+        // If current time has passed the prayer time, find next prayer and restart countdown
         if (prayerTime <= currentTime) {
+            const oldPrayerName = this.nextPrayer ? this.nextPrayer.name : null;
             this.findNextPrayer();
-            this.updateCurrentPrayerDisplay();
+            
+            // If prayer changed, restart countdown immediately
+            if (this.nextPrayer && this.nextPrayer.name !== oldPrayerName) {
+                this.updateCurrentPrayerDisplay();
+                // Restart countdown with new prayer
+                this.startCountdown();
+            }
             return;
         }
         
@@ -544,30 +565,17 @@ class PrayerTimesManager {
         if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
         if (minutesEl) minutesEl.textContent = String(minutes).padStart(2, '0');
         if (secondsEl) secondsEl.textContent = String(seconds).padStart(2, '0');
-        
-        // Update progress ring
-        this.updateProgressRing(diff);
-    }
-    
-    updateProgressRing(diff) {
-        const ring = document.getElementById('progressRing');
-        if (!ring) return;
-        
-        // Calculate progress (24 hours = 100%)
-        const totalMinutes = 24 * 60;
-        const remainingMinutes = Math.floor(diff / (1000 * 60));
-        const progress = (remainingMinutes / totalMinutes) * 100;
-        
-        const circumference = 2 * Math.PI * 85;
-        const offset = circumference - (progress / 100) * circumference;
-        
-        ring.style.strokeDasharray = circumference;
-        ring.style.strokeDashoffset = offset;
     }
     
     async handlePrayerTimeReached() {
+        // Clear the countdown interval first
+        if (this.countdownInterval) {
+            clearInterval(this.countdownInterval);
+            this.countdownInterval = null;
+        }
+        
         // Play adhan sound
-            this.playAdhan();
+        this.playAdhan();
         
         this.showPrayerNotification();
         
@@ -580,7 +588,7 @@ class PrayerTimesManager {
         // Update the current prayer display immediately
         this.updateCurrentPrayerDisplay();
         
-        // Restart countdown with new prayer
+        // Restart countdown with new prayer immediately
         this.startCountdown();
     }
     
@@ -665,14 +673,145 @@ class PrayerTimesManager {
         return saved ? JSON.parse(saved) : {
             fajr: true,
             dhuhr: true,
-            asr: true,
-            maghrib: true,
-            isha: true
+            maghrib: true
         };
     }
     
     saveAlarms() {
         localStorage.setItem('prayerAlarms', JSON.stringify(this.alarms));
+        // Reschedule alarms when saved
+        this.scheduleAlarms();
+    }
+    
+    updateAlarmButtons() {
+        // Update alarm button states based on saved preferences
+        Object.keys(this.alarms).forEach(prayerName => {
+            const alarmBtn = document.querySelector(`[data-prayer="${prayerName}"] .alarm-btn`);
+            if (alarmBtn) {
+                if (this.alarms[prayerName]) {
+                    alarmBtn.classList.add('active');
+                } else {
+                    alarmBtn.classList.remove('active');
+                }
+            }
+        });
+    }
+    
+    scheduleAlarms() {
+        if (!this.prayerTimes) return;
+        
+        // Clear existing alarms
+        this.clearAlarms();
+        
+        // Schedule alarms for enabled prayers
+        const prayers = ['fajr', 'dhuhr', 'maghrib'];
+        
+        prayers.forEach(prayerName => {
+            if (this.alarms[prayerName] && this.prayerTimes[prayerName]) {
+                this.schedulePrayerAlarm(prayerName);
+            }
+        });
+    }
+    
+    schedulePrayerAlarm(prayerName) {
+        if (!this.prayerTimes || !this.prayerTimes[prayerName]) return;
+        
+        const [hours, minutes] = this.prayerTimes[prayerName].split(':').map(Number);
+        const now = new Date();
+        const alarmTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, 0);
+        
+        // If alarm time has passed today, schedule for tomorrow
+        if (alarmTime <= now) {
+            alarmTime.setDate(alarmTime.getDate() + 1);
+        }
+        
+        const timeUntilAlarm = alarmTime.getTime() - now.getTime();
+        
+        // Only schedule if time is in the future and less than 24 hours
+        if (timeUntilAlarm > 0 && timeUntilAlarm < 24 * 60 * 60 * 1000) {
+            const prayerNames = {
+                fajr: 'الفجر',
+                dhuhr: 'الظهر',
+                maghrib: 'المغرب'
+            };
+            
+            // Clear existing timeout for this prayer
+            if (this.alarmTimeouts[prayerName]) {
+                clearTimeout(this.alarmTimeouts[prayerName]);
+            }
+            
+            // Schedule new alarm
+            this.alarmTimeouts[prayerName] = setTimeout(() => {
+                this.triggerAlarm(prayerName, prayerNames[prayerName]);
+                // Reschedule for next day
+                delete this.alarmTimeouts[prayerName];
+                this.schedulePrayerAlarm(prayerName);
+            }, timeUntilAlarm);
+        }
+    }
+    
+    clearAlarms() {
+        // Clear all existing alarm timeouts
+        Object.values(this.alarmTimeouts).forEach(timeoutId => {
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+        });
+        this.alarmTimeouts = {};
+    }
+    
+    triggerAlarm(prayerName, prayerNameArabic) {
+        // Check if alarm is still enabled
+        if (!this.alarms[prayerName]) return;
+        
+        // Show browser notification
+        if ('Notification' in window && Notification.permission === 'granted') {
+            const notification = new Notification('موعد الصلاة', {
+                body: `حان وقت صلاة ${prayerNameArabic}`,
+                icon: '../assets/images/logo1.png',
+                badge: '../assets/images/logo1.png',
+                tag: `prayer-${prayerName}`,
+                requireInteraction: true
+            });
+            
+            // Close notification after 10 seconds
+            setTimeout(() => {
+                notification.close();
+            }, 10000);
+            
+            // Play sound if available
+            this.playAlarmSound();
+        }
+        
+        // Show toast notification
+        this.showToast(`حان وقت صلاة ${prayerNameArabic}`, 'info');
+    }
+    
+    playAlarmSound() {
+        // Try to play a notification sound
+        try {
+            const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBjGH0fPTgjMGHm7A7+OZURE=');
+            audio.volume = 0.5;
+            audio.play().catch(() => {
+                // Ignore errors if audio can't play
+            });
+        } catch (e) {
+            // Ignore errors
+        }
+    }
+    
+    requestNotificationPermission() {
+        if ('Notification' in window) {
+            if (Notification.permission === 'default') {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        this.showToast('تم تفعيل الإشعارات', 'success');
+                    } else if (permission === 'denied') {
+                        this.showToast('تم رفض الإشعارات', 'info');
+                    }
+                });
+            }
+        }
     }
     
     // ========== PRAYER TIME ADJUSTMENTS ==========
@@ -682,9 +821,7 @@ class PrayerTimesManager {
             imsak: 0,
             fajr: 0,
             dhuhr: 0,
-            asr: 0,
             maghrib: 0,
-            isha: 0,
             midnight: 0
         };
     }
@@ -762,11 +899,6 @@ class PrayerTimesManager {
     }
     
     
-    requestNotificationPermission() {
-        if ('Notification' in window && Notification.permission === 'default') {
-            Notification.requestPermission();
-        }
-    }
     
     // ========== SETTINGS ==========
     loadSettings() {
@@ -867,11 +999,18 @@ function toggleAlarm(prayerName) {
     const alarmBtn = event.target.closest('.alarm-btn');
     if (!alarmBtn) return;
     
-    alarmBtn.classList.toggle('active');
-    
     const manager = window.prayerTimesManager;
+    if (!manager) return;
+    
+    // Toggle alarm state
+    alarmBtn.classList.toggle('active');
     manager.alarms[prayerName] = alarmBtn.classList.contains('active');
     manager.saveAlarms();
+    
+    // Request notification permission if enabling alarm
+    if (manager.alarms[prayerName]) {
+        manager.requestNotificationPermission();
+    }
     
     const status = manager.alarms[prayerName] ? 'مفعّل' : 'معطّل';
     manager.showToast(`التنبيه ${status}`, 'info');

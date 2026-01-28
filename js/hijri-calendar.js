@@ -385,22 +385,28 @@ class HijriCalendarManager {
             
             // Scroll the events list container to show the event
             const eventsListContainer = document.getElementById('eventsListContainer');
-            if (eventsListContainer && eventItem) {
-                const containerRect = eventsListContainer.getBoundingClientRect();
-                const itemRect = eventItem.getBoundingClientRect();
+            const eventsListContent = eventsListContainer?.querySelector('.events-list-content');
+            const scrollContainer = eventsListContent || eventsListContainer;
+            
+            if (scrollContainer && eventItem) {
+                // Get the offset relative to the scroll container
+                let itemOffsetTop = 0;
+                let element = eventItem;
+                while (element && element !== scrollContainer) {
+                    itemOffsetTop += element.offsetTop;
+                    element = element.offsetParent;
+                }
                 
                 // Calculate scroll position to center the item in the container
-                const scrollTop = eventsListContainer.scrollTop;
-                const itemOffsetTop = eventItem.offsetTop;
-                const containerHeight = eventsListContainer.clientHeight;
+                const containerHeight = scrollContainer.clientHeight;
                 const itemHeight = eventItem.offsetHeight;
                 
                 // Center the item in the container viewport
                 const targetScrollTop = itemOffsetTop - (containerHeight / 2) + (itemHeight / 2);
                 
                 // Smooth scroll within the container
-                eventsListContainer.scrollTo({
-                    top: targetScrollTop,
+                scrollContainer.scrollTo({
+                    top: Math.max(0, targetScrollTop),
                     behavior: 'smooth'
                 });
             }

@@ -151,6 +151,46 @@
     margin-bottom: var(--spacing-2xl);
 }
 
+.page-header-card {
+    padding: var(--spacing-2xl);
+    position: relative;
+    overflow: hidden;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+    opacity: 0.4;
+}
+
+.header-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 1;
+}
+
+.header-text-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+}
+
 .page-title {
     font-size: 3rem;
     margin-bottom: var(--spacing-sm);
@@ -162,19 +202,34 @@
 
 .page-subtitle {
     font-size: 1.25rem;
-    color: var(--text-secondary);
+    color: #8b0000;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(139, 0, 0, 0.3);
 }
 
-/* ========== LOCATION & DATE BAR ========== */
-.location-date-bar {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+/* ========== LOCATION & UPCOMING PRAYER BAR ========== */
+.location-prayer-bar {
+    display: flex;
     gap: var(--spacing-md);
     margin-bottom: var(--spacing-2xl);
+    align-items: flex-start;
 }
 
-.location-display,
-.date-display {
+.location-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    flex: 1;
+}
+
+.location-display {
+    padding: var(--spacing-md) var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.hijri-date-display {
     padding: var(--spacing-md) var(--spacing-lg);
     display: flex;
     align-items: center;
@@ -213,9 +268,15 @@
     background: var(--gradient-secondary);
     border: none;
     border-radius: var(--radius-round);
-    font-size: 1.25rem;
     cursor: pointer;
     transition: all var(--transition-normal);
+    padding: 0;
+}
+
+.location-icon-img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
 }
 
 .detect-location-btn:hover {
@@ -223,15 +284,14 @@
     box-shadow: var(--shadow-glow);
 }
 
-.date-text {
-    display: flex;
-    flex-direction: column;
+.hijri-date-link {
+    text-decoration: none;
+    color: var(--text-muted);
+    transition: color var(--transition-normal);
 }
 
-.gregorian-date {
-    font-weight: 600;
-    color: var(--text-primary);
-    font-size: 1rem;
+.hijri-date-link:hover {
+    color: var(--secondary);
 }
 
 .hijri-date {
@@ -240,18 +300,14 @@
 }
 
 /* ========== CURRENT PRAYER HIGHLIGHT ========== */
-.current-prayer-section {
-    margin-bottom: var(--spacing-2xl);
-}
-
 .current-prayer-card {
-    padding: var(--spacing-2xl);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: var(--spacing-2xl);
+    padding: var(--spacing-lg) var(--spacing-xl);
     position: relative;
     overflow: hidden;
+    text-align: center;
+    width: fit-content;
+    min-width: 300px;
+    flex-shrink: 0;
 }
 
 .current-prayer-card::before {
@@ -300,7 +356,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: var(--spacing-md) var(--spacing-lg);
+    padding: var(--spacing-sm) var(--spacing-md);
     background: var(--gradient-primary);
     border-radius: var(--radius-md);
     min-width: 80px;
@@ -344,44 +400,6 @@
     font-family: 'Courier New', monospace;
 }
 
-/* ========== CIRCULAR PROGRESS ========== */
-.circular-progress {
-    position: relative;
-    width: 200px;
-    height: 200px;
-    flex-shrink: 0;
-}
-
-.progress-ring {
-    transform: none;
-}
-
-.progress-ring-bg {
-    fill: none;
-    stroke: var(--glass-bg);
-    stroke-width: 12;
-}
-
-.progress-ring-fill {
-    fill: none;
-    stroke: var(--secondary);
-    stroke-width: 12;
-    stroke-linecap: round;
-    stroke-dasharray: 534;
-    stroke-dashoffset: 0;
-    transition: stroke-dashoffset 1s ease;
-    filter: drop-shadow(0 0 10px var(--secondary));
-}
-
-.progress-center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 4rem;
-    animation: pulse 2s ease-in-out infinite;
-}
-
 /* ========== PRAYER TIMES GRID ========== */
 .prayer-times-grid {
     margin-bottom: var(--spacing-2xl);
@@ -405,12 +423,47 @@
     position: relative;
     transition: transform 0.3s ease-out, border-color 0.3s ease-out, box-shadow 0.3s ease-out;
     border: 2px solid transparent;
+    overflow: hidden;
+}
+
+.prayer-card-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+    opacity: 0.3;
+}
+
+.prayer-card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    z-index: 1;
+}
+
+.prayer-card-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
 }
 
 .prayer-card:hover:not(.info-only) {
     transform: translateY(-1px);
     box-shadow: var(--shadow-glow);
     border-color: var(--secondary);
+}
+
+.prayer-card:hover .prayer-card-background {
+    opacity: 0.4;
 }
 
 .prayer-card.active {
@@ -1301,17 +1354,13 @@
 
 /* ========== RESPONSIVE ========== */
 @media (max-width: 1024px) {
-    .location-date-bar {
-        grid-template-columns: 1fr;
+    .location-prayer-bar {
+        flex-direction: column;
     }
     
     .current-prayer-card {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    .circular-progress {
-        order: -1;
+        width: 100%;
+        min-width: auto;
     }
 }
 

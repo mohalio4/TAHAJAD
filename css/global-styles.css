@@ -15,6 +15,58 @@ html {
     font-size: 16px;
 }
 
+/* ========== CUSTOM SCROLLBAR THEME ========== */
+/* Global scrollbar styling for all scrollable elements */
+* {
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: rgba(212, 175, 55, 0.3) transparent; /* Firefox: thumb and track */
+}
+
+/* Webkit browsers (Chrome, Safari, Edge) */
+*::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+*::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, 
+        rgba(212, 175, 55, 0.4) 0%, 
+        rgba(212, 175, 55, 0.6) 50%, 
+        rgba(212, 175, 55, 0.4) 100%);
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    transition: all 0.3s ease;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, 
+        rgba(212, 175, 55, 0.6) 0%, 
+        rgba(212, 175, 55, 0.8) 50%, 
+        rgba(212, 175, 55, 0.6) 100%);
+    background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-thumb:active {
+    background: linear-gradient(180deg, 
+        rgba(212, 175, 55, 0.8) 0%, 
+        rgba(212, 175, 55, 1) 50%, 
+        rgba(212, 175, 55, 0.8) 100%);
+    background-clip: padding-box;
+}
+
+/* Specific styling for horizontal scrollbars */
+*::-webkit-scrollbar:horizontal {
+    height: 10px;
+}
+
 body {
     font-family: var(--font-primary);
     background: var(--gradient-hero);
@@ -208,7 +260,9 @@ a:hover {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: var(--spacing-lg);
+    gap: var(--spacing-md);
+    position: relative;
+    overflow: visible;
 }
 
 .logo {
@@ -219,6 +273,7 @@ a:hover {
     font-weight: 700;
     font-family: var(--font-heading);
     color: var(--secondary);
+    flex-shrink: 0;
 }
 
 .logo-image {
@@ -241,7 +296,32 @@ a:hover {
     list-style: none;
     gap: var(--spacing-sm);
     align-items: center;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
+    flex: 1;
+    justify-content: center;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: var(--glass-border) transparent;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+}
+
+.nav-links::-webkit-scrollbar {
+    height: 4px;
+}
+
+.nav-links::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.nav-links::-webkit-scrollbar-thumb {
+    background: var(--glass-border);
+    border-radius: 2px;
+}
+
+.nav-links::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary);
 }
 
 .nav-links a {
@@ -251,6 +331,7 @@ a:hover {
     border-radius: var(--radius-sm);
     transition: all var(--transition-normal);
     white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .nav-links a:hover,
@@ -263,6 +344,7 @@ a:hover {
     display: flex;
     align-items: center;
     gap: var(--spacing-sm);
+    flex-shrink: 0;
 }
 
 /* ========== THEME SWITCHER ========== */
@@ -348,10 +430,19 @@ a:hover {
     display: none;
     flex-direction: column;
     gap: 5px;
-    background: transparent;
-    border: none;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
     cursor: pointer;
-    padding: 0.5rem;
+    padding: 0.75rem;
+    z-index: calc(var(--z-nav) + 2);
+    transition: all var(--transition-normal);
+    flex-shrink: 0;
+}
+
+.mobile-menu-toggle:hover {
+    background: var(--glass-bg-hover);
+    transform: translateY(-1px);
 }
 
 .mobile-menu-toggle span {
@@ -585,14 +676,102 @@ select.form-input:hover {
 }
 
 /* ========== RESPONSIVE ========== */
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
     .nav-links {
-        gap: var(--spacing-sm);
+        gap: var(--spacing-xs);
+        max-width: calc(100vw - 400px);
     }
     
     .nav-links a {
-        padding: 0.5rem 0.75rem;
+        padding: 0.5rem 0.6rem;
         font-size: 0.9rem;
+    }
+    
+    .logo-image {
+        height: 80px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .mobile-menu-toggle {
+        display: flex;
+    }
+    
+    /* Mobile Menu Overlay */
+    .glass-nav::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(2px);
+        -webkit-backdrop-filter: blur(2px);
+        opacity: 0;
+        visibility: hidden;
+        transition: all var(--transition-normal);
+        z-index: calc(var(--z-nav));
+        pointer-events: none;
+    }
+    
+    .glass-nav.menu-open::after {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: all;
+    }
+    
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 280px;
+        max-width: 85vw;
+        flex-direction: column;
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border-left: 1px solid var(--glass-border);
+        padding: var(--spacing-xl) var(--spacing-lg);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateX(100%);
+        transition: all var(--transition-normal);
+        z-index: calc(var(--z-nav) + 1);
+        overflow-y: auto;
+        overflow-x: hidden;
+        box-shadow: var(--shadow-lg);
+        align-items: stretch;
+        justify-content: flex-start;
+        gap: var(--spacing-xs);
+    }
+    
+    .nav-links.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(0);
+    }
+    
+    .nav-links li {
+        width: 100%;
+    }
+    
+    .nav-links a {
+        display: block;
+        width: 100%;
+        padding: var(--spacing-md);
+        text-align: right;
+        border-radius: var(--radius-md);
+        font-size: 1rem;
+    }
+    
+    .nav-container {
+        gap: var(--spacing-sm);
+    }
+    
+    .logo-image {
+        height: 70px;
     }
     
     h1 { font-size: 2.5rem; }
@@ -601,39 +780,33 @@ select.form-input:hover {
 }
 
 @media (max-width: 768px) {
-    .mobile-menu-toggle {
-        display: flex;
-    }
-    
     .nav-links {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        flex-direction: column;
-        background: var(--bg-secondary);
-        padding: var(--spacing-md);
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(-20px);
-        transition: all var(--transition-normal);
-    }
-    
-    .nav-links.active {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
+        width: 100%;
+        max-width: 100%;
+        border-left: none;
+        border-top: 1px solid var(--glass-border);
     }
     
     .nav-actions {
         flex-direction: column;
         width: 100%;
+        gap: var(--spacing-xs);
     }
     
     .btn-primary,
     .btn-glass {
         width: 100%;
         justify-content: center;
+        font-size: 0.9rem;
+        padding: 0.75rem 1.25rem;
+    }
+    
+    .logo-image {
+        height: 60px;
+    }
+    
+    .nav-container {
+        padding: 0 var(--spacing-md);
     }
     
     h1 { font-size: 2rem; }

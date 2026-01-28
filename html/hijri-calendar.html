@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>التقويم الهجري - تهجّد</title>
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../assets/images/logo1.png">
+    
     <!-- Link CSS Files -->
     <link rel="stylesheet" href="../css/root-variables.css">
     <link rel="stylesheet" href="../css/global-styles.css">
@@ -130,8 +133,12 @@
                     </div>
                     
                     <div class="events-list-container glass-card" id="eventsListContainer">
-                        <div class="events-list" id="eventsList">
-                            <!-- Events will be populated by JavaScript -->
+                        <img src="../assets/images/hijriback.jpg" alt="المناسبات" class="events-list-background">
+                        <div class="events-list-overlay"></div>
+                        <div class="events-list-content">
+                            <div class="events-list" id="eventsList">
+                                <!-- Events will be populated by JavaScript -->
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -168,8 +175,11 @@
                     
                     <!-- Calendar Grid -->
                     <div class="calendar-wrapper-compact glass-card">
-                        <!-- Days of Week Header -->
-                        <div class="weekdays-compact">
+                        <img src="../assets/images/calender.jpg" alt="التقويم الهجري" class="calendar-wrapper-background">
+                        <div class="calendar-wrapper-overlay"></div>
+                        <div class="calendar-wrapper-content">
+                            <!-- Days of Week Header -->
+                            <div class="weekdays-compact">
                             <div class="weekday-compact">سبت</div>
                             <div class="weekday-compact">أحد</div>
                             <div class="weekday-compact">إثن</div>
@@ -179,9 +189,10 @@
                             <div class="weekday-compact">جم</div>
                         </div>
                         
-                        <!-- Calendar Days Grid -->
-                        <div class="calendar-grid-compact" id="calendarGrid">
-                            <!-- Days will be populated by JavaScript -->
+                            <!-- Calendar Days Grid -->
+                            <div class="calendar-grid-compact" id="calendarGrid">
+                                <!-- Days will be populated by JavaScript -->
+                            </div>
                         </div>
                     </div>
                 </section>

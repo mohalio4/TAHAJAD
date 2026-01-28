@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>محاسبة النفس - تهجّد</title>
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../assets/images/logo1.png">
+    
     <!-- Link CSS Files -->
     <link rel="stylesheet" href="../css/root-variables.css">
     <link rel="stylesheet" href="../css/global-styles.css">
@@ -119,7 +122,10 @@
             <!-- Page Header -->
             <section class="khirah-header fade-in-up">
                 <div class="header-content glass-card">
-                    <div class="header-text">
+                    <img src="../assets/images/self.jpg" alt="محاسبة النفس" class="header-background-image">
+                    <div class="header-overlay"></div>
+                    <div class="header-text-content">
+                        <div class="header-text">
                         <h1 class="page-title">محاسبة النفس</h1>
                         <p class="page-subtitle">حاسب نفسك قبل أن تُحاسب - راقب أعمالك الصالحة والسيئة وطور نفسك</p>
                         <p class="quran-verse">"يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللَّهَ وَلْتَنظُرْ نَفْسٌ مَّا قَدَّمَتْ لِغَدٍ" - الحشر:18</p>
@@ -139,13 +145,14 @@
                             <span>مذكرة يومية</span>
                         </button>
                     </div>
+                    </div>
                 </div>
             </section>
             
             <!-- Balance Overview -->
             <section class="balance-section fade-in-up delay-1">
                 <div class="balance-card glass-card">
-                    <h3 class="section-title">الميزان الروحي</h3>
+                
                     <div class="balance-content">
                         <div class="balance-side good">
                             <div class="balance-icon">✅</div>
@@ -176,7 +183,10 @@
             <!-- Late Prayers (Qada) -->
             <section class="late-prayers-section fade-in-up delay-3">
                 <div class="late-prayers-card glass-card">
-                    <div class="late-prayers-header">
+                    <img src="../assets/images/prayerkadaa.jpg" alt="قضاء الصلوات المتأخرة" class="late-prayers-background">
+                    <div class="late-prayers-overlay"></div>
+                    <div class="late-prayers-content">
+                        <div class="late-prayers-header">
                         <h3 class="section-title">قضاء الصلوات المتأخرة</h3>
                         <p class="late-prayers-subtitle">سجّل عدد الصلوات المتأخرة لكل نوع، وضع علامة كلما أديت واحدة حتى تكتمل</p>
                     </div>
@@ -191,9 +201,7 @@
                                 <select id="latePrayerType" class="form-input" required>
                                     <option value="fajr">صلاة الفجر</option>
                                     <option value="dhuhr">صلاة الظهر</option>
-                                    <option value="asr">صلاة العصر</option>
                                     <option value="maghrib">صلاة المغرب</option>
-                                    <option value="isha">صلاة العشاء</option>
                                 </select>
                             </div>
                             
@@ -227,6 +235,7 @@
                                 <!-- Completed late prayers history -->
                             </div>
                         </div>
+                    </div>
                     </div>
                 </div>
             </section>

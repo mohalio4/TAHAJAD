@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مكتبة الأدعية - تهجّد</title>
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../assets/images/logo1.png">
+    
     <!-- Link CSS Files -->
     <link rel="stylesheet" href="../css/root-variables.css">
     <link rel="stylesheet" href="../css/global-styles.css">
@@ -122,24 +125,26 @@
             
             <!-- Search & Filter Bar -->
             <section class="search-filter-bar fade-in-up delay-1">
-                <div class="search-box glass-card">
-                    <span class="search-icon">🔍</span>
-                    <input type="text" 
-                           id="duaSearch" 
-                           class="search-input" 
-                           placeholder="ابحث عن دعاء...">
-                    <button class="clear-search" id="clearSearch" style="display: none;">✕</button>
-                </div>
-                
-                <div class="filter-buttons">
-                    <button class="filter-btn active" data-category="all">
-                        <span class="filter-icon">📿</span>
-                        <span>الكل</span>
-                    </button>
-                    <button class="filter-btn" data-category="favorites">
-                        <span class="filter-icon">⭐</span>
-                        <span>المفضلة</span>
-                    </button>
+                <div class="search-filter-container">
+                    <div class="search-box glass-card">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" 
+                               id="duaSearch" 
+                               class="search-input" 
+                               placeholder="ابحث عن دعاء...">
+                        <button class="clear-search" id="clearSearch" style="display: none;">✕</button>
+                    </div>
+                    
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-category="all">
+                            <span class="filter-icon">📿</span>
+                            <span>الكل</span>
+                        </button>
+                        <button class="filter-btn" data-category="favorites">
+                            <span class="filter-icon">⭐</span>
+                            <span>المفضلة</span>
+                        </button>
+                    </div>
                 </div>
             </section>
             
@@ -149,23 +154,39 @@
                 
                 <div class="categories-grid">
                     <button class="category-card glass-card hover-lift" data-category="ziyarat">
-                        <div class="category-icon">🕌</div>
-                        <h3 class="category-title">الزيارات</h3>
+                        <img src="../assets/images/ziyara.jpg" alt="الزيارات" class="category-background-image">
+                        <div class="category-overlay"></div>
+                        <div class="category-content">
+                            <div class="category-icon">🕌</div>
+                            <h3 class="category-title">الزيارات</h3>
+                        </div>
                     </button>
                     
                     <button class="category-card glass-card hover-lift" data-category="dua">
-                        <div class="category-icon">📿</div>
-                        <h3 class="category-title">الدعاء</h3>
+                        <img src="../assets/images/daau.jpg" alt="الدعاء" class="category-background-image">
+                        <div class="category-overlay"></div>
+                        <div class="category-content">
+                            <div class="category-icon">📿</div>
+                            <h3 class="category-title">الدعاء</h3>
+                        </div>
                     </button>
                     
                     <button class="category-card glass-card hover-lift" data-category="taqibat">
-                        <div class="category-icon">🕌</div>
-                        <h3 class="category-title">تعقيبات الصلاة</h3>
+                        <img src="../assets/images/taakib.jpg" alt="تعقيبات الصلاة" class="category-background-image">
+                        <div class="category-overlay"></div>
+                        <div class="category-content">
+                            <div class="category-icon">🕌</div>
+                            <h3 class="category-title">تعقيبات الصلاة</h3>
+                        </div>
                     </button>
                     
                     <button class="category-card glass-card hover-lift" data-category="seerah">
-                        <div class="category-icon">📖</div>
-                        <h3 class="category-title">سيرة أهل البيت</h3>
+                        <img src="../assets/images/ahlalbayt.jpg" alt="سيرة أهل البيت" class="category-background-image">
+                        <div class="category-overlay"></div>
+                        <div class="category-content">
+                            <div class="category-icon">📖</div>
+                            <h3 class="category-title">سيرة أهل البيت</h3>
+                        </div>
                     </button>
                 </div>
             </section>

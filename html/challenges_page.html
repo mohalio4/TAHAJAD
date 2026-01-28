@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>التحديات - تهجّد</title>
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../assets/images/logo1.png">
+    
     <!-- Link CSS Files -->
     <link rel="stylesheet" href="../css/root-variables.css">
     <link rel="stylesheet" href="../css/global-styles.css">
@@ -152,22 +155,64 @@
             <div class="main-layout">
                 <!-- Left Side: Challenges List -->
                 <section class="challenges-sidebar fade-in-up delay-2">
-                    <div class="challenges-header glass-card">
-                        <div class="header-top">
-                            <h2 class="challenges-title">التحديات</h2>
+                    <!-- Ready Challenges -->
+                    <div class="ready-challenges-section glass-card">
+                        <div class="ready-challenges-header">
+                            <h3 class="ready-challenges-title">تحديات جاهزة</h3>
                             <button class="btn-add-challenge" id="addChallengeBtn">
                                 <span class="btn-icon">+</span>
                                 <span>إضافة تحدٍ</span>
                             </button>
                         </div>
-                        <div class="challenges-filter">
-                            <button class="filter-tab active" data-filter="all">الكل</button>
-                            <button class="filter-tab" data-filter="aamal">أعمال</button>
-                            <button class="filter-tab" data-filter="tatwir">تطوير الذات</button>
+                        <div class="ready-challenges-grid">
+                            <div class="ready-challenge-card" data-ready-challenge="quran">
+                                <img src="../assets/images/quran.jpg" alt="قراءة القرآن" class="ready-challenge-background">
+                                <div class="ready-challenge-overlay"></div>
+                                <div class="ready-challenge-content">
+                                    <div class="ready-challenge-icon">📖</div>
+                                    <h4 class="ready-challenge-title">قراءة القرآن</h4>
+                                    <p class="ready-challenge-desc">اقرأ صفحة من القرآن يومياً</p>
+                                    <button class="btn-add-ready" data-ready-challenge="quran">إضافة</button>
+                                </div>
+                            </div>
+                            
+                            <div class="ready-challenge-card" data-ready-challenge="prayer">
+                                <img src="../assets/images/aahd.jpg" alt="عهد الأربعين صباحاً" class="ready-challenge-background">
+                                <div class="ready-challenge-overlay"></div>
+                                <div class="ready-challenge-content">
+                                    <div class="ready-challenge-icon">🤲</div>
+                                    <h4 class="ready-challenge-title">عهد الأربعين صباحاً</h4>
+                                    <p class="ready-challenge-desc">عن الإمام الصادق (عليه السلام) أنه قال: (مَنْ دَعَا إِلَى اللَّهِ أَرْبَعِينَ صَبَاحاً بِهَذَا الْعَهْدِ كَانَ مِنْ أَنْصَارِ قَائِمِنَا)</p>
+                                    <button class="btn-add-ready" data-ready-challenge="prayer">إضافة</button>
+                                </div>
+                            </div>
+                            
+                            <div class="ready-challenge-card" data-ready-challenge="dhikr">
+                                <img src="../assets/images/ziyara.jpg" alt="زيارة عاشوراء" class="ready-challenge-background">
+                                <div class="ready-challenge-overlay"></div>
+                                <div class="ready-challenge-content">
+                                    <div class="ready-challenge-icon">🕯️</div>
+                                    <h4 class="ready-challenge-title">زيارة عاشوراء</h4>
+                                    <p class="ready-challenge-desc">عن الباقر عليه السلام قال: لو يعلم الناس ما في زيارة الحسين عليه السلام من الفضل لماتوا شوقاً</p>
+                                    <button class="btn-add-ready" data-ready-challenge="dhikr">إضافة</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
                     <div class="challenges-list-container glass-card" id="challengesListContainer">
+                        <div class="challenges-list-header">
+                            <div class="filter-dropdown-wrapper">
+                                <button class="filter-icon-btn" id="filterToggleBtn" title="فلترة التحديات">
+                                    <span class="filter-icon">🔍</span>
+                                </button>
+                                <div class="challenges-filter-dropdown" id="challengesFilter">
+                                    <button class="filter-tab active" data-filter="all">الكل</button>
+                                    <button class="filter-tab" data-filter="aamal">أعمال</button>
+                                    <button class="filter-tab" data-filter="tatwir">تطوير الذات</button>
+                                </div>
+                            </div>
+                        </div>
                         <div class="challenges-list" id="challengesList">
                             <div class="empty-state">
                                 <div class="empty-icon">📋</div>

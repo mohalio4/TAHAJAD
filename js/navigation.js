@@ -40,15 +40,18 @@ class NavigationController {
     }
     
     toggleMobileMenu() {
+        const isActive = this.navLinks.classList.contains('active');
+        
         this.navLinks.classList.toggle('active');
         this.mobileMenuBtn.classList.toggle('active');
+        this.nav.classList.toggle('menu-open');
         
         // Animate hamburger icon
         const spans = this.mobileMenuBtn.querySelectorAll('span');
-        if (this.mobileMenuBtn.classList.contains('active')) {
-            spans[0].style.transform = 'translateY(8px)';
+        if (!isActive) {
+            spans[0].style.transform = 'translateY(8px) rotate(45deg)';
             spans[1].style.opacity = '0';
-            spans[2].style.transform = 'translateY(-8px)';
+            spans[2].style.transform = 'translateY(-8px) rotate(-45deg)';
         } else {
             spans[0].style.transform = 'none';
             spans[1].style.opacity = '1';
@@ -56,12 +59,13 @@ class NavigationController {
         }
         
         // Prevent body scroll when menu is open
-        document.body.style.overflow = this.navLinks.classList.contains('active') ? 'hidden' : '';
+        document.body.style.overflow = !isActive ? 'hidden' : '';
     }
     
     closeMobileMenu() {
         this.navLinks.classList.remove('active');
         this.mobileMenuBtn.classList.remove('active');
+        this.nav.classList.remove('menu-open');
         
         const spans = this.mobileMenuBtn.querySelectorAll('span');
         spans[0].style.transform = 'none';
@@ -131,7 +135,7 @@ class NavigationController {
     setupLinkClicks() {
         this.navLinkItems.forEach(link => {
             link.addEventListener('click', () => {
-                if (window.innerWidth <= 768) {
+                if (window.innerWidth <= 1024 && this.navLinks.classList.contains('active')) {
                     this.closeMobileMenu();
                 }
             });
@@ -141,10 +145,21 @@ class NavigationController {
     // ========== CLOSE MENU ON OUTSIDE CLICK ==========
     setupOutsideClick() {
         document.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768) {
-                if (!this.nav.contains(e.target) && this.navLinks.classList.contains('active')) {
+            if (window.innerWidth <= 1024) {
+                // Close menu if clicking outside nav or on overlay
+                const clickedNav = this.nav.contains(e.target);
+                const clickedMenuBtn = this.mobileMenuBtn && this.mobileMenuBtn.contains(e.target);
+                
+                if (!clickedNav && !clickedMenuBtn && this.navLinks.classList.contains('active')) {
                     this.closeMobileMenu();
                 }
+            }
+        });
+        
+        // Close menu on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.navLinks.classList.contains('active')) {
+                this.closeMobileMenu();
             }
         });
     }

@@ -104,6 +104,38 @@
     flex: 1;
     min-height: 0;
     overflow-y: auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.events-list-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.07;
+    z-index: 0;
+}
+
+.events-list-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 1;
+}
+
+.events-list-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    overflow-y: auto;
 }
 
 .events-list {
@@ -246,39 +278,45 @@
 }
 
 .quick-jump-compact {
-    padding: var(--spacing-sm) var(--spacing-md);
+    padding: var(--spacing-md);
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    gap: var(--spacing-xs);
 }
 
 .jump-btn-compact {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: var(--spacing-xs);
-    padding: var(--spacing-sm) var(--spacing-md);
-    background: var(--gradient-primary);
+    gap: var(--spacing-sm);
+    padding: 0;
+    background: transparent;
     border: none;
-    border-radius: var(--radius-md);
+    border-radius: 0;
     color: var(--text-primary);
     font-weight: 600;
-    font-size: 0.875rem;
     cursor: pointer;
-    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+    transition: none;
     width: 100%;
-    flex-direction: column;
+    text-align: right;
+}
+
+.jump-btn-compact .btn-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
 }
 
 .jump-btn-content {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     gap: 0.25rem;
+    flex: 1;
 }
 
 .jump-btn-label {
     font-size: 0.875rem;
     font-weight: 600;
+    color: var(--text-secondary);
 }
 
 .jump-btn-date-hijri {
@@ -290,16 +328,46 @@
 
 .jump-btn-date-gregorian {
     font-size: 0.75rem;
-    color: var(--text-secondary);
+    color: var(--text-muted);
 }
 
 .jump-btn-compact:hover {
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-glow);
+    transform: none;
+    box-shadow: none;
 }
 
 .calendar-wrapper-compact {
     padding: var(--spacing-md);
+    position: relative;
+    overflow: hidden;
+}
+
+.calendar-wrapper-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.3;
+    z-index: 0;
+}
+
+.calendar-wrapper-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 1;
+}
+
+.calendar-wrapper-content {
+    position: relative;
+    z-index: 2;
 }
 
 .weekdays-compact {
@@ -602,11 +670,14 @@
 
 .day-cell.today .day-number {
     color: var(--bg-primary);
-    font-size: 1.75rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.05rem;
 }
 
 .day-cell.today .day-gregorian {
     color: rgba(26, 58, 46, 0.8);
+    font-size: 0.65rem;
 }
 
 /* Joyful Days (Births) */

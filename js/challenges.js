@@ -317,24 +317,6 @@ class ChallengesManager {
             return;
         }
         
-        // Add header if date is selected
-        let headerHTML = '';
-        if (this.selectedDate) {
-            const selectedDateObj = new Date(this.selectedDate);
-            const monthNames = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 
-                               'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
-            const dateStr = `${selectedDateObj.getDate()} ${monthNames[selectedDateObj.getMonth()]} ${selectedDateObj.getFullYear()}`;
-            headerHTML = `
-                <div class="selected-date-header" style="padding: 1rem; margin-bottom: 1rem; background: var(--glass-bg); border-radius: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--glass-border);">
-                    <div>
-                        <span style="font-size: 0.875rem; color: var(--text-muted);">عرض تحديات:</span>
-                        <span style="font-weight: 600; color: var(--secondary); margin-right: 0.5rem;">${dateStr}</span>
-                </div>
-                    <button class="btn-clear-date" onclick="challengesManager.clearDateSelection()" style="padding: 0.5rem 1rem; background: transparent; border: 1px solid var(--glass-border); border-radius: 8px; color: var(--text-primary); cursor: pointer; font-size: 0.875rem;">عرض الكل</button>
-            </div>
-            `;
-        }
-        
         // Clear existing content first to force DOM update
         challengesList.innerHTML = '';
         
@@ -350,7 +332,7 @@ class ChallengesManager {
         }).join('');
         
         // Now set the new content
-        challengesList.innerHTML = headerHTML + challengesHTML;
+        challengesList.innerHTML = challengesHTML;
         
         // Attach event listeners
         filtered.forEach(challenge => {
@@ -379,38 +361,49 @@ class ChallengesManager {
             return div.innerHTML;
         };
         
+        // Check if this is a Quran reading challenge, Ahad challenge, or Ziyarat challenge
+        const isQuranChallenge = challenge.title === 'قراءة القرآن';
+        const isAhadChallenge = challenge.title === 'عهد الأربعين صباحاً';
+        const isZiyaratChallenge = challenge.title === 'زيارة عاشوراء';
+        
         return `
             <div class="challenge-item" data-challenge-id="${challenge.id}">
-                <div class="challenge-item-header">
-                    <label class="challenge-item-checkbox" ${!hasStarted ? 'style="opacity: 0.5; cursor: not-allowed;"' : ''}>
-                        <input type="checkbox" 
-                               ${isCompletedForDate ? 'checked' : ''} 
-                               ${!hasStarted ? 'disabled' : ''}
-                               data-challenge-id="${challenge.id}"
-                               data-check-date="${checkDate}">
-                        <span class="checkbox-custom"></span>
-                    </label>
-                    <div class="challenge-item-content">
-                        <h3 class="challenge-item-title">${escapeHtml(challenge.title)}</h3>
-                        ${challenge.description ? `<p class="challenge-item-description">${escapeHtml(challenge.description)}</p>` : ''}
-                        <div class="challenge-item-meta">
-                            <span class="challenge-item-category">${categoryNames[challenge.category] || challenge.category}</span>
-                            <span>•</span>
-                            <span>${(challenge.days === -1 || challenge.days === 'unlimited' || challenge.days === null) ? 'غير محدود' : (challenge.days || challenge.repetition || 30)} ${(challenge.days === -1 || challenge.days === 'unlimited' || challenge.days === null) ? '' : 'يوم'}</span>
-                            ${!hasStarted && challenge.startDate ? `<span>•</span><span style="color: var(--text-muted); font-size: 0.7rem;">يبدأ من ${challenge.startDate}</span>` : ''}
+                ${isQuranChallenge ? `<img src="../assets/images/quran.jpg" alt="قراءة القرآن" class="challenge-item-background">` : ''}
+                ${isAhadChallenge ? `<img src="../assets/images/aahd.jpg" alt="عهد الأربعين صباحاً" class="challenge-item-background">` : ''}
+                ${isZiyaratChallenge ? `<img src="../assets/images/ziyara.jpg" alt="زيارة عاشوراء" class="challenge-item-background">` : ''}
+                ${(isQuranChallenge || isAhadChallenge || isZiyaratChallenge) ? `<div class="challenge-item-overlay"></div>` : ''}
+                <div class="challenge-item-wrapper">
+                    <div class="challenge-item-header">
+                        <label class="challenge-item-checkbox" ${!hasStarted ? 'style="opacity: 0.5; cursor: not-allowed;"' : ''}>
+                            <input type="checkbox" 
+                                   ${isCompletedForDate ? 'checked' : ''} 
+                                   ${!hasStarted ? 'disabled' : ''}
+                                   data-challenge-id="${challenge.id}"
+                                   data-check-date="${checkDate}">
+                            <span class="checkbox-custom"></span>
+                        </label>
+                        <div class="challenge-item-content">
+                            <h3 class="challenge-item-title">${escapeHtml(challenge.title)}</h3>
+                            ${challenge.description ? `<p class="challenge-item-description">${escapeHtml(challenge.description)}</p>` : ''}
+                            <div class="challenge-item-meta">
+                                <span class="challenge-item-category">${categoryNames[challenge.category] || challenge.category}</span>
+                                <span>•</span>
+                                <span>${(challenge.days === -1 || challenge.days === 'unlimited' || challenge.days === null) ? 'غير محدود' : (challenge.days || challenge.repetition || 30)} ${(challenge.days === -1 || challenge.days === 'unlimited' || challenge.days === null) ? '' : 'يوم'}</span>
+                                ${!hasStarted && challenge.startDate ? `<span>•</span><span style="color: var(--text-muted); font-size: 0.7rem;">يبدأ من ${challenge.startDate}</span>` : ''}
+                            </div>
+                            ${hasStarted ? this.createProgressHTML(challenge) : ''}
+                        </div>
                     </div>
-                        ${hasStarted ? this.createProgressHTML(challenge) : ''}
-                </div>
                     <div class="challenge-item-actions">
                         <button class="challenge-item-btn edit" data-challenge-id="${challenge.id}" title="تعديل">
                             ✏️
-                    </button>
+                        </button>
                         <button class="challenge-item-btn delete" data-challenge-id="${challenge.id}" title="حذف">
                             🗑️
-                    </button>
+                        </button>
+                    </div>
+                </div>
             </div>
-                </div>
-                </div>
         `;
     }
     
@@ -960,6 +953,62 @@ class ChallengesManager {
         
         this.saveChallenges();
         this.closeChallengeModal();
+    }
+    
+    addReadyChallenge(type) {
+        const readyChallenges = {
+            quran: {
+                title: 'قراءة القرآن',
+                description: 'اقرأ صفحة من القرآن الكريم يومياً',
+                category: 'aamal',
+                days: -1, // Unlimited
+                type: 'daily'
+            },
+            prayer: {
+                title: 'عهد الأربعين صباحاً',
+                description: 'عن الإمام الصادق (عليه السلام) أنه قال: (مَنْ دَعَا إِلَى اللَّهِ أَرْبَعِينَ صَبَاحاً بِهَذَا الْعَهْدِ كَانَ مِنْ أَنْصَارِ قَائِمِنَا)',
+                category: 'aamal',
+                days: 40, // 40 days
+                type: 'daily'
+            },
+            dhikr: {
+                title: 'زيارة عاشوراء',
+                description: 'عن الباقر عليه السلام قال: لو يعلم الناس ما في زيارة الحسين عليه السلام من الفضل لماتوا شوقاً',
+                category: 'aamal',
+                days: -1, // Unlimited
+                type: 'daily'
+            }
+        };
+        
+        const challengeData = readyChallenges[type];
+        if (!challengeData) {
+            this.showToast('نوع التحدي غير معروف', 'error');
+            return;
+        }
+        
+        // Check if challenge already exists
+        const exists = this.challenges.some(c => 
+            c.title === challengeData.title && 
+            c.category === challengeData.category
+        );
+        
+        if (exists) {
+            this.showToast('هذا التحدي موجود بالفعل', 'info');
+            return;
+        }
+        
+        // Add the challenge
+        const today = this.formatDate(new Date());
+        const newChallenge = {
+            id: Date.now().toString(),
+            ...challengeData,
+            startDate: today,
+            createdAt: new Date().toISOString()
+        };
+        
+        this.challenges.push(newChallenge);
+        this.saveChallenges();
+        this.showToast(`تم إضافة "${challengeData.title}" بنجاح`, 'success');
     }
     
     deleteChallenge(challengeId) {
@@ -1537,12 +1586,34 @@ class ChallengesManager {
         }
         
         // Filter tabs
+        // Filter toggle button (dropdown)
+        const filterToggleBtn = document.getElementById('filterToggleBtn');
+        const challengesFilter = document.getElementById('challengesFilter');
+        
+        if (filterToggleBtn && challengesFilter) {
+            filterToggleBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                challengesFilter.classList.toggle('show');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!filterToggleBtn.contains(e.target) && !challengesFilter.contains(e.target)) {
+                    challengesFilter.classList.remove('show');
+                }
+            });
+        }
+        
         document.querySelectorAll('.filter-tab').forEach(tab => {
             tab.addEventListener('click', () => {
                 document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
                 this.currentFilter = tab.dataset.filter;
                 this.renderChallengesList();
+                // Close dropdown after selection
+                if (challengesFilter) {
+                    challengesFilter.classList.remove('show');
+                }
             });
         });
         
@@ -1610,6 +1681,15 @@ class ChallengesManager {
         } else {
             console.warn('Add challenge button not found');
         }
+        
+        // Ready challenge buttons
+        document.querySelectorAll('.btn-add-ready').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const challengeType = btn.dataset.readyChallenge;
+                this.addReadyChallenge(challengeType);
+            });
+        });
         
         // Make sure modals can be closed by clicking overlay
         const challengeModalOverlay = document.querySelector('#challengeModal .modal-overlay');
