@@ -1,0 +1,930 @@
+/* ====================================
+   DASHBOARD STYLES
+   User dashboard page specific styles
+   ==================================== */
+
+/* ========== DASHBOARD LAYOUT ========== */
+.dashboard-page {
+    min-height: 100vh;
+    padding-top: var(--nav-offset);
+}
+
+/* ========== FONT FIXES ========== */
+.dashboard-page span {
+    font-family: var(--font-primary);
+}
+
+.dashboard-main {
+    padding: var(--spacing-xl) 0;
+}
+
+.dashboard-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+}
+
+/* ========== USER PROFILE DROPDOWN ========== */
+.user-profile-dropdown {
+    position: relative;
+}
+
+.user-profile-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: 0.5rem 1rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.user-profile-btn:hover {
+    background: var(--glass-bg-hover);
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-round);
+    background: var(--gradient-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: var(--bg-primary);
+    font-size: 0.9rem;
+}
+
+.dropdown-arrow {
+    font-size: 0.75rem;
+    transition: transform var(--transition-normal);
+}
+
+.user-profile-btn.active .dropdown-arrow {
+    transform: translateY(-1px);
+}
+
+.user-dropdown {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    min-width: 200px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--blur-strength));
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-xs);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all var(--transition-normal);
+    z-index: var(--z-dropdown);
+}
+
+.user-dropdown.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: 0.75rem 1rem;
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    text-align: right;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.dropdown-item:hover {
+    background: var(--glass-bg-hover);
+}
+
+.item-icon {
+    font-size: 1.125rem;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: var(--glass-border);
+    margin: var(--spacing-xs) 0;
+}
+
+.logout-btn {
+    color: #ff6b6b;
+}
+
+/* ========== WELCOME SECTION ========== */
+.welcome-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+.welcome-card {
+    padding: var(--spacing-xl);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-xl);
+}
+
+.welcome-content {
+    flex: 1;
+}
+
+.welcome-title {
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-xs);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.greeting {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    font-weight: 400;
+    font-family: var(--font-primary);
+}
+
+.user-name-display {
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-family: var(--font-primary);
+}
+
+.welcome-subtitle {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin-bottom: var(--spacing-lg);
+}
+
+.welcome-stats {
+    display: flex;
+    gap: var(--spacing-md);
+}
+
+.stat-badge {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-normal);
+}
+
+.stat-badge:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-glow);
+}
+
+.badge-icon {
+    font-size: 2rem;
+}
+
+.badge-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.badge-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--secondary);
+    font-family: var(--font-primary);
+}
+
+.badge-label {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    font-family: var(--font-primary);
+}
+
+/* ========== TIME INDICATOR ========== */
+.welcome-illustration {
+    flex-shrink: 0;
+}
+
+.time-indicator {
+    width: 250px;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gradient-overlay);
+    border-radius: var(--radius-round);
+    position: relative;
+    overflow: hidden;
+}
+
+.time-indicator::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, var(--secondary) 0%, transparent 70%);
+    opacity: 0.1;
+    /* Rotation removed for smoother experience */
+}
+
+.next-prayer {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.next-prayer-label {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+}
+
+.next-prayer-name {
+    display: block;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--secondary);
+    margin-bottom: var(--spacing-md);
+}
+
+.countdown {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    font-family: 'Courier New', monospace;
+}
+
+/* ========== QUICK ACTIONS ========== */
+.quick-actions {
+    margin-bottom: var(--spacing-xl);
+}
+
+.section-header-inline {
+    margin-bottom: var(--spacing-md);
+}
+
+.section-title {
+    font-size: 1.75rem;
+    color: var(--text-primary);
+}
+
+.actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.action-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-xl);
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid var(--glass-border);
+    transition: transform 0.3s ease-out, background 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+
+.action-card:hover {
+    background: var(--glass-bg-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-glow);
+}
+
+.action-icon {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-xs);
+}
+
+.action-label {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* ========== DASHBOARD GRID ========== */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: var(--spacing-xl);
+}
+
+.left-column,
+.right-column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+}
+
+/* ========== SECTION HEADERS ========== */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.view-all-link {
+    color: var(--secondary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: color var(--transition-normal);
+}
+
+.view-all-link:hover {
+    color: var(--secondary-light);
+}
+
+.period-selector {
+    padding: 0.5rem 1rem;
+    background: rgba(20, 30, 25, 0.95) !important;
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary) !important;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.period-selector option {
+    background: rgba(20, 30, 25, 0.98);
+    color: var(--text-primary);
+    padding: 0.5rem;
+}
+
+.period-selector:focus {
+    outline: none;
+    border-color: var(--secondary);
+}
+
+/* ========== PRAYER STATISTICS ========== */
+.prayer-stats-section {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: var(--spacing-xl);
+    align-items: start;
+    width: 100%;
+    margin-bottom: var(--spacing-xl);
+}
+
+/* make stats stack on smaller screens */
+@media (max-width: 1024px) {
+    .prayer-stats-section {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+.stats-card {
+    padding: var(--spacing-xl);
+}
+
+.progress-circle-wrapper {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto var(--spacing-xl);
+}
+
+.progress-circle {
+    transform: none;
+}
+
+.progress-circle-bg {
+    fill: none;
+    stroke: var(--glass-bg);
+    stroke-width: 15;
+}
+
+.progress-circle-fill {
+    fill: none;
+    stroke: var(--secondary);
+    stroke-width: 15;
+    stroke-linecap: round;
+    stroke-dasharray: 534;
+    stroke-dashoffset: 75;
+    transition: stroke-dashoffset 1s ease;
+    filter: drop-shadow(0 0 10px var(--secondary));
+}
+
+.progress-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.progress-percentage {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--secondary);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+}
+
+.progress-label {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+/* ========== PRAYER BREAKDOWN ========== */
+.prayer-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.prayer-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.prayer-item:last-child {
+    border-bottom: none;
+}
+
+.prayer-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    min-width: 60px;
+}
+
+.prayer-days {
+    display: flex;
+    gap: 0.25rem;
+    flex: 1;
+}
+
+.day {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    background: var(--glass-bg);
+    color: var(--text-muted);
+}
+
+.day.completed {
+    background: var(--accent);
+    color: var(--text-primary);
+}
+
+.day.missed {
+    background: rgba(255, 107, 107, 0.2);
+    color: #ff6b6b;
+}
+
+.prayer-percentage {
+    font-weight: 700;
+    color: var(--secondary);
+    min-width: 50px;
+    text-align: left;
+}
+
+/* ========== CHALLENGES SECTION ========== */
+.challenges-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.challenge-card {
+    padding: var(--spacing-lg);
+}
+
+.challenge-header {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.challenge-icon {
+    font-size: 2.5rem;
+    flex-shrink: 0;
+}
+
+.challenge-info {
+    flex: 1;
+}
+
+.challenge-title {
+    font-size: 1.125rem;
+    margin-bottom: 0.25rem;
+    color: var(--text-primary);
+}
+
+.challenge-desc {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.challenge-badge {
+    padding: 0.5rem 1rem;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.challenge-badge.gold {
+    background: var(--gradient-secondary);
+    color: var(--bg-primary);
+}
+
+.badge-day {
+    font-size: 0.9rem;
+}
+
+.challenge-progress {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.progress-bar-wrapper {
+    flex: 1;
+    height: 8px;
+    background: var(--glass-bg);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: var(--gradient-primary);
+    border-radius: 4px;
+    transition: width 0.5s ease;
+    box-shadow: 0 0 10px var(--primary);
+}
+
+.progress-bar-fill.gold {
+    background: var(--gradient-secondary);
+    box-shadow: 0 0 10px var(--secondary);
+}
+
+.progress-text {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+/* ========== ACTIVITY TIMELINE ========== */
+.activity-timeline {
+    padding: var(--spacing-lg);
+}
+
+.timeline-item {
+    display: flex;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md) 0;
+    position: relative;
+}
+
+.timeline-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 9px;
+    top: 40px;
+    width: 2px;
+    height: calc(100% - 20px);
+    background: var(--glass-border);
+}
+
+.timeline-dot {
+    width: 20px;
+    height: 20px;
+    border-radius: var(--radius-round);
+    background: var(--accent);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.timeline-dot.completed {
+    background: var(--accent);
+    box-shadow: 0 0 0 4px var(--glass-bg);
+}
+
+.timeline-dot.gold {
+    background: var(--secondary);
+    box-shadow: 0 0 0 4px var(--glass-bg), 0 0 10px var(--secondary);
+}
+
+.timeline-content {
+    flex: 1;
+}
+
+.timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.25rem;
+}
+
+.timeline-title {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.timeline-time {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.timeline-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* ========== ACHIEVEMENTS ========== */
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+}
+
+.achievement-badge {
+    padding: var(--spacing-lg);
+    text-align: center;
+    transition: all var(--transition-normal);
+}
+
+.achievement-badge.unlocked {
+    border: 1px solid var(--secondary);
+}
+
+.achievement-badge.unlocked:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-glow);
+}
+
+.achievement-badge.locked {
+    opacity: 0.4;
+    filter: grayscale(100%);
+}
+
+.badge-icon-large {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-sm);
+}
+
+.badge-title {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+    color: var(--text-primary);
+}
+
+.badge-desc {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+/* ========== MODAL STYLES ========== */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: var(--z-modal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    position: relative;
+    max-width: 500px;
+    width: 90%;
+    padding: var(--spacing-2xl);
+    animation: scaleIn 0.3s ease;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-close {
+    position: absolute;
+    top: var(--spacing-md);
+    left: var(--spacing-md);
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-round);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.modal-close:hover {
+    background: var(--glass-bg-hover);
+    transform: translateY(-1px);
+}
+
+.modal-title {
+    font-size: 1.75rem;
+    margin-bottom: var(--spacing-lg);
+    text-align: center;
+    color: var(--secondary);
+}
+
+/* ========== PRAYER LOG FORM ========== */
+.prayer-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.prayer-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-lg);
+    background: var(--glass-bg);
+    border: 2px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.prayer-option:hover {
+    background: var(--glass-bg-hover);
+    transform: scale(1.05);
+}
+
+.prayer-option.selected {
+    border-color: var(--secondary);
+    background: var(--glass-bg-hover);
+    box-shadow: var(--shadow-glow);
+}
+
+.prayer-emoji {
+    font-size: 2rem;
+}
+
+.prayer-label {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* ========== GOOD DEED FORM ========== */
+.good-deed-form .form-group {
+    margin-bottom: var(--spacing-lg);
+}
+
+.good-deed-form .form-label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.good-deed-form .form-input {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    transition: all var(--transition-normal);
+}
+
+.good-deed-form .form-input:focus {
+    outline: none;
+    border-color: var(--secondary);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+.good-deed-form textarea.form-input {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.good-deed-form select.form-input,
+select.form-input {
+    background: rgba(20, 30, 25, 0.95) !important;
+    color: var(--text-primary) !important;
+}
+
+.good-deed-form select.form-input option,
+select.form-input option {
+    background: rgba(20, 30, 25, 0.98);
+    color: var(--text-primary);
+    padding: 0.5rem;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1024px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .welcome-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .welcome-stats {
+        justify-content: center;
+    }
+    
+    .time-indicator {
+        width: 200px;
+        height: 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-page {
+        padding-top: 70px;
+    }
+    
+    .welcome-title {
+        font-size: 2rem;
+    }
+    
+    .welcome-stats {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .stat-badge {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .actions-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .achievements-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .prayer-options {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .progress-circle-wrapper {
+        width: 160px;
+        height: 160px;
+    }
+    
+    .prayer-days {
+        gap: 0.125rem;
+    }
+    
+    .day {
+        width: 24px;
+        height: 24px;
+        font-size: 0.625rem;
+    }
+}
