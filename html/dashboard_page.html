@@ -1,565 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم - تهجّد</title>
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="../assets/images/logo1.png">
-    
-    <!-- Link CSS Files -->
-    <link rel="stylesheet" href="../css/root-variables.css">
-    <link rel="stylesheet" href="../css/global-styles.css">
-    <link rel="stylesheet" href="../css/dashboard.css">
-    <link rel="stylesheet" href="../css/animations.css">
-    
-    <!-- Google Fonts - Arabic Support -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
-</head>
-<body class="emerald-theme dashboard-page">
-    
-    <!-- Animated Background Particles -->
-    <div class="particles-container" id="particles"></div>
-    
-    <!-- Navigation Bar -->
-    <nav class="glass-nav">
-        <div class="nav-container">
-            <div class="logo"><a href="index.html"><img src="../assets/images/tahajad_logo.png" alt="تهجد" class="logo-image"></a></div>
-            <ul class="nav-links">
-                <li><a href="dashboard_page.html" class="active">لوحة التحكم</a></li>
-                <li><a href="prayer_times_page.html">مواقيت الصلاة</a></li>
-                <li><a href="duas_page.html">الأدعية</a></li>
-                <li><a href="challenges_page.html">التحديات</a></li>
-                <li><a href="hijri-calendar.html">التقويم الهجري</a></li>
-                <li><a href="self-accountability.html">محاسبة النفس</a></li>
-                <li><a href="istikhara.html">الاستخارة</a></li>
-                <li><a href="post_page.html">المنشورات</a></li>
-                <li><a href="leaderthink.html">فكر القائد</a></li>
-                <li><a href="thaqalayn.html">الثقلين</a></li>
-                <li><a href="quran.html">القرآن الكريم</a></li>
-                <li><a href="hyder-ai.html">اسأل hyder.ai</a></li>
-                <li><a href="maktaba-masmouaa.html">مكتبة مسموعة</a></li>
-            </ul>
-            
-            <div class="nav-actions">
-                <!-- Theme Switcher -->
-                <div class="theme-switcher">
-                    <button class="theme-btn" id="themeBtn">
-                        <span class="theme-icon">🎨</span>
-                    </button>
-                    <div class="theme-dropdown" id="themeDropdown">
-                        <button class="theme-option" data-theme="emerald">
-                            <span class="theme-color" style="background: linear-gradient(135deg, #0d4d3d, #d4af37)"></span>
-                            <span>الزمردي</span>
-                        </button>
-                        <button class="theme-option" data-theme="gold">
-                            <span class="theme-color" style="background: linear-gradient(135deg, #c9a961, #1a3a2e)"></span>
-                            <span>الذهبي</span>
-                        </button>
-                        <button class="theme-option" data-theme="ruby">
-                            <span class="theme-color" style="background: linear-gradient(135deg, #8b0000, #d4af37)"></span>
-                            <span>الياقوتي</span>
-                        </button>
-                        <button class="theme-option" data-theme="night">
-                            <span class="theme-color" style="background: linear-gradient(135deg, #1a1f2e, #2d5f5d)"></span>
-                            <span>الليلي</span>
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Not Logged In: Show Login/Register -->
-                <div id="guestActions" style="display: none;">
-                    <a href="login_page.html" class="btn-glass btn-login">تسجيل الدخول</a>
-                    <a href="register_page.html" class="btn-primary">إنشاء حساب</a>
-                </div>
-                
-                <!-- Logged In: Show User Profile -->
-                <div class="user-profile-dropdown" id="userActions" style="display: none;">
-                    <button class="user-profile-btn" id="userProfileBtn">
-                        <div class="user-avatar">
-                            <span id="userInitials">م</span>
-                        </div>
-                        <span class="user-name" id="userName">مستخدم</span>
-                        <span class="dropdown-arrow">▼</span>
-                    </button>
-                    
-                    <div class="user-dropdown" id="userDropdown">
-                        <a href="dashboard_page.html" class="dropdown-item">
-                            <span class="item-icon">📊</span>
-                            <span>لوحة التحكم</span>
-                        </a>
-                        <a href="profile.html" class="dropdown-item">
-                            <span class="item-icon">👤</span>
-                            <span>الملف الشخصي</span>
-                        </a>
-                        <a href="settings.html" class="dropdown-item">
-                            <span class="item-icon">⚙️</span>
-                            <span>الإعدادات</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <button class="dropdown-item logout-btn" id="logoutBtn">
-                            <span class="item-icon">🚪</span>
-                            <span>تسجيل الخروج</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Mobile Menu Toggle -->
-            <button class="mobile-menu-toggle" id="mobileMenuBtn">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </div>
-    </nav>
-    
-    <!-- Main Dashboard Content -->
-    <main class="dashboard-main">
-        <div class="dashboard-container">
-            
-            <!-- Welcome Section -->
-            <section class="welcome-section fade-in-up">
-                <div class="welcome-card glass-card">
-                    <div class="welcome-content">
-                        <div class="welcome-text">
-                            <h1 class="welcome-title">
-                                <span class="greeting" id="greeting">مرحباً</span>
-                                <span class="user-name-display" id="userNameDisplay">أحمد</span>
-                            </h1>
-                            <p class="welcome-subtitle" id="hijriDate">
-                                الأحد، 15 جمادى الأولى 1446 هـ
-                            </p>
-                        </div>
-                        
-                        <div class="welcome-stats">
-                            <div class="stat-badge">
-                                <span class="badge-icon">🔥</span>
-                                <div class="badge-content">
-                                    <span class="badge-value" id="streakDays">7</span>
-                                    <span class="badge-label">أيام متتالية</span>
-                                </div>
-                            </div>
-                            <div class="stat-badge">
-                                <span class="badge-icon">⭐</span>
-                                <div class="badge-content">
-                                    <span class="badge-value" id="totalPoints">850</span>
-                                    <span class="badge-label">نقطة</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="welcome-illustration">
-                        <div class="time-indicator">
-                            <div class="next-prayer">
-                                <span class="next-prayer-label">الصلاة القادمة</span>
-                                <span class="next-prayer-name" id="nextPrayerName">العصر</span>
-                                <div class="countdown" id="prayerCountdown">
-                                    <span class="countdown-hours">02</span>:
-                                    <span class="countdown-minutes">34</span>:
-                                    <span class="countdown-seconds">18</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            
-            <!-- Quick Actions -->
-            <section class="quick-actions fade-in-up delay-1">
-                <div class="section-header-inline">
-                    <h2 class="section-title">إجراءات سريعة</h2>
-                </div>
-                
-                <div class="actions-grid">
-                    <button class="action-card glass-card hover-lift" onclick="logPrayer()">
-                        <div class="action-icon">🕌</div>
-                        <span class="action-label">تسجيل صلاة</span>
-                    </button>
-                    
-                    <a href="duas_page.html" class="action-card glass-card hover-lift">
-                        <div class="action-icon">📿</div>
-                        <span class="action-label">تصفح الأدعية</span>
-                    </a>
-                    
-                    <button class="action-card glass-card hover-lift" onclick="addGoodDeed()">
-                        <div class="action-icon">💚</div>
-                        <span class="action-label">إضافة عمل صالح</span>
-                    </button>
-                    
-                    <a href="hijri-calendar.html" class="action-card glass-card hover-lift">
-                        <div class="action-icon">📅</div>
-                        <span class="action-label">التقويم</span>
-                    </a>
-                </div>
-            </section>
-            
-            <!-- Main Grid: Stats + Challenges + Activity -->
-            <div class="dashboard-grid">
-                
-                <!-- Left Column: Prayer Stats + Challenges -->
-                <div class="left-column">
-                    
-                    <!-- Prayer Statistics -->
-                    <section class="prayer-stats-section fade-in-up delay-2">
-                        <div class="section-header">
-                            <h2 class="section-title">إحصائيات الصلاة</h2>
-                            <select class="period-selector" id="prayerStatsPeriod">
-                                <option value="today">اليوم</option>
-                                <option value="week" selected>هذا الأسبوع</option>
-                                <option value="month">هذا الشهر</option>
-                            </select>
-                        </div>
-                        
-                        <div class="stats-card glass-card">
-                            <!-- Progress Circle -->
-                            <div class="progress-circle-wrapper">
-                                <svg class="progress-circle" viewBox="0 0 200 200">
-                                    <circle class="progress-circle-bg" cx="100" cy="100" r="85"></circle>
-                                    <circle class="progress-circle-fill" cx="100" cy="100" r="85" 
-                                            id="prayerProgressCircle"></circle>
-                                </svg>
-                                <div class="progress-center">
-                                    <span class="progress-percentage" id="prayerPercentage">86%</span>
-                                    <span class="progress-label">معدل الصلاة</span>
-                                </div>
-                            </div>
-                            
-                            <!-- Prayer Breakdown -->
-                            <div class="prayer-breakdown">
-                                <div class="prayer-item">
-                                    <span class="prayer-name">الفجر</span>
-                                    <div class="prayer-days">
-                                        <span class="day completed">✓</span>
-                                        <span class="day completed">✓</span>
-                                        <span class="day completed">✓</span>
-                                        <span class="day completed">✓</span>
-                                        <span class="day missed">✗</span>
-                                        <span class="day completed">✓</span>
-                                        <span class="day completed">✓</span>
-                                    </div>
-                                    <span class="prayer-percentage">86%</span>
-                                </div>
-                                
-                                <div class="prayer-item">
-                                    <span class="prayer-name">الظهر</span>
-                                    <div class="prayer-days">
-                                        <span class="day completed">✓</span>
-                                        <span class="day completed">✓</span>
-                                        <span class="day completed">✓</span>
-                                        <span class="day completed">✓</span>
-                                        <span class="day completed">✓</span>
-                                        <span class="day completed">✓</span>
-                                        <span class="day completed">✓</span>
-                                    </div>
-                                    <span class="prayer-percentage">100%</span>
-                                </div>
-                                
-                                <div class="prayer-item">
-                                    <span class="prayer-name">العصر</span>
-                                    <div class="prayer-days">
-                                        <span class="day completed">✓</span>
-                                        <span class="day completed">✓</span>
-                                        <span class="day missed">✗</span>
-                                        <span class="day completed">✓</span>
-                                        <span class="day completed">✓</span>
-                                        <span class="day completed">✓</span>
-                                        <span class="day completed">✓</span>
-                                    </div>
-                                    <span class="prayer-percentage">86%</span>
-                                </div>
-                                
-                                <div class="prayer-item">
-                                    <span class="prayer-name">المغرب</span>
-                                    <div class="prayer-days">
-                                        <span class="day completed">✓</span>
-                                        <span class="day completed">✓</span>
-                                        <span class="day completed">✓</span>
-                                        <span class="day completed">✓</span>
-                                        <span class="day completed">✓</span>
-                                        <span class="day completed">✓</span>
-                                        <span class="day">-</span>
-                                    </div>
-                                    <span class="prayer-percentage">100%</span>
-                                </div>
-                                
-                                <div class="prayer-item">
-                                    <span class="prayer-name">العشاء</span>
-                                    <div class="prayer-days">
-                                        <span class="day completed">✓</span>
-                                        <span class="day completed">✓</span>
-                                        <span class="day completed">✓</span>
-                                        <span class="day missed">✗</span>
-                                        <span class="day completed">✓</span>
-                                        <span class="day completed">✓</span>
-                                        <span class="day">-</span>
-                                    </div>
-                                    <span class="prayer-percentage">83%</span>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    
-                    <!-- Active Challenges -->
-                    <section class="challenges-section fade-in-up delay-3">
-                        <div class="section-header">
-                            <h2 class="section-title">التحديات النشطة</h2>
-                            <a href="challenges_page.html" class="view-all-link">عرض الكل →</a>
-                        </div>
-                        
-                        <div class="challenges-list">
-                            <!-- Challenge 1: Prayer Challenge -->
-                            <div class="challenge-card glass-card">
-                                <div class="challenge-header">
-                                    <div class="challenge-icon">🕌</div>
-                                    <div class="challenge-info">
-                                        <h3 class="challenge-title">تحدي الصلاة في وقتها</h3>
-                                        <p class="challenge-desc">30 يوماً من الصلاة في المسجد</p>
-                                    </div>
-                                    <div class="challenge-badge">
-                                        <span class="badge-day">7/30</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="challenge-progress">
-                                    <div class="progress-bar-wrapper">
-                                        <div class="progress-bar-fill" style="width: 23%"></div>
-                                    </div>
-                                    <span class="progress-text">23% مكتمل</span>
-                                </div>
-                            </div>
-                            
-                            <!-- Challenge 2: Morning Adhkar -->
-                            <div class="challenge-card glass-card">
-                                <div class="challenge-header">
-                                    <div class="challenge-icon">📿</div>
-                                    <div class="challenge-info">
-                                        <h3 class="challenge-title">الأذكار الـ40 الصباحية</h3>
-                                        <p class="challenge-desc">أكمل أذكار الصباح يومياً</p>
-                                    </div>
-                                    <div class="challenge-badge gold">
-                                        <span class="badge-day">32/40</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="challenge-progress">
-                                    <div class="progress-bar-wrapper">
-                                        <div class="progress-bar-fill gold" style="width: 80%"></div>
-                                    </div>
-                                    <span class="progress-text">80% مكتمل - استمر!</span>
-                                </div>
-                            </div>
-                            
-                            <!-- Challenge 3: Quran Reading -->
-                            <div class="challenge-card glass-card">
-                                <div class="challenge-header">
-                                    <div class="challenge-icon">📖</div>
-                                    <div class="challenge-info">
-                                        <h3 class="challenge-title">ختمة القرآن الشهرية</h3>
-                                        <p class="challenge-desc">اقرأ جزء يومياً</p>
-                                    </div>
-                                    <div class="challenge-badge">
-                                        <span class="badge-day">12/30</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="challenge-progress">
-                                    <div class="progress-bar-wrapper">
-                                        <div class="progress-bar-fill" style="width: 40%"></div>
-                                    </div>
-                                    <span class="progress-text">40% مكتمل</span>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    
-                </div>
-                
-                <!-- Right Column: Activity Timeline + Achievements -->
-                <div class="right-column">
-                    
-                    <!-- Recent Activity -->
-                    <section class="activity-section fade-in-up delay-2">
-                        <div class="section-header">
-                            <h2 class="section-title">النشاط الأخير</h2>
-                        </div>
-                        
-                        <div class="activity-timeline glass-card">
-                            <div class="timeline-item">
-                                <div class="timeline-dot completed"></div>
-                                <div class="timeline-content">
-                                    <div class="timeline-header">
-                                        <span class="timeline-title">صلاة الظهر</span>
-                                        <span class="timeline-time">منذ ساعتين</span>
-                                    </div>
-                                    <p class="timeline-desc">تم تسجيل صلاة الظهر في وقتها</p>
-                                </div>
-                            </div>
-                            
-                            <div class="timeline-item">
-                                <div class="timeline-dot completed"></div>
-                                <div class="timeline-content">
-                                    <div class="timeline-header">
-                                        <span class="timeline-title">إضافة دعاء للمفضلة</span>
-                                        <span class="timeline-time">منذ 4 ساعات</span>
-                                    </div>
-                                    <p class="timeline-desc">أضفت دعاء "اللهم إني أسألك العفو والعافية" للمفضلة</p>
-                                </div>
-                            </div>
-                            
-                            <div class="timeline-item">
-                                <div class="timeline-dot gold"></div>
-                                <div class="timeline-content">
-                                    <div class="timeline-header">
-                                        <span class="timeline-title">إنجاز جديد!</span>
-                                        <span class="timeline-time">منذ 6 ساعات</span>
-                                    </div>
-                                    <p class="timeline-desc">حصلت على شارة "المثابر" لإكمال 7 أيام متتالية</p>
-                                </div>
-                            </div>
-                            
-                            <div class="timeline-item">
-                                <div class="timeline-dot completed"></div>
-                                <div class="timeline-content">
-                                    <div class="timeline-header">
-                                        <span class="timeline-title">صلاة الفجر</span>
-                                        <span class="timeline-time">منذ 8 ساعات</span>
-                                    </div>
-                                    <p class="timeline-desc">تم تسجيل صلاة الفجر في المسجد</p>
-                                </div>
-                            </div>
-                            
-                            <div class="timeline-item">
-                                <div class="timeline-dot completed"></div>
-                                <div class="timeline-content">
-                                    <div class="timeline-header">
-                                        <span class="timeline-title">أذكار الصباح</span>
-                                        <span class="timeline-time">منذ 8 ساعات</span>
-                                    </div>
-                                    <p class="timeline-desc">أكملت الأذكار الصباحية الـ40</p>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    
-                    <!-- Achievements & Badges -->
-                    <section class="achievements-section fade-in-up delay-3">
-                        <div class="section-header">
-                            <h2 class="section-title">الإنجازات والشارات</h2>
-                            <a href="achievements.html" class="view-all-link">عرض الكل →</a>
-                        </div>
-                        
-                        <div class="achievements-grid">
-                            <div class="achievement-badge glass-card unlocked">
-                                <div class="badge-icon-large">🔥</div>
-                                <h4 class="badge-title">المثابر</h4>
-                                <p class="badge-desc">7 أيام متتالية</p>
-                            </div>
-                            
-                            <div class="achievement-badge glass-card unlocked">
-                                <div class="badge-icon-large">⭐</div>
-                                <h4 class="badge-title">النجم المشرق</h4>
-                                <p class="badge-desc">500 نقطة</p>
-                            </div>
-                            
-                            <div class="achievement-badge glass-card unlocked">
-                                <div class="badge-icon-large">🕌</div>
-                                <h4 class="badge-title">محافظ على الصلاة</h4>
-                                <p class="badge-desc">30 صلاة في وقتها</p>
-                            </div>
-                            
-                            <div class="achievement-badge glass-card locked">
-                                <div class="badge-icon-large">🏆</div>
-                                <h4 class="badge-title">البطل</h4>
-                                <p class="badge-desc">أكمل 3 تحديات</p>
-                            </div>
-                        </div>
-                    </section>
-                    
-                </div>
-                
-            </div>
-            
-        </div>
-    </main>
-    
-    <!-- Quick Log Prayer Modal -->
-    <div id="logPrayerModal" class="modal" style="display: none;">
-        <div class="modal-overlay"></div>
-        <div class="modal-content glass-card">
-            <button class="modal-close" onclick="closeModal('logPrayerModal')">✕</button>
-            <h2 class="modal-title">تسجيل صلاة</h2>
-            
-            <form id="logPrayerForm" class="prayer-log-form">
-                <div class="prayer-options">
-                    <button type="button" class="prayer-option" data-prayer="fajr">
-                        <span class="prayer-emoji">🌅</span>
-                        <span class="prayer-label">الفجر</span>
-                    </button>
-                    <button type="button" class="prayer-option" data-prayer="dhuhr">
-                        <span class="prayer-emoji">☀️</span>
-                        <span class="prayer-label">الظهر</span>
-                    </button>
-                    <button type="button" class="prayer-option" data-prayer="maghrib">
-                        <span class="prayer-emoji">🌅</span>
-                        <span class="prayer-label">المغرب</span>
-                    </button>
-                </div>
-                
-                <button type="submit" class="btn-submit">
-                    <span class="btn-text">تسجيل الصلاة</span>
-                </button>
-            </form>
-        </div>
-    </div>
-    
-    <!-- Add Good Deed Modal -->
-    <div id="addGoodDeedModal" class="modal" style="display: none;">
-        <div class="modal-overlay"></div>
-        <div class="modal-content glass-card">
-            <button class="modal-close" onclick="closeModal('addGoodDeedModal')">✕</button>
-            <h2 class="modal-title">إضافة عمل صالح</h2>
-            
-            <form id="addGoodDeedForm" class="good-deed-form">
-                <div class="form-group">
-                    <label class="form-label">نوع العمل</label>
-                    <select class="form-input" id="deedType" required>
-                        <option value="">اختر نوع العمل</option>
-                        <option value="charity">صدقة</option>
-                        <option value="quran">قراءة قرآن</option>
-                        <option value="dhikr">ذكر</option>
-                        <option value="help">مساعدة الآخرين</option>
-                        <option value="other">أخرى</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">الوصف</label>
-                    <textarea class="form-input" id="deedDescription" rows="3" 
-                              placeholder="صف العمل الصالح..." required></textarea>
-                </div>
-                
-                <button type="submit" class="btn-submit">
-                    <span class="btn-text">حفظ العمل الصالح</span>
-                </button>
-            </form>
-        </div>
-    </div>
-    
-    <!-- Link JavaScript Files -->
-    <script src="../js/theme-manager.js"></script>
-    <script src="../js/particles.js"></script>
-    <script src="../js/animations.js"></script>
-    <script src="../js/logo-loader.js"></script>
-    <script src="../js/navigation.js"></script>
-    <script src="../js/mouse-light-tracker.js"></script>
-    <script src="../js/user-navigation.js"></script>
-    <script src="../js/api.js"></script>
-    <script src="../js/prayer-times.js"></script>
-    <script src="../js/dashboard.js"></script>
-</body>
-</html>
-

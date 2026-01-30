@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محاسبة النفس - تهجّد</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/assets/images/logo1.png">
+    
+    <!-- Link CSS Files -->
+    <link rel="stylesheet" href="/css/root-variables.css">
+    <link rel="stylesheet" href="/css/global-styles.css">
+    <link rel="stylesheet" href="/css/khirah.css">
+    <link rel="stylesheet" href="/css/animations.css">
+    
+    <!-- Google Fonts - Arabic Support -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="emerald-theme khirah-page">
+    
+    <!-- Animated Background Particles -->
+    <div class="particles-container" id="particles"></div>
+    
+    <!-- Navigation Bar -->
+    <nav class="glass-nav">
+        <div class="nav-container">
+            <div class="logo"><a href="index.html"><img src="/assets/images/tahajad_logo.png" alt="تهجد" class="logo-image"></a></div>
+            <ul class="nav-links">
+                <li><a href="prayer_times_page.html">مواقيت الصلاة</a></li>
+                <li><a href="duas_page.html">الأدعية</a></li>
+                <li><a href="challenges_page.html">التحديات</a></li>
+                <li><a href="hijri-calendar.html">التقويم الهجري</a></li>
+                <li><a href="self-accountability.html" class="active">محاسبة النفس</a></li>
+                <li><a href="istikhara.html">الاستخارة</a></li>
+                <li><a href="post_page.html">المنشورات</a></li>
+                <li><a href="leaderthink.html">فكر القائد</a></li>
+                <li><a href="thaqalayn.html">الثقلين</a></li>
+                <li><a href="quran.html">القرآن الكريم</a></li>
+                <li><a href="hyder-ai.html">اسأل hyder.ai</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <!-- Theme Switcher -->
+                <div class="theme-switcher">
+                    <button class="theme-btn" id="themeBtn">
+                        <span class="theme-icon">🎨</span>
+                    </button>
+                    <div class="theme-dropdown" id="themeDropdown">
+                        <button class="theme-option" data-theme="emerald">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #0d4d3d, #d4af37)"></span>
+                            <span>الزمردي</span>
+                        </button>
+                        <button class="theme-option" data-theme="gold">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #c9a961, #1a3a2e)"></span>
+                            <span>الذهبي</span>
+                        </button>
+                        <button class="theme-option" data-theme="ruby">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #8b0000, #d4af37)"></span>
+                            <span>الياقوتي</span>
+                        </button>
+                        <button class="theme-option" data-theme="night">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #1a1f2e, #2d5f5d)"></span>
+                            <span>الليلي</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Not Logged In: Show Login/Register -->
+                <div id="guestActions" style="display: none;">
+                    <a href="login_page.html" class="btn-glass btn-login">تسجيل الدخول</a>
+                    <a href="register_page.html" class="btn-primary">إنشاء حساب</a>
+                </div>
+                
+                <!-- Logged In: Show User Profile -->
+                <div class="user-profile-dropdown" id="userActions" style="display: none;">
+                    <button class="user-profile-btn" id="userProfileBtn">
+                        <div class="user-avatar">
+                            <span id="userInitials">م</span>
+                        </div>
+                        <span class="user-name" id="userName">مستخدم</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="profile.html" class="dropdown-item">
+                            <span class="item-icon">👤</span>
+                            <span>الملف الشخصي</span>
+                        </a>
+                        <a href="settings.html" class="dropdown-item">
+                            <span class="item-icon">⚙️</span>
+                            <span>الإعدادات</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item logout-btn" id="logoutBtn">
+                            <span class="item-icon">🚪</span>
+                            <span>تسجيل الخروج</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="khirah-main">
+        <div class="khirah-container">
+            
+            <!-- Page Header -->
+            <section class="khirah-header fade-in-up">
+                <div class="header-content glass-card">
+                    <img src="/assets/images/self.jpg" alt="محاسبة النفس" class="header-background-image">
+                    <div class="header-overlay"></div>
+                    <div class="header-text-content">
+                        <div class="header-text">
+                        <h1 class="page-title">محاسبة النفس</h1>
+                        <p class="page-subtitle">حاسب نفسك قبل أن تُحاسب - راقب أعمالك الصالحة والسيئة وطور نفسك</p>
+                        <p class="quran-verse">"يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللَّهَ وَلْتَنظُرْ نَفْسٌ مَّا قَدَّمَتْ لِغَدٍ" - الحشر:18</p>
+                    </div>
+                    
+                    <div class="header-actions">
+                        <button class="btn-add-good" onclick="openAddModal('good')">
+                            <span class="btn-icon">✅</span>
+                            <span>عمل صالح</span>
+                        </button>
+                        <button class="btn-add-bad" onclick="openAddModal('bad')">
+                            <span class="btn-icon">⚠️</span>
+                            <span>تقصير</span>
+                        </button>
+                        <button class="btn-add-journal" onclick="openJournalModal()">
+                            <span class="btn-icon">📝</span>
+                            <span>مذكرة يومية</span>
+                        </button>
+                    </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Balance Overview -->
+            <section class="balance-section fade-in-up delay-1">
+                <div class="balance-card glass-card">
+                
+                    <div class="balance-content">
+                        <div class="balance-side good">
+                            <div class="balance-icon">✅</div>
+                            <div class="balance-label">الحسنات</div>
+                            <div class="balance-value" id="goodCount">0</div>
+                        </div>
+                        
+                        <div class="balance-scale">
+                            <div class="scale-container">
+                                <div class="scale-bar">
+                                    <div class="scale-good" id="scaleGood" style="width: 50%"></div>
+                                    <div class="scale-bad" id="scaleBad" style="width: 50%"></div>
+                                </div>
+                                <div class="scale-center">⚖️</div>
+                            </div>
+                            <div class="balance-ratio" id="balanceRatio">1:1</div>
+                        </div>
+                        
+                        <div class="balance-side bad">
+                            <div class="balance-icon">⚠️</div>
+                            <div class="balance-label">التقصيرات</div>
+                            <div class="balance-value" id="badCount">0</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Late Prayers (Qada) -->
+            <section class="late-prayers-section fade-in-up delay-3">
+                <div class="late-prayers-card glass-card">
+                    <img src="/assets/images/prayerkadaa.jpg" alt="قضاء الصلوات المتأخرة" class="late-prayers-background">
+                    <div class="late-prayers-overlay"></div>
+                    <div class="late-prayers-content">
+                        <div class="late-prayers-header">
+                        <h3 class="section-title">قضاء الصلوات المتأخرة</h3>
+                        <p class="late-prayers-subtitle">سجّل عدد الصلوات المتأخرة لكل نوع، وضع علامة كلما أديت واحدة حتى تكتمل</p>
+                    </div>
+                    
+                    <form id="latePrayerForm" class="late-prayer-form">
+                        <div class="late-prayer-fields">
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <span class="label-icon">🕌</span>
+                                    <span>نوع الصلاة</span>
+                                </label>
+                                <select id="latePrayerType" class="form-input" required>
+                                    <option value="fajr">صلاة الفجر</option>
+                                    <option value="dhuhr">صلاة الظهر</option>
+                                    <option value="maghrib">صلاة المغرب</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <span class="label-icon">🔢</span>
+                                    <span>عدد الصلوات المتأخرة</span>
+                                </label>
+                                <input type="number" id="latePrayerCount" class="form-input" min="1" value="1" required>
+                            </div>
+                            
+                            <div class="form-group form-group-actions">
+                                <button type="submit" class="btn-primary btn-small">
+                                    <span>إضافة</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                    <div class="late-prayers-body">
+                        <div class="late-prayers-list" id="latePrayersList">
+                            <!-- Active late prayers will be rendered here -->
+                        </div>
+                        <div class="late-prayers-empty" id="latePrayersEmpty" style="display: none;">
+                            لا توجد صلوات متأخرة مسجَّلة حالياً.
+                        </div>
+                        
+                        <div class="late-prayers-history" id="latePrayersHistory">
+                            <h4 class="late-prayers-history-title">سجل قضاء الصلوات</h4>
+                            <div class="late-prayers-history-list" id="latePrayersHistoryList">
+                                <!-- Completed late prayers history -->
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Filter & Search -->
+            <section class="filter-section fade-in-up delay-4">
+                <div class="filter-card glass-card">
+                    <div class="filter-controls">
+                        <div class="view-toggle">
+                            <button class="toggle-btn active" data-view="all" onclick="changeView('all')">
+                                <span>📊</span>
+                                <span>الكل</span>
+                            </button>
+                            <button class="toggle-btn" data-view="good" onclick="changeView('good')">
+                                <span>✅</span>
+                                <span>حسنات</span>
+                            </button>
+                            <button class="toggle-btn" data-view="bad" onclick="changeView('bad')">
+                                <span>⚠️</span>
+                                <span>تقصيرات</span>
+                            </button>
+                            <button class="toggle-btn" data-view="journal" onclick="changeView('journal')">
+                                <span>📝</span>
+                                <span>مذكرات</span>
+                            </button>
+                        </div>
+                        
+                        <div class="search-box">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" id="searchInput" class="search-input" placeholder="ابحث في سجلاتك...">
+                        </div>
+                        
+                        <select class="filter-select" id="timeFilter">
+                            <option value="all">كل الأوقات</option>
+                            <option value="today">اليوم</option>
+                            <option value="week">هذا الأسبوع</option>
+                            <option value="month">هذا الشهر</option>
+                            <option value="year">هذا العام</option>
+                        </select>
+                        
+                        <button class="btn-export" onclick="exportData()">
+                            <span class="btn-icon">📥</span>
+                            <span>تصدير</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Timeline -->
+            <section class="timeline-section fade-in-up delay-5">
+                <div class="timeline-header">
+                    <h3 class="section-title">سجل المحاسبة</h3>
+                </div>
+                
+                <div class="timeline-container" id="timelineContainer">
+                    <!-- Timeline items will be populated by JavaScript -->
+                </div>
+                
+                <div class="empty-state" id="emptyState" style="display: none;">
+                    <div class="empty-icon">📖</div>
+                    <h3>لم تبدأ المحاسبة بعد</h3>
+                    <p>ابدأ بتسجيل أعمالك اليومية وحاسب نفسك!</p>
+                    <div class="empty-actions">
+                        <button class="btn-primary" onclick="openAddModal('good')">سجل عملاً صالحاً</button>
+                        <button class="btn-secondary" onclick="openJournalModal()">اكتب مذكرة يومية</button>
+                    </div>
+                </div>
+            </section>
+            
+        </div>
+    </main>
+    
+    <!-- Add Good/Bad Deed Modal -->
+    <div id="addDeedModal" class="modal" style="display: none;">
+        <div class="modal-overlay" onclick="closeAddModal()"></div>
+        <div class="modal-content glass-card">
+            <button class="modal-close" onclick="closeAddModal()">✕</button>
+            
+            <h2 class="modal-title" id="deedModalTitle">إضافة عمل</h2>
+            
+            <form id="addDeedForm" class="khirah-form">
+                <input type="hidden" id="deedType" value="good">
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <span class="label-icon">📋</span>
+                        <span>الفئة</span>
+                    </label>
+                    <select class="form-input" id="deedCategory" required>
+                        <!-- Categories will be populated dynamically -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <span class="label-icon">✍️</span>
+                        <span>الوصف</span>
+                    </label>
+                    <textarea class="form-input" id="deedDescription" rows="3" placeholder="اكتب وصفاً..." required></textarea>
+                </div>
+                
+                <div class="form-group" id="improvementGroup" style="display: none;">
+                    <label class="form-label">
+                        <span class="label-icon">💡</span>
+                        <span>خطة التحسين</span>
+                    </label>
+                    <textarea class="form-input" id="improvementPlan" rows="2" placeholder="كيف ستتجنب هذا في المستقبل؟"></textarea>
+                </div>
+                
+                <div class="form-group" id="amountGroup" style="display: none;">
+                    <label class="form-label">
+                        <span class="label-icon">💰</span>
+                        <span>المبلغ (ريال)</span>
+                    </label>
+                    <input type="number" class="form-input" id="deedAmount" min="0" step="0.01" placeholder="0.00">
+                </div>
+                
+                <div class="form-group" id="pagesGroup" style="display: none;">
+                    <label class="form-label">
+                        <span class="label-icon">📖</span>
+                        <span>عدد الصفحات</span>
+                    </label>
+                    <input type="number" class="form-input" id="quranPages" min="1" placeholder="عدد صفحات القرآن">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <span class="label-icon">📅</span>
+                        <span>التاريخ</span>
+                    </label>
+                    <input type="date" class="form-input" id="deedDate" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <span class="label-icon">🏷️</span>
+                        <span>وسوم (اختياري)</span>
+                    </label>
+                    <input type="text" class="form-input" id="deedTags" placeholder="مثال: رمضان, للوالدين">
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeAddModal()">إلغاء</button>
+                    <button type="submit" class="btn-primary">
+                        <span class="btn-icon">✓</span>
+                        <span>حفظ</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Daily Journal Modal -->
+    <div id="journalModal" class="modal" style="display: none;">
+        <div class="modal-overlay" onclick="closeJournalModal()"></div>
+        <div class="modal-content glass-card modal-large">
+            <button class="modal-close" onclick="closeJournalModal()">✕</button>
+            
+            <h2 class="modal-title">📝 المذكرة اليومية</h2>
+            
+            <form id="journalForm" class="khirah-form">
+                <div class="form-group">
+                    <label class="form-label">
+                        <span class="label-icon">📅</span>
+                        <span>التاريخ</span>
+                    </label>
+                    <input type="date" class="form-input" id="journalDate" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <span class="label-icon">😊</span>
+                        <span>الحالة النفسية</span>
+                    </label>
+                    <div class="mood-selector">
+                        <button type="button" class="mood-btn" data-mood="excellent" onclick="selectMood('excellent')">😇</button>
+                        <button type="button" class="mood-btn" data-mood="good" onclick="selectMood('good')">😊</button>
+                        <button type="button" class="mood-btn" data-mood="neutral" onclick="selectMood('neutral')">😐</button>
+                        <button type="button" class="mood-btn" data-mood="sad" onclick="selectMood('sad')">😔</button>
+                        <button type="button" class="mood-btn" data-mood="bad" onclick="selectMood('bad')">😢</button>
+                    </div>
+                    <input type="hidden" id="journalMood">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <span class="label-icon">✅</span>
+                        <span>ما أحسنت فيه اليوم؟</span>
+                    </label>
+                    <textarea class="form-input" id="journalGoodPoints" rows="3" placeholder="اكتب النقاط الإيجابية..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <span class="label-icon">⚠️</span>
+                        <span>ما قصّرت فيه اليوم؟</span>
+                    </label>
+                    <textarea class="form-input" id="journalBadPoints" rows="3" placeholder="اكتب ما قصّرت فيه..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <span class="label-icon">🎯</span>
+                        <span>خطة الغد</span>
+                    </label>
+                    <textarea class="form-input" id="journalTomorrowPlan" rows="3" placeholder="ماذا ستفعل غداً للتحسين؟"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <span class="label-icon">💭</span>
+                        <span>تأملات عامة</span>
+                    </label>
+                    <textarea class="form-input" id="journalReflection" rows="4" placeholder="اكتب تأملاتك وأفكارك..."></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeJournalModal()">إلغاء</button>
+                    <button type="submit" class="btn-primary">
+                        <span class="btn-icon">✓</span>
+                        <span>حفظ المذكرة</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Toast Notification -->
+    <div id="khirahToast" class="khirah-toast"></div>
+    
+    <!-- Link JavaScript Files -->
+    <script src="/js/theme-manager.js"></script>
+    <script src="/js/particles.js"></script>
+    <script src="/js/animations.js"></script>
+    <script src="/js/logo-loader.js"></script>
+    <script src="/js/navigation.js"></script>
+    <script src="/js/mouse-light-tracker.js"></script>
+    <script src="/js/user-navigation.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/prayer-times.js"></script>
+    <script src="/js/khirah.js"></script>
+</body>
+</html>
+
+

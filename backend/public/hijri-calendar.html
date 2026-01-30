@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>التقويم الهجري - تهجّد</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/assets/images/logo1.png">
+    
+    <!-- Link CSS Files -->
+    <link rel="stylesheet" href="/css/root-variables.css">
+    <link rel="stylesheet" href="/css/global-styles.css">
+    <link rel="stylesheet" href="/css/hijri-calendar.css">
+    <link rel="stylesheet" href="/css/animations.css">
+    
+    <!-- Google Fonts - Arabic Support -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="emerald-theme calendar-page">
+    
+    <!-- Animated Background Particles -->
+    <div class="particles-container" id="particles"></div>
+    
+    <!-- Navigation Bar -->
+    <nav class="glass-nav">
+        <div class="nav-container">
+            <div class="logo"><a href="index.html"><img src="/assets/images/tahajad_logo.png" alt="تهجد" class="logo-image"></a></div>
+            <ul class="nav-links">
+                <li><a href="prayer_times_page.html">مواقيت الصلاة</a></li>
+                <li><a href="duas_page.html">الأدعية</a></li>
+                <li><a href="challenges_page.html">التحديات</a></li>
+                <li><a href="hijri-calendar.html" class="active">التقويم الهجري</a></li>
+                <li><a href="self-accountability.html">محاسبة النفس</a></li>
+                <li><a href="istikhara.html">الاستخارة</a></li>
+                <li><a href="post_page.html">المنشورات</a></li>
+                <li><a href="leaderthink.html">فكر القائد</a></li>
+                <li><a href="thaqalayn.html">الثقلين</a></li>
+                <li><a href="quran.html">القرآن الكريم</a></li>
+                <li><a href="hyder-ai.html">اسأل hyder.ai</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <!-- Theme Switcher -->
+                <div class="theme-switcher">
+                    <button class="theme-btn" id="themeBtn">
+                        <span class="theme-icon">🎨</span>
+                    </button>
+                    <div class="theme-dropdown" id="themeDropdown">
+                        <button class="theme-option" data-theme="emerald">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #0d4d3d, #d4af37)"></span>
+                            <span>الزمردي</span>
+                        </button>
+                        <button class="theme-option" data-theme="gold">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #c9a961, #1a3a2e)"></span>
+                            <span>الذهبي</span>
+                        </button>
+                        <button class="theme-option" data-theme="ruby">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #8b0000, #d4af37)"></span>
+                            <span>الياقوتي</span>
+                        </button>
+                        <button class="theme-option" data-theme="night">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #1a1f2e, #2d5f5d)"></span>
+                            <span>الليلي</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Not Logged In: Show Login/Register -->
+                <div id="guestActions" style="display: none;">
+                    <a href="login_page.html" class="btn-glass btn-login">تسجيل الدخول</a>
+                    <a href="register_page.html" class="btn-primary">إنشاء حساب</a>
+                </div>
+                
+                <!-- Logged In: Show User Profile -->
+                <div class="user-profile-dropdown" id="userActions" style="display: none;">
+                    <button class="user-profile-btn" id="userProfileBtn">
+                        <div class="user-avatar">
+                            <span id="userInitials">م</span>
+                        </div>
+                        <span class="user-name" id="userName">مستخدم</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="profile.html" class="dropdown-item">
+                            <span class="item-icon">👤</span>
+                            <span>الملف الشخصي</span>
+                        </a>
+                        <a href="settings.html" class="dropdown-item">
+                            <span class="item-icon">⚙️</span>
+                            <span>الإعدادات</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item logout-btn" id="logoutBtn">
+                            <span class="item-icon">🚪</span>
+                            <span>تسجيل الخروج</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="calendar-main">
+        <div class="calendar-container">
+            
+            <!-- Main Layout: Events Left, Calendar Right -->
+            <div class="main-layout">
+                <!-- Left Side: Events List -->
+                <section class="events-sidebar fade-in-up delay-1">
+                    <div class="events-sidebar-header glass-card">
+                        <h2 class="events-sidebar-title">المناسبات</h2>
+                        <div class="events-filter">
+                            <button class="filter-tab active" data-filter="all">الكل</button>
+                            <button class="filter-tab" data-filter="joyful">فرح</button>
+                            <button class="filter-tab" data-filter="mourning">حزن</button>
+                        </div>
+                    </div>
+                    
+                    <div class="events-list-container glass-card" id="eventsListContainer">
+                        <img src="/assets/images/hijriback.jpg" alt="المناسبات" class="events-list-background">
+                        <div class="events-list-overlay"></div>
+                        <div class="events-list-content">
+                            <div class="events-list" id="eventsList">
+                                <!-- Events will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Right Side: Calendar -->
+                <section class="calendar-sidebar fade-in-up delay-2">
+                    <!-- Calendar Navigation -->
+                    <div class="calendar-nav-compact glass-card">
+                        <button class="nav-btn-compact" id="prevMonth">
+                            <span class="nav-arrow">→</span>
+                        </button>
+                        
+                        <div class="current-month-compact">
+                            <h2 class="month-name-compact" id="currentMonth">محرم</h2>
+                            <span class="year-number-compact" id="currentYear">1446 هـ</span>
+                        </div>
+                        
+                        <button class="nav-btn-compact" id="nextMonth">
+                            <span class="nav-arrow">←</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Quick Jump -->
+                    <div class="quick-jump-compact glass-card">
+                        <button class="jump-btn-compact" id="todayBtn">
+                            <span class="btn-icon">📅</span>
+                            <div class="jump-btn-content">
+                                <span class="jump-btn-label">اليوم</span>
+                                <span class="jump-btn-date-hijri" id="quickJumpHijri">15 جمادى الأولى 1446</span>
+                                <span class="jump-btn-date-gregorian" id="quickJumpGregorian">17 نوفمبر 2024</span>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <!-- Calendar Grid -->
+                    <div class="calendar-wrapper-compact glass-card">
+                        <img src="/assets/images/calender.jpg" alt="التقويم الهجري" class="calendar-wrapper-background">
+                        <div class="calendar-wrapper-overlay"></div>
+                        <div class="calendar-wrapper-content">
+                            <!-- Days of Week Header -->
+                            <div class="weekdays-compact">
+                            <div class="weekday-compact">سبت</div>
+                            <div class="weekday-compact">أحد</div>
+                            <div class="weekday-compact">إثن</div>
+                            <div class="weekday-compact">ثل</div>
+                            <div class="weekday-compact">أرب</div>
+                            <div class="weekday-compact">خم</div>
+                            <div class="weekday-compact">جم</div>
+                        </div>
+                        
+                            <!-- Calendar Days Grid -->
+                            <div class="calendar-grid-compact" id="calendarGrid">
+                                <!-- Days will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            
+        </div>
+    </main>
+    
+    <!-- Event Details Modal -->
+    <div id="eventModal" class="modal" style="display: none;">
+        <div class="modal-overlay" onclick="closeEventModal()"></div>
+        <div class="modal-content glass-card">
+            <button class="modal-close" onclick="closeEventModal()">✕</button>
+            
+            <div class="event-details">
+                <div class="event-icon-large" id="eventIcon">🕌</div>
+                <h2 class="event-title" id="eventTitle">مناسبة إسلامية</h2>
+                <div class="event-date" id="eventDate">1 محرم 1446 هـ</div>
+                
+                <div class="event-info">
+                    <div class="info-section">
+                        <h4 class="info-title">عن المناسبة:</h4>
+                        <p class="info-text" id="eventDescription">وصف المناسبة</p>
+                    </div>
+                    
+                    <div class="info-section">
+                        <h4 class="info-title">الأعمال المستحبة:</h4>
+                        <ul class="info-list" id="eventActions">
+                            <li>الصلاة والدعاء</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <button class="btn-primary" onclick="setReminder()">
+                    <span class="btn-icon">🔔</span>
+                    <span>تذكيرني بهذا اليوم</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Special Days List Modal -->
+    <div id="specialDaysModal" class="modal" style="display: none;">
+        <div class="modal-overlay" onclick="closeSpecialDaysModal()"></div>
+        <div class="modal-content glass-card special-days-modal">
+            <button class="modal-close" onclick="closeSpecialDaysModal()">✕</button>
+            
+            <h2 class="modal-title">الأيام المباركة في السنة الهجرية</h2>
+            
+            <div class="special-days-list" id="specialDaysList">
+                <!-- Special days will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast Notification -->
+    <div id="calendarToast" class="calendar-toast"></div>
+    
+    <!-- Link JavaScript Files -->
+    <script src="/js/theme-manager.js"></script>
+    <script src="/js/particles.js"></script>
+    <script src="/js/animations.js"></script>
+    <script src="/js/logo-loader.js"></script>
+    <script src="/js/navigation.js"></script>
+    <script src="/js/mouse-light-tracker.js"></script>
+    <script src="/js/user-navigation.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/prayer-times.js"></script>
+    <script src="/js/hijri-calendar.js"></script>
+</body>
+</html>
+
+
+
+

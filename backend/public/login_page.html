@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول - تهجّد</title>
+    <meta name="description" content="دخول آمن إلى حسابك في تهجّد">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/assets/images/logo1.png">
+    
+    <!-- Link CSS Files -->
+    <link rel="stylesheet" href="/css/root-variables.css">
+    <link rel="stylesheet" href="/css/global-styles.css">
+    <link rel="stylesheet" href="/css/auth-pages.css">
+    <link rel="stylesheet" href="/css/animations.css">
+    <link rel="stylesheet" href="/css/landing-page.css">
+    
+    <!-- Google Fonts - Arabic Support -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="emerald-theme auth-page">
+    
+    <!-- Animated Background Particles -->
+    <div class="particles-container" id="particles"></div>
+    
+    <!-- Auth Background Pattern -->
+    <div class="auth-background">
+        <div class="pattern-overlay"></div>
+    </div>
+    
+    <!-- Back to Home Button -->
+    <a href="index.html" class="back-home">
+        <span class="back-icon">→</span>
+        <span>العودة للرئيسية</span>
+    </a>
+    
+    <!-- Main Auth Container -->
+    <div class="auth-container">
+        <div class="auth-wrapper">
+            
+            <!-- Left Side - Illustration -->
+            <div class="auth-illustration fade-in-left">
+                <div class="illustration-content">
+                    <div class="mosque-icon">🕌</div>
+                    <h2 class="illustration-title">مرحباً بعودتك</h2>
+                    <p class="illustration-text">
+                        استمر في رحلتك الروحانية معنا
+                        <br>
+                        وواصل تحدياتك اليومية
+                    </p>
+                    
+                    <div class="illustration-features">
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>تتبع صلواتك اليومية</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>أكمل تحدي الأذكار</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>سجل أعمالك الصالحة</span>
+                        </div>
+                    </div>
+                    
+                    <div class="illustration-stats glass-card">
+                        <div class="stat">
+                            <span class="stat-value">10K+</span>
+                            <span class="stat-label">مستخدم نشط</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">1M+</span>
+                            <span class="stat-label">صلاة مكتملة</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Side - Login Form -->
+            <div class="auth-form-container fade-in-right">
+                <div class="auth-form-wrapper glass-card">
+                    
+                    <!-- Logo & Title -->
+                    <div class="auth-header">
+                        <div class="auth-logo"><a href="index.html"><img src="/assets/images/tahajad_logo.png" alt="تهجد" class="logo-image"></a></div>
+                        <h1 class="auth-title">تسجيل الدخول</h1>
+                        <p class="auth-subtitle">ادخل إلى حسابك لمتابعة رحلتك</p>
+                    </div>
+                    
+                    <!-- Login Form -->
+                    <form id="loginForm" class="auth-form" novalidate>
+                        
+                        <!-- Email Field -->
+                        <div class="form-group">
+                            <label for="email" class="form-label">
+                                <span class="label-icon">📧</span>
+                                البريد الإلكتروني
+                            </label>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                name="email"
+                                class="form-input"
+                                placeholder="example@email.com"
+                                required
+                                autocomplete="email"
+                            >
+                            <span class="form-error" id="emailError"></span>
+                        </div>
+                        
+                        <!-- Password Field -->
+                        <div class="form-group">
+                            <label for="password" class="form-label">
+                                <span class="label-icon">🔒</span>
+                                كلمة المرور
+                            </label>
+                            <div class="password-input-wrapper">
+                                <input 
+                                    type="password" 
+                                    id="password" 
+                                    name="password"
+                                    class="form-input"
+                                    placeholder="••••••••"
+                                    required
+                                    autocomplete="current-password"
+                                >
+                                <button type="button" class="toggle-password" id="togglePassword">
+                                    <span class="eye-icon">👁</span>
+                                </button>
+                            </div>
+                            <span class="form-error" id="passwordError"></span>
+                        </div>
+                        
+                        <!-- Remember & Forgot -->
+                        <div class="form-options">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="rememberMe" name="rememberMe">
+                                <span class="checkbox-custom"></span>
+                                <span>تذكرني</span>
+                            </label>
+                            
+                            <a href="forgot-password.html" class="forgot-link">
+                                نسيت كلمة المرور؟
+                            </a>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn-submit" id="loginBtn">
+                            <span class="btn-text">تسجيل الدخول</span>
+                            <span class="btn-loader" style="display: none;">
+                                <span class="loader-spinner"></span>
+                            </span>
+                        </button>
+                        
+                    </form>
+                    
+                    <!-- Register Link -->
+                    <div class="auth-footer">
+                        <p>ليس لديك حساب؟ 
+                            <a href="register.html" class="auth-link">إنشاء حساب جديد</a>
+                        </p>
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    <!-- Notification Toast -->
+    <div id="authToast" class="auth-toast"></div>
+    
+    <!-- Link JavaScript Files -->
+    <script src="/js/logo-loader.js"></script>
+    <script src="/js/theme-manager.js"></script>
+    <script src="/js/particles.js"></script>
+    <script src="/js/animations.js"></script>
+    <script src="/js/mouse-light-tracker.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/api.js"></script>
+</body>
+</html>
+

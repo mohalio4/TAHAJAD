@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اسأل hyder.ai - تهجّد</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/assets/images/logo1.png">
+    
+    <!-- Link CSS Files -->
+    <link rel="stylesheet" href="/css/root-variables.css">
+    <link rel="stylesheet" href="/css/global-styles.css">
+    <link rel="stylesheet" href="/css/hyder-ai.css">
+    <link rel="stylesheet" href="/css/animations.css">
+    
+    <!-- Google Fonts - Arabic Support -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="emerald-theme">
+    
+    <!-- Animated Background Particles -->
+    <div class="particles-container" id="particles"></div>
+    
+    <!-- Navigation Bar -->
+    <nav class="glass-nav">
+        <div class="nav-container">
+            <div class="logo"><a href="index.html"><img src="/assets/images/tahajad_logo.png" alt="تهجد" class="logo-image"></a></div>
+            
+            <ul class="nav-links">
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="prayer_times_page.html">مواقيت الصلاة</a></li>
+                <li><a href="duas_page.html">الأدعية</a></li>
+                <li><a href="challenges_page.html">التحديات</a></li>
+                <li><a href="hijri-calendar.html">التقويم الهجري</a></li>
+                <li><a href="self-accountability.html">محاسبة النفس</a></li>
+                <li><a href="istikhara.html">الاستخارة</a></li>
+                <li><a href="post_page.html">المنشورات</a></li>
+                <li><a href="leaderthink.html">فكر القائد</a></li>
+                <li><a href="thaqalayn.html">الثقلين</a></li>
+                <li><a href="quran.html">القرآن الكريم</a></li>
+                <li><a href="hyder-ai.html" class="active">اسأل hyder.ai</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <!-- Theme Switcher -->
+                <div class="theme-switcher">
+                    <button class="theme-btn" id="themeBtn">
+                        <span class="theme-icon">🎨</span>
+                    </button>
+                    <div class="theme-dropdown" id="themeDropdown">
+                        <button class="theme-option" data-theme="emerald">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #0d4d3d, #d4af37)"></span>
+                            <span>الزمردي</span>
+                        </button>
+                        <button class="theme-option" data-theme="gold">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #c9a961, #1a3a2e)"></span>
+                            <span>الذهبي</span>
+                        </button>
+                        <button class="theme-option" data-theme="ruby">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #8b0000, #d4af37)"></span>
+                            <span>الياقوتي</span>
+                        </button>
+                        <button class="theme-option" data-theme="night">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #1a1f2e, #2d5f5d)"></span>
+                            <span>الليلي</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Not Logged In: Show Login/Register -->
+                <div id="guestActions" style="display: none;">
+                    <a href="login_page.html" class="btn-glass btn-login">تسجيل الدخول</a>
+                    <a href="register_page.html" class="btn-primary">إنشاء حساب</a>
+                </div>
+                
+                <!-- Logged In: Show User Profile -->
+                <div class="user-profile-dropdown" id="userActions" style="display: none;">
+                    <button class="user-profile-btn" id="userProfileBtn">
+                        <div class="user-avatar">
+                            <span id="userInitials">م</span>
+                        </div>
+                        <span class="user-name" id="userName">مستخدم</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="profile.html" class="dropdown-item">
+                            <span class="item-icon">👤</span>
+                            <span>الملف الشخصي</span>
+                        </a>
+                        <a href="settings.html" class="dropdown-item">
+                            <span class="item-icon">⚙️</span>
+                            <span>الإعدادات</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item logout-btn" id="logoutBtn">
+                            <span class="item-icon">🚪</span>
+                            <span>تسجيل الخروج</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <div class="hyder-container">
+        <div class="hyder-layout">
+            <!-- Sidebar - Chat History -->
+            <aside class="hyder-sidebar">
+                <div class="hyder-sidebar-header">
+                    <h2 class="hyder-sidebar-title">المحادثات</h2>
+                    <button class="hyder-new-chat-btn" id="hyderNewChatBtn" title="محادثة جديدة">
+                        <span>➕</span>
+                    </button>
+                </div>
+                
+                <div class="hyder-chat-list" id="hyderChatList">
+                    <!-- Chat history items will be dynamically added here -->
+                </div>
+            </aside>
+            
+            <!-- Main Chat Area -->
+            <main class="hyder-main-chat">
+                <!-- Chat Header -->
+                <div class="hyder-chat-header">
+                    <h1 class="hyder-chat-title" id="hyderChatTitle">اسأل hyder.ai</h1>
+                </div>
+                
+                <!-- Chat Container -->
+                <div class="hyder-chat-container">
+                    <!-- Messages Area -->
+                    <div class="hyder-messages" id="hyderMessages">
+                        <!-- Messages will be dynamically added here -->
+                        <div class="hyder-empty-state" id="hyderEmptyState">
+                            <div class="hyder-empty-state-icon">💭</div>
+                            <div class="hyder-empty-state-text">ابدأ محادثة جديدة</div>
+                            <div class="hyder-empty-state-hint">اكتب سؤالك في المربع أدناه وستحصل على إجابة فورية</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Input Area -->
+                    <div class="hyder-input-container">
+                        <div class="hyder-input-wrapper">
+                            <textarea 
+                                id="hyderInput" 
+                                class="hyder-input" 
+                                placeholder="اكتب سؤالك هنا..."
+                                rows="1"
+                            ></textarea>
+                        </div>
+                        <button id="hyderSendBtn" class="hyder-send-btn">
+                            <span>إرسال</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Attribution (REQUIRED by Terms of Use) -->
+                <div class="hyder-attribution">
+                    <span>Powered by </span>
+                    <a href="https://hyder.ai" target="_blank" rel="noopener noreferrer">hyder.ai</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <!-- Delete Chat Dialog -->
+    <div class="hyder-delete-dialog" id="hyderDeleteDialog">
+        <div class="hyder-dialog-overlay"></div>
+        <div class="hyder-dialog-content">
+            <div class="hyder-dialog-icon">🗑️</div>
+            <h3 class="hyder-dialog-title">حذف المحادثة</h3>
+            <p class="hyder-dialog-message">هل أنت متأكد من حذف هذه المحادثة؟ لا يمكن التراجع عن هذا الإجراء.</p>
+            <div class="hyder-dialog-actions">
+                <button class="hyder-dialog-btn hyder-dialog-cancel" id="hyderDialogCancel">إلغاء</button>
+                <button class="hyder-dialog-btn hyder-dialog-confirm" id="hyderDialogConfirm">حذف</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Link JavaScript Files -->
+    <script src="/js/logo-loader.js"></script>
+    <script src="/js/theme-manager.js"></script>
+    <script src="/js/particles.js"></script>
+    <script src="/js/animations.js"></script>
+    <script src="/js/navigation.js"></script>
+    <script src="/js/user-navigation.js"></script>
+    <script src="/js/mouse-light-tracker.js"></script>
+    <script src="/js/hyder-ai.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/prayer-times.js"></script>
+    
+    <!-- Dynamic User Actions -->
+    <script>
+        // Check if user is logged in
+        const userData = localStorage.getItem('userData');
+        const guestActions = document.getElementById('guestActions');
+        const userActions = document.getElementById('userActions');
+        
+        if (userData) {
+            // User is logged in - show profile
+            if (userActions) userActions.style.display = 'flex';
+            if (guestActions) guestActions.style.display = 'none';
+            
+            // Set user info
+            const user = JSON.parse(userData);
+            const userName = document.getElementById('userName');
+            const userInitials = document.getElementById('userInitials');
+            
+            if (userName) userName.textContent = user.name || 'مستخدم';
+            if (userInitials) {
+                const names = (user.name || 'م').trim().split(' ');
+                if (names.length >= 2) {
+                    userInitials.textContent = names[0].charAt(0) + names[1].charAt(0);
+                } else {
+                    userInitials.textContent = (user.name || 'م').charAt(0);
+                }
+            }
+            
+            // Logout functionality
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', () => {
+                    if (confirm('هل أنت متأكد من تسجيل الخروج؟')) {
+                        localStorage.removeItem('userData');
+                        localStorage.removeItem('authToken');
+                        window.location.href = 'index.html';
+                    }
+                });
+            }
+        } else {
+            // User is NOT logged in - show login/register
+            if (guestActions) guestActions.style.display = 'flex';
+            if (userActions) userActions.style.display = 'none';
+        }
+        
+        // Auto-resize textarea
+        const inputField = document.getElementById('hyderInput');
+        if (inputField) {
+            inputField.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = Math.min(this.scrollHeight, 150) + 'px';
+            });
+        }
+        
+        // Hide empty state when messages exist
+        const messagesContainer = document.getElementById('hyderMessages');
+        const emptyState = document.getElementById('hyderEmptyState');
+        
+        if (messagesContainer && emptyState) {
+            const observer = new MutationObserver(() => {
+                const hasMessages = messagesContainer.querySelectorAll('.hyder-message').length > 0;
+                emptyState.style.display = hasMessages ? 'none' : 'flex';
+            });
+            
+            observer.observe(messagesContainer, { childList: true });
+        }
+    </script>
+</body>
+</html>
+
+

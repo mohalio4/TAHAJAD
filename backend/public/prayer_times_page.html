@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مواقيت الصلاة - تهجّد</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/assets/images/logo1.png">
+    
+    <!-- Link CSS Files -->
+    <link rel="stylesheet" href="/css/root-variables.css">
+    <link rel="stylesheet" href="/css/global-styles.css">
+    <link rel="stylesheet" href="/css/prayer-times.css">
+    <link rel="stylesheet" href="/css/animations.css">
+    
+    <!-- Google Fonts - Arabic Support -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="emerald-theme prayer-times-page">
+    
+    <!-- Animated Background Particles -->
+    <div class="particles-container" id="particles"></div>
+    
+    <!-- Navigation Bar -->
+    <nav class="glass-nav">
+        <div class="nav-container">
+            <div class="logo"><a href="index.html"><img src="/assets/images/tahajad_logo.png" alt="تهجد" class="logo-image"></a></div>
+            <ul class="nav-links">
+                <li><a href="prayer_times_page.html" class="active">مواقيت الصلاة</a></li>
+                <li><a href="duas_page.html">الأدعية</a></li>
+                <li><a href="challenges_page.html">التحديات</a></li>
+                <li><a href="hijri-calendar.html">التقويم الهجري</a></li>
+                <li><a href="self-accountability.html">محاسبة النفس</a></li>
+                <li><a href="istikhara.html">الاستخارة</a></li>
+                <li><a href="post_page.html">المنشورات</a></li>
+                <li><a href="leaderthink.html">فكر القائد</a></li>
+                <li><a href="thaqalayn.html">الثقلين</a></li>
+                <li><a href="quran.html">القرآن الكريم</a></li>
+                <li><a href="hyder-ai.html">اسأل hyder.ai</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <!-- Theme Switcher -->
+                <div class="theme-switcher">
+                    <button class="theme-btn" id="themeBtn">
+                        <span class="theme-icon">🎨</span>
+                    </button>
+                    <div class="theme-dropdown" id="themeDropdown">
+                        <button class="theme-option" data-theme="emerald">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #0d4d3d, #d4af37)"></span>
+                            <span>الزمردي</span>
+                        </button>
+                        <button class="theme-option" data-theme="gold">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #c9a961, #1a3a2e)"></span>
+                            <span>الذهبي</span>
+                        </button>
+                        <button class="theme-option" data-theme="ruby">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #8b0000, #d4af37)"></span>
+                            <span>الياقوتي</span>
+                        </button>
+                        <button class="theme-option" data-theme="night">
+                            <span class="theme-color" style="background: linear-gradient(135deg, #1a1f2e, #2d5f5d)"></span>
+                            <span>الليلي</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Not Logged In: Show Login/Register -->
+                <div id="guestActions" style="display: none;">
+                    <a href="login_page.html" class="btn-glass btn-login">تسجيل الدخول</a>
+                    <a href="register_page.html" class="btn-primary">إنشاء حساب</a>
+                </div>
+                
+                <!-- Logged In: Show User Profile -->
+                <div class="user-profile-dropdown" id="userActions" style="display: none;">
+                    <button class="user-profile-btn" id="userProfileBtn">
+                        <div class="user-avatar">
+                            <span id="userInitials">م</span>
+                        </div>
+                        <span class="user-name" id="userName">مستخدم</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="profile.html" class="dropdown-item">
+                            <span class="item-icon">👤</span>
+                            <span>الملف الشخصي</span>
+                        </a>
+                        <a href="settings.html" class="dropdown-item">
+                            <span class="item-icon">⚙️</span>
+                            <span>الإعدادات</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item logout-btn" id="logoutBtn">
+                            <span class="item-icon">🚪</span>
+                            <span>تسجيل الخروج</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="prayer-times-main">
+        <div class="prayer-times-container">
+            
+            <!-- Page Header -->
+            <section class="page-header fade-in-up">
+                <div class="page-header-card glass-card">
+                    <img src="/assets/images/pray.jpg" alt="مواقيت الصلاة" class="header-background-image">
+                    <div class="header-overlay"></div>
+                    <div class="header-text-content">
+                        <h1 class="page-title">مواقيت الصلاة</h1>
+                        <p class="page-subtitle">الصلاة في أول الوقت وصية الشهداء</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Location & Upcoming Prayer Bar -->
+            <section class="location-prayer-bar fade-in-up delay-1">
+                <div class="location-section">
+                    <div class="location-display glass-card">
+                        <span class="selector-icon">📍</span>
+                        <div class="location-text">
+                            <span class="location-label">المدينة:</span>
+                            <span class="location-name" id="locationName">بيروت</span>
+                        </div>
+                        <button class="detect-location-btn" id="detectLocationBtn" title="تحديد موقعي تلقائياً">
+                            <img src="/assets/images/location.png" alt="تحديد الموقع" class="location-icon-img">
+                        </button>
+                    </div>
+                    
+                    <div class="hijri-date-display glass-card">
+                        <span class="date-icon">📅</span>
+                        <a href="hijri-calendar.html" class="hijri-date-link">
+                            <span class="hijri-date" id="hijriDate">20 جمادى الأولى 1447</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Current Prayer Highlight -->
+                <div class="current-prayer-card glass-card">
+                    <div class="current-prayer-content">
+                        <div class="prayer-status">
+                            <span class="status-label" id="statusLabel">الصلاة القادمة</span>
+                            <h2 class="current-prayer-name" id="currentPrayerName">العصر</h2>
+                        </div>
+                        
+                        <div class="countdown-display">
+                            <div class="countdown-box">
+                                <span class="countdown-value" id="hoursValue">02</span>
+                                <span class="countdown-label">ساعة</span>
+                            </div>
+                            <span class="countdown-separator">:</span>
+                            <div class="countdown-box">
+                                <span class="countdown-value" id="minutesValue">34</span>
+                                <span class="countdown-label">دقيقة</span>
+                            </div>
+                            <span class="countdown-separator">:</span>
+                            <div class="countdown-box">
+                                <span class="countdown-value" id="secondsValue">18</span>
+                                <span class="countdown-label">ثانية</span>
+                            </div>
+                        </div>
+                        
+                        <div class="prayer-time-display">
+                            <span class="time-label">الوقت المحدد:</span>
+                            <span class="time-value" id="currentPrayerTime">15:30</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Prayer Times Grid -->
+            <section class="prayer-times-grid fade-in-up delay-3">
+                <h2 class="section-title">جميع الأوقات</h2>
+                
+                <div class="prayers-grid">
+                    <!-- Imsak -->
+                    <div class="prayer-card glass-card info-only">
+                        <img src="/assets/images/pray.jpg" alt="الإمساك" class="prayer-card-background">
+                        <div class="prayer-card-overlay"></div>
+                        <div class="prayer-card-content">
+                            <div class="prayer-card-header">
+                            <div class="prayer-icon">🌙</div>
+                            <div class="prayer-info">
+                                <h3 class="prayer-name">الإمساك</h3>
+                                <span class="prayer-time" id="imsakTime">05:20</span>
+                            </div>
+                            </div>
+                            <div class="prayer-note">
+                                <span class="note-text">وقت بدء الصيام</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Fajr -->
+                    <div class="prayer-card glass-card" data-prayer="fajr">
+                        <img src="/assets/images/pray.jpg" alt="الفجر" class="prayer-card-background">
+                        <div class="prayer-card-overlay"></div>
+                        <div class="prayer-card-content">
+                            <div class="prayer-card-header">
+                                <div class="prayer-icon">🌅</div>
+                                <div class="prayer-info">
+                                    <h3 class="prayer-name">الفجر</h3>
+                                    <span class="prayer-time" id="fajrTime">05:30</span>
+                                </div>
+                            </div>
+                            <div class="prayer-actions">
+                                <button class="log-prayer-btn" onclick="logPrayer('fajr')">
+                                    <span>✓</span>
+                                    <span>تسجيل</span>
+                                </button>
+                                <button class="alarm-btn" onclick="toggleAlarm('fajr')">
+                                    <span class="alarm-icon">🔔</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sunrise -->
+                    <div class="prayer-card glass-card info-only">
+                        <img src="/assets/images/pray.jpg" alt="الشروق" class="prayer-card-background">
+                        <div class="prayer-card-overlay"></div>
+                        <div class="prayer-card-content">
+                            <div class="prayer-card-header">
+                                <div class="prayer-icon">☀️</div>
+                                <div class="prayer-info">
+                                    <h3 class="prayer-name">الشروق</h3>
+                                    <span class="prayer-time" id="sunriseTime">06:45</span>
+                                </div>
+                            </div>
+                            <div class="prayer-note">
+                                <span class="note-text">وقت النهي عن الصلاة</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Dhuhr -->
+                    <div class="prayer-card glass-card" data-prayer="dhuhr">
+                        <img src="/assets/images/pray.jpg" alt="الظهر" class="prayer-card-background">
+                        <div class="prayer-card-overlay"></div>
+                        <div class="prayer-card-content">
+                            <div class="prayer-card-header">
+                                <div class="prayer-icon">☀️</div>
+                                <div class="prayer-info">
+                                    <h3 class="prayer-name">الظهر</h3>
+                                    <span class="prayer-time" id="dhuhrTime">12:15</span>
+                                </div>
+                            </div>
+                            <div class="prayer-actions">
+                                <button class="log-prayer-btn" onclick="logPrayer('dhuhr')">
+                                    <span>✓</span>
+                                    <span>تسجيل</span>
+                                </button>
+                                <button class="alarm-btn" onclick="toggleAlarm('dhuhr')">
+                                    <span class="alarm-icon">🔔</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Maghrib -->
+                    <div class="prayer-card glass-card" data-prayer="maghrib">
+                        <img src="/assets/images/pray.jpg" alt="المغرب" class="prayer-card-background">
+                        <div class="prayer-card-overlay"></div>
+                        <div class="prayer-card-content">
+                            <div class="prayer-card-header">
+                                <div class="prayer-icon">🌅</div>
+                                <div class="prayer-info">
+                                    <h3 class="prayer-name">المغرب</h3>
+                                    <span class="prayer-time" id="maghribTime">18:00</span>
+                                </div>
+                            </div>
+                            <div class="prayer-actions">
+                                <button class="log-prayer-btn" onclick="logPrayer('maghrib')">
+                                    <span>✓</span>
+                                    <span>تسجيل</span>
+                                </button>
+                                <button class="alarm-btn" onclick="toggleAlarm('maghrib')">
+                                    <span class="alarm-icon">🔔</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Midnight -->
+                    <div class="prayer-card glass-card info-only">
+                        <img src="/assets/images/pray.jpg" alt="منتصف الليل" class="prayer-card-background">
+                        <div class="prayer-card-overlay"></div>
+                        <div class="prayer-card-content">
+                            <div class="prayer-card-header">
+                                <div class="prayer-icon">🌌</div>
+                                <div class="prayer-info">
+                                    <h3 class="prayer-name">منتصف الليل</h3>
+                                    <span class="prayer-time" id="midnightTime">00:15</span>
+                                </div>
+                            </div>
+                            <div class="prayer-note">
+                                <span class="note-text">منتصف الليل الشرعي</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+        </div>
+    </main>
+    
+    <!-- Success Toast -->
+    <div id="prayerToast" class="prayer-toast"></div>
+    
+    <!-- Link JavaScript Files -->
+    <script src="/js/theme-manager.js"></script>
+    <script src="/js/particles.js"></script>
+    <script src="/js/animations.js"></script>
+    <script src="/js/logo-loader.js"></script>
+    <script src="/js/navigation.js"></script>
+    <script src="/js/mouse-light-tracker.js"></script>
+    <script src="/js/user-navigation.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/prayer-times.js"></script>
+</body>
+</html>
+
+

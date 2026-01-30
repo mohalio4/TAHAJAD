@@ -1,0 +1,815 @@
+/* ====================================
+   HYDER.AI CHAT INTERFACE STYLES
+   ==================================== */
+
+/* Mouse light tracker is now in global-styles.css */
+
+/* ========== CONTAINER ========== */
+.hyder-container {
+    min-height: calc(100vh - var(--nav-offset));
+    padding-top: var(--nav-offset);
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-primary);
+    position: relative;
+    overflow: hidden;
+    margin-top: 0;
+}
+
+.hyder-layout {
+    display: flex;
+    height: calc(100vh - var(--nav-offset));
+    width: 100%;
+    overflow: hidden;
+    margin-top: 0;
+}
+
+/* ========== SIDEBAR ========== */
+.hyder-sidebar {
+    width: 300px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px) saturate(180%);
+    border-left: 1px solid var(--glass-border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 10;
+    height: 100%;
+}
+
+.hyder-sidebar-header {
+    padding: calc((var(--spacing-xl) + var(--spacing-md) + var(--spacing-lg)) / 2) var(--spacing-md) var(--spacing-sm);
+    border-bottom: 1px solid var(--glass-border);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--bg-secondary);
+    margin: 0;
+    position: relative;
+}
+
+.hyder-sidebar-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    padding: 0 var(--spacing-sm);
+    font-family: var(--font-primary);
+    line-height: 1;
+    text-align: center;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.hyder-new-chat-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    background: var(--gradient-primary);
+    border: none;
+    position: absolute;
+    right: var(--spacing-md);
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-normal);
+    box-shadow: var(--shadow-sm);
+}
+
+.hyder-new-chat-btn:hover {
+    transform: scale(1.02);
+    box-shadow: var(--shadow-glow);
+}
+
+.hyder-chat-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--spacing-sm);
+}
+
+.hyder-chat-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.hyder-chat-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.hyder-chat-list::-webkit-scrollbar-thumb {
+    background: var(--glass-border);
+    border-radius: 3px;
+}
+
+.hyder-chat-list::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary);
+}
+
+.hyder-date-header {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: var(--spacing-md);
+    font-family: var(--font-primary);
+}
+
+.hyder-date-header:first-child {
+    margin-top: 0;
+}
+
+.hyder-chat-item {
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin-bottom: var(--spacing-xs);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    position: relative;
+    background: transparent;
+}
+
+.hyder-chat-item:hover {
+    background: var(--glass-bg-hover);
+}
+
+.hyder-chat-item:hover .hyder-chat-delete-btn {
+    opacity: 1;
+    visibility: visible;
+}
+
+.hyder-chat-item.active {
+    background: var(--gradient-primary);
+}
+
+.hyder-chat-item.active .hyder-chat-item-title,
+.hyder-chat-item.active .hyder-chat-item-time {
+    color: var(--text-primary);
+}
+
+.hyder-chat-item-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.hyder-chat-item-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: var(--font-primary);
+}
+
+.hyder-chat-item-time {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-family: var(--font-primary);
+}
+
+.hyder-chat-delete-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+    opacity: 0;
+    visibility: hidden;
+    margin-right: var(--spacing-xs);
+}
+
+.hyder-chat-delete-btn:hover {
+    background: rgba(255, 107, 107, 0.2);
+    color: #ff6b6b;
+    transform: scale(1.1);
+}
+
+.hyder-no-chats {
+    padding: var(--spacing-xl);
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-family: var(--font-primary);
+}
+
+/* ========== MAIN CHAT AREA ========== */
+.hyder-main-chat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--bg-primary);
+    position: relative;
+    z-index: 2;
+}
+
+
+/* ========== CHAT HEADER ========== */
+.hyder-chat-header {
+    padding: calc((var(--spacing-xl) + var(--spacing-md) + var(--spacing-lg)) / 2) var(--spacing-md) var(--spacing-sm);
+    border-bottom: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    margin: 0;
+}
+
+.hyder-chat-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    padding: 0 var(--spacing-sm);
+    font-family: var(--font-heading);
+    line-height: 1;
+    text-align: center;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+/* ========== CHAT CONTAINER ========== */
+.hyder-chat-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+/* ========== MESSAGES AREA ========== */
+.hyder-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    min-height: 0;
+}
+
+.hyder-messages::-webkit-scrollbar {
+    width: 8px;
+}
+
+.hyder-messages::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+    border-radius: 4px;
+}
+
+.hyder-messages::-webkit-scrollbar-thumb {
+    background: var(--glass-border);
+    border-radius: 4px;
+}
+
+.hyder-messages::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary);
+}
+
+/* ========== MESSAGE BUBBLES ========== */
+.hyder-message {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    max-width: 75%;
+    animation: fadeInUp 0.3s ease;
+}
+
+.hyder-message-user {
+    align-self: flex-end;
+    align-items: flex-end;
+}
+
+.hyder-message-ai {
+    align-self: flex-start;
+    align-items: flex-start;
+}
+
+.hyder-message-content {
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    line-height: 1.7;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    font-family: var(--font-primary);
+}
+
+.hyder-message-content strong {
+    color: var(--text-accent);
+    font-weight: 700;
+}
+
+.hyder-message-content em {
+    font-style: italic;
+}
+
+.hyder-message-content code {
+    background: var(--bg-tertiary);
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+}
+
+/* ========== TYPING INDICATOR ========== */
+.hyder-typing-indicator {
+    display: flex;
+    align-items: flex-start;
+}
+
+.hyder-typing-content {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: var(--spacing-md) var(--spacing-lg);
+    min-width: 60px;
+}
+
+.hyder-typing-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--text-accent);
+    animation: typingBounce 1.4s infinite ease-in-out;
+    display: inline-block;
+}
+
+@keyframes typingBounce {
+    0%, 60%, 100% {
+        transform: translateY(0);
+        opacity: 0.7;
+    }
+    30% {
+        transform: translateY(-10px);
+        opacity: 1;
+    }
+}
+
+.hyder-message-user .hyder-message-content {
+    background: var(--gradient-primary);
+    color: var(--text-primary);
+    border-bottom-right-radius: 4px;
+}
+
+.hyder-message-ai .hyder-message-content {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--glass-border);
+    border-bottom-left-radius: 4px;
+}
+
+/* ========== FEEDBACK BUTTONS ========== */
+.hyder-feedback {
+    display: flex;
+    gap: var(--spacing-xs);
+    margin-top: var(--spacing-xs);
+    padding: 0 var(--spacing-xs);
+}
+
+.hyder-feedback-btn {
+    background: transparent;
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-size: 1rem;
+    opacity: 0.6;
+}
+
+.hyder-feedback-btn:hover {
+    opacity: 1;
+    background: var(--glass-bg);
+    transform: scale(1.1);
+}
+
+.hyder-feedback-btn.active {
+    opacity: 1;
+    background: var(--secondary);
+    border-color: var(--secondary);
+}
+
+/* ========== INPUT AREA ========== */
+.hyder-input-container {
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-top: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    display: flex;
+    gap: var(--spacing-sm);
+    align-items: flex-end;
+}
+
+.hyder-input-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.hyder-input {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--bg-secondary);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-family: var(--font-primary);
+    resize: none;
+    min-height: 40px;
+    max-height: 120px;
+    transition: all var(--transition-normal);
+}
+
+.hyder-input:focus {
+    outline: none;
+    border-color: var(--secondary);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+.hyder-input::placeholder {
+    color: var(--text-muted);
+}
+
+.hyder-send-btn {
+    padding: var(--spacing-sm) var(--spacing-xl);
+    background: var(--gradient-primary);
+    border: none;
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    font-family: var(--font-primary);
+    min-width: 100px;
+    box-shadow: var(--shadow-sm);
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hyder-send-btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-glow);
+}
+
+.hyder-send-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.hyder-send-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ========== LOADING INDICATOR ========== */
+.hyder-loading {
+    display: none;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    justify-content: center;
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md) var(--spacing-lg);
+    box-shadow: var(--shadow-md);
+    z-index: 100;
+}
+
+.hyder-loading.show {
+    display: flex;
+}
+
+.hyder-loading-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--glass-border);
+    border-top-color: var(--secondary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: scale(1); }
+}
+
+/* ========== ATTRIBUTION (REQUIRED) ========== */
+.hyder-attribution {
+    text-align: center;
+    padding: var(--spacing-xs) var(--spacing-md);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    border-top: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    font-family: var(--font-primary);
+    line-height: 1.4;
+}
+
+.hyder-attribution a {
+    color: var(--secondary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color var(--transition-normal);
+}
+
+.hyder-attribution a:hover {
+    color: var(--secondary-light);
+}
+
+/* ========== TOAST NOTIFICATIONS ========== */
+.hyder-toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    z-index: 10000;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all var(--transition-normal);
+    box-shadow: var(--shadow-lg);
+    max-width: 300px;
+    font-family: var(--font-primary);
+}
+
+.hyder-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.hyder-toast-success {
+    border-color: var(--accent);
+    background: rgba(45, 122, 95, 0.2);
+}
+
+.hyder-toast-error {
+    border-color: #ff6b6b;
+    background: rgba(255, 107, 107, 0.2);
+}
+
+.hyder-toast-warning {
+    border-color: var(--secondary);
+    background: rgba(212, 175, 55, 0.2);
+}
+
+/* ========== EMPTY STATE ========== */
+.hyder-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-2xl);
+    color: var(--text-muted);
+    text-align: center;
+    flex: 1;
+}
+
+.hyder-empty-state-icon {
+    font-size: 4rem;
+    margin-bottom: var(--spacing-md);
+    opacity: 0.5;
+}
+
+.hyder-empty-state-text {
+    font-size: 1.125rem;
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-secondary);
+    font-family: var(--font-primary);
+}
+
+.hyder-empty-state-hint {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    font-family: var(--font-primary);
+}
+
+/* ========== ANIMATIONS ========== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========== DELETE DIALOG ========== */
+.hyder-delete-dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.2s ease;
+}
+
+.hyder-delete-dialog.show {
+    display: flex;
+}
+
+.hyder-dialog-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+}
+
+.hyder-dialog-content {
+    position: relative;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-2xl);
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+    z-index: 10001;
+    animation: scaleIn 0.3s ease;
+}
+
+.hyder-dialog-icon {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-md);
+    animation: shake 0.5s ease;
+}
+
+.hyder-dialog-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-md);
+    font-family: var(--font-heading);
+}
+
+.hyder-dialog-message {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-xl);
+    line-height: 1.6;
+    font-family: var(--font-primary);
+}
+
+.hyder-dialog-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: center;
+}
+
+.hyder-dialog-btn {
+    padding: var(--spacing-sm) var(--spacing-xl);
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    font-family: var(--font-primary);
+    min-width: 100px;
+}
+
+.hyder-dialog-cancel {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    color: var(--text-primary);
+}
+
+.hyder-dialog-cancel:hover {
+    background: var(--glass-bg-hover);
+    transform: translateY(-1px);
+}
+
+.hyder-dialog-confirm {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-sm);
+}
+
+.hyder-dialog-confirm:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1024px) {
+    .hyder-sidebar {
+        width: 250px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hyder-layout {
+        flex-direction: column;
+    }
+    
+    .hyder-sidebar {
+        width: 100%;
+        height: 200px;
+        border-left: none;
+        border-bottom: 1px solid var(--glass-border);
+    }
+    
+    .hyder-main-chat {
+        height: calc(100vh - var(--nav-offset) - 200px);
+    }
+    
+    .hyder-message {
+        max-width: 90%;
+    }
+    
+    .hyder-chat-title {
+        font-size: 1.5rem;
+    }
+    
+    .hyder-input-container {
+        padding: var(--spacing-md);
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .hyder-send-btn {
+        width: 100%;
+    }
+    
+    .hyder-toast {
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+}
