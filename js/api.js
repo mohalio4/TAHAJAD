@@ -212,8 +212,9 @@ class APIManager {
         localStorage.removeItem('userData');
         
         // Redirect to login if not already there
-        if (!window.location.pathname.includes('login_page.html')) {
-            window.location.href = 'login_page.html';
+        const loginRoute = window.Laravel?.routes?.login || '/login';
+        if (!window.location.pathname.includes('login')) {
+            window.location.href = loginRoute;
         }
     }
     
@@ -250,7 +251,8 @@ class APIManager {
             // Clear local data regardless
             localStorage.removeItem('authToken');
             localStorage.removeItem('userData');
-            window.location.href = 'login_page.html';
+            const loginRoute = window.Laravel?.routes?.login || '/login';
+            window.location.href = loginRoute;
         }
     }
     

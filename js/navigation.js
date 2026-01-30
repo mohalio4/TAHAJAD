@@ -109,13 +109,14 @@ class NavigationController {
     
     // ========== ACTIVE LINK HIGHLIGHTING ==========
     setupActiveLinks() {
-        // Get current page
-        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+        // Get current page - Laravel routes don't use .html extension
+        const currentPath = window.location.pathname;
         
         this.navLinkItems.forEach(link => {
-            const linkPage = link.getAttribute('href');
+            const linkHref = link.getAttribute('href');
             
-            if (linkPage === currentPage) {
+            // Check if current path matches link href
+            if (currentPath === linkHref || currentPath.startsWith(linkHref + '/')) {
                 link.classList.add('active');
             } else {
                 link.classList.remove('active');
@@ -216,7 +217,12 @@ class NavigationController {
         if (userData) {
             // User is logged in
             loginBtn.textContent = userData.name;
+<<<<<<< HEAD
             loginBtn.href = 'index.html';
+=======
+            const dashboardRoute = window.Laravel?.routes?.dashboard || '/dashboard';
+            loginBtn.href = dashboardRoute;
+>>>>>>> 289ced102ea69cc2b37120daeee907c91f76293e
             registerBtn.style.display = 'none';
             
             // Add logout button
@@ -243,7 +249,8 @@ class NavigationController {
             
             // Redirect to login page
             setTimeout(() => {
-                this.navigateTo('login_page.html');
+                const loginRoute = window.Laravel?.routes?.login || '/login';
+                this.navigateTo(loginRoute);
             }, 1000);
         }
     }
@@ -258,6 +265,7 @@ class BreadcrumbController {
     createBreadcrumb() {
         const path = window.location.pathname;
         const pages = {
+<<<<<<< HEAD
             'index.html': 'الرئيسية',
             'prayer_times_page.html': 'مواقيت الصلاة',
             'duas_page.html': 'الأدعية',
@@ -266,16 +274,36 @@ class BreadcrumbController {
             'self-accountability.html': 'محاسبة النفس',
             'login_page.html': 'تسجيل الدخول',
             'register_page.html': 'إنشاء حساب'
+=======
+            '/': 'الرئيسية',
+            '/prayer-times': 'مواقيت الصلاة',
+            '/duas': 'الأدعية',
+            '/challenges': 'التحديات',
+            '/hijri-calendar': 'التقويم الهجري',
+            '/self-accountability': 'محاسبة النفس',
+            '/dashboard': 'لوحة التحكم',
+            '/login': 'تسجيل الدخول',
+            '/register': 'إنشاء حساب',
+            '/settings': 'الإعدادات',
+            '/istikhara': 'الاستخارة',
+            '/post-page': 'المنشورات',
+            '/leaderthink': 'فكر القائد',
+            '/thaqalayn': 'الثقلين',
+            '/quran': 'القرآن الكريم',
+            '/hyder-ai': 'اسأل hyder.ai',
+            '/maktaba-masmouaa': 'مكتبة مسموعة'
+>>>>>>> 289ced102ea69cc2b37120daeee907c91f76293e
         };
         
-        const currentPage = path.split('/').pop() || 'index.html';
-        const pageName = pages[currentPage];
+        const currentPath = path.split('?')[0]; // Remove query params
+        const pageName = pages[currentPath];
+        const homeRoute = window.Laravel?.routes?.home || '/';
         
-        if (currentPage !== 'index.html' && pageName) {
+        if (currentPath !== '/' && currentPath !== homeRoute && pageName) {
             const breadcrumb = document.createElement('div');
             breadcrumb.className = 'breadcrumb';
             breadcrumb.innerHTML = `
-                <a href="index.html">الرئيسية</a>
+                <a href="${homeRoute}">الرئيسية</a>
                 <span class="separator">←</span>
                 <span class="current">${pageName}</span>
             `;

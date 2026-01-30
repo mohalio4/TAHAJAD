@@ -1,0 +1,1169 @@
+/* ====================================
+   HIJRI CALENDAR PAGE STYLES
+   Islamic calendar with special Shia dates
+   ==================================== */
+
+/* ========== PAGE LAYOUT ========== */
+.calendar-page {
+    height: 100vh;
+    padding-top: var(--nav-offset);
+    overflow: hidden;
+}
+
+.calendar-main {
+    height: calc(100vh - var(--nav-offset));
+    padding: var(--spacing-md) 0;
+    overflow: hidden;
+}
+
+.calendar-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ========== MAIN LAYOUT ========== */
+.main-layout {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: var(--spacing-md);
+    align-items: start;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+@media (max-width: 1200px) {
+    .main-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .calendar-sidebar {
+        order: -1;
+    }
+}
+
+/* ========== EVENTS SIDEBAR (LEFT) ========== */
+.events-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.events-sidebar-header {
+    padding: var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.events-sidebar-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.events-filter {
+    display: flex;
+    gap: var(--spacing-xs);
+}
+
+.filter-tab {
+    flex: 1;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease-out, border-color 0.3s ease-out, color 0.3s ease-out;
+}
+
+.filter-tab:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--secondary);
+}
+
+.filter-tab.active {
+    background: var(--gradient-primary);
+    border-color: var(--secondary);
+    color: var(--text-primary);
+}
+
+.events-list-container {
+    padding: var(--spacing-md);
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.events-list-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.07;
+    z-index: 0;
+}
+
+.events-list-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 1;
+}
+
+.events-list-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.events-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.events-month-section {
+    margin-bottom: var(--spacing-lg);
+}
+
+.events-month-header {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--secondary);
+    margin-bottom: var(--spacing-sm);
+    padding-bottom: var(--spacing-xs);
+    border-bottom: 2px solid var(--glass-border);
+}
+
+.events-month-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.event-list-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: transform 0.3s ease-out, background 0.3s ease-out, border-color 0.3s ease-out;
+    border-right: 3px solid transparent;
+}
+
+.event-list-item:hover {
+    background: var(--glass-bg-hover);
+    transform: translateY(-1px);
+    border-right-color: var(--secondary);
+}
+
+.event-list-item.joyful {
+    border-right-color: #6bcf7f;
+}
+
+.event-list-item.mourning {
+    border-right-color: #8b0000;
+}
+
+.event-list-item.highlighted {
+    background: var(--glass-bg-hover);
+    border-color: var(--secondary);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+}
+
+.event-list-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.event-list-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.event-list-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+    line-height: 1.4;
+}
+
+.event-list-date {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* ========== CALENDAR SIDEBAR (RIGHT) ========== */
+.calendar-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.calendar-nav-compact {
+    padding: var(--spacing-md);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.nav-btn-compact {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: transform 0.3s ease-out, background 0.3s ease-out, border-color 0.3s ease-out;
+}
+
+.nav-btn-compact:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--secondary);
+    transform: translateY(-1px);
+}
+
+.current-month-compact {
+    text-align: center;
+    flex: 1;
+}
+
+.month-name-compact {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--secondary);
+    margin: 0;
+    font-family: 'Scheherazade New', var(--font-heading);
+}
+
+.year-number-compact {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+}
+
+.quick-jump-compact {
+    padding: var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.jump-btn-compact {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    color: var(--text-primary);
+    font-weight: 600;
+    cursor: pointer;
+    transition: none;
+    width: 100%;
+    text-align: right;
+}
+
+.jump-btn-compact .btn-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.jump-btn-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+    flex: 1;
+}
+
+.jump-btn-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.jump-btn-date-hijri {
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: 'Scheherazade New', var(--font-heading);
+    color: var(--text-primary);
+}
+
+.jump-btn-date-gregorian {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.jump-btn-compact:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.calendar-wrapper-compact {
+    padding: var(--spacing-md);
+    position: relative;
+    overflow: hidden;
+}
+
+.calendar-wrapper-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.3;
+    z-index: 0;
+}
+
+.calendar-wrapper-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 1;
+}
+
+.calendar-wrapper-content {
+    position: relative;
+    z-index: 2;
+}
+
+.weekdays-compact {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-bottom: var(--spacing-sm);
+}
+
+.weekday-compact {
+    text-align: center;
+    font-weight: 700;
+    color: var(--text-secondary);
+    padding: var(--spacing-xs);
+    font-size: 0.75rem;
+}
+
+.calendar-grid-compact {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+.calendar-grid-compact .day-cell {
+    min-height: 45px;
+    padding: var(--spacing-xs);
+}
+
+.calendar-grid-compact .day-number {
+    font-size: 1rem;
+    margin-bottom: 0.1rem;
+}
+
+.calendar-grid-compact .day-gregorian {
+    font-size: 0.65rem;
+}
+
+.calendar-grid-compact .event-badge {
+    width: 12px;
+    height: 12px;
+    top: 0.15rem;
+    right: 0.15rem;
+    font-size: 0.7rem;
+}
+
+/* ========== CALENDAR HEADER ========== */
+.calendar-header {
+    margin-bottom: var(--spacing-xl);
+}
+
+.header-content {
+    padding: var(--spacing-xl);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-lg);
+}
+
+.header-text {
+    flex: 1;
+}
+
+.page-title {
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-xs);
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.page-subtitle {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* ========== TODAY INFO BADGE ========== */
+.today-info {
+    flex-shrink: 0;
+}
+
+.today-badge {
+    padding: var(--spacing-md) var(--spacing-lg);
+    text-align: center;
+    min-width: 220px;
+    border: 2px solid var(--secondary);
+    background: var(--glass-bg-hover);
+}
+
+.badge-label {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-xs);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.badge-date-hijri {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--secondary);
+    margin-bottom: 0.25rem;
+    font-family: 'Scheherazade New', var(--font-heading);
+}
+
+.badge-date-gregorian {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+/* ========== CALENDAR NAVIGATION ========== */
+.calendar-nav {
+    margin-bottom: var(--spacing-xl);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--spacing-md);
+}
+
+.nav-card {
+    padding: var(--spacing-lg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-lg);
+}
+
+.nav-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: 0.75rem 1.5rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.3s ease-out, background 0.3s ease-out, border-color 0.3s ease-out;
+}
+
+.nav-btn:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--secondary);
+    transform: translateY(-1px);
+}
+
+.nav-arrow {
+    font-size: 1.25rem;
+    color: var(--secondary);
+}
+
+.current-month {
+    text-align: center;
+}
+
+.month-name {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--secondary);
+    margin: 0;
+    font-family: 'Scheherazade New', var(--font-heading);
+}
+
+.year-number {
+    display: block;
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+}
+
+/* ========== QUICK JUMP BUTTONS ========== */
+.quick-jump {
+    padding: var(--spacing-lg);
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.jump-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    padding: 0.75rem 1rem;
+    background: var(--gradient-primary);
+    border: none;
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+
+.jump-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-glow);
+}
+
+.btn-icon {
+    font-size: 1.25rem;
+}
+
+/* ========== CALENDAR GRID ========== */
+.calendar-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+.calendar-wrapper {
+    padding: var(--spacing-xl);
+}
+
+.weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-md);
+}
+
+.weekday {
+    text-align: center;
+    font-weight: 700;
+    color: var(--secondary);
+    padding: var(--spacing-sm);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: var(--spacing-xs);
+}
+
+/* ========== CALENDAR DAY CELL ========== */
+.day-cell {
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-sm);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: transform 0.3s ease-out, background 0.3s ease-out, border-color 0.3s ease-out, box-shadow 0.3s ease-out;
+    position: relative;
+    min-height: 80px;
+}
+
+.day-cell:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--secondary);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.day-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.day-gregorian {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.day-event-indicator {
+    position: absolute;
+    bottom: 0.5rem;
+    display: flex;
+    gap: 2px;
+}
+
+.event-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--secondary);
+}
+
+/* ========== SPECIAL DAY STATES ========== */
+.day-cell.other-month {
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.day-cell.today {
+    background: var(--gradient-secondary);
+    border-color: var(--secondary);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+}
+
+.day-cell.today .day-number {
+    color: var(--bg-primary);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.05rem;
+}
+
+.day-cell.today .day-gregorian {
+    color: rgba(26, 58, 46, 0.8);
+    font-size: 0.65rem;
+}
+
+/* Joyful Days (Births) */
+.day-cell.joyful {
+    background: linear-gradient(135deg, rgba(107, 207, 127, 0.15), rgba(107, 207, 127, 0.05));
+    border-color: #6bcf7f;
+}
+
+.day-cell.joyful:hover {
+    background: linear-gradient(135deg, rgba(107, 207, 127, 0.25), rgba(107, 207, 127, 0.1));
+    border-color: #6bcf7f;
+    box-shadow: 0 0 20px rgba(107, 207, 127, 0.3);
+}
+
+.day-cell.joyful .day-number {
+    color: #6bcf7f;
+}
+
+/* Mourning Days (Martyrdom) */
+.day-cell.mourning {
+    background: linear-gradient(135deg, rgba(139, 0, 0, 0.15), rgba(139, 0, 0, 0.05));
+    border-color: #8b0000;
+}
+
+.day-cell.mourning:hover {
+    background: linear-gradient(135deg, rgba(139, 0, 0, 0.25), rgba(139, 0, 0, 0.1));
+    border-color: #8b0000;
+    box-shadow: 0 0 20px rgba(139, 0, 0, 0.3);
+}
+
+.day-cell.mourning .day-number {
+    color: #ff6b6b;
+}
+
+/* Special Days (Eid, Ghadir, etc) */
+.day-cell.special {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05));
+    border-color: var(--secondary);
+}
+
+.day-cell.special:hover {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.25), rgba(212, 175, 55, 0.1));
+    border-color: var(--secondary);
+    box-shadow: var(--shadow-glow);
+}
+
+.day-cell.special .day-number {
+    color: var(--secondary);
+}
+
+/* Event Badge on Day */
+.event-badge {
+    position: absolute;
+    top: 0.25rem;
+    right: 0.25rem;
+    width: 20px;
+    height: 20px;
+    background: var(--gradient-secondary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* ========== LEGEND ========== */
+.legend-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+.legend-card {
+    padding: var(--spacing-lg);
+}
+
+.legend-title {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-md);
+    color: var(--secondary);
+}
+
+.legend-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.legend-color {
+    width: 24px;
+    height: 24px;
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--glass-border);
+}
+
+.legend-color.joyful {
+    background: linear-gradient(135deg, rgba(107, 207, 127, 0.5), rgba(107, 207, 127, 0.2));
+    border-color: #6bcf7f;
+}
+
+.legend-color.mourning {
+    background: linear-gradient(135deg, rgba(139, 0, 0, 0.5), rgba(139, 0, 0, 0.2));
+    border-color: #8b0000;
+}
+
+.legend-color.special {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.5), rgba(212, 175, 55, 0.2));
+    border-color: var(--secondary);
+}
+
+.legend-color.today {
+    background: var(--gradient-secondary);
+    border-color: var(--secondary);
+}
+
+.legend-label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* ========== UPCOMING EVENTS ========== */
+.events-section {
+    margin-bottom: var(--spacing-2xl);
+}
+
+.events-header {
+    margin-bottom: var(--spacing-lg);
+}
+
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.event-card {
+    padding: var(--spacing-lg);
+    border-right: 4px solid var(--glass-border);
+    transition: transform 0.3s ease-out, border-color 0.3s ease-out;
+    cursor: pointer;
+}
+
+.event-card:hover {
+    border-right-color: var(--secondary);
+    transform: translateY(-1px);
+}
+
+.event-card.joyful {
+    border-right-color: #6bcf7f;
+}
+
+.event-card.mourning {
+    border-right-color: #8b0000;
+}
+
+.event-card.special {
+    border-right-color: var(--secondary);
+}
+
+.event-card-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+}
+
+.event-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--glass-bg);
+    border-radius: var(--radius-round);
+    font-size: 1.5rem;
+}
+
+.event-info {
+    flex: 1;
+}
+
+.event-name {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.event-date-info {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.event-description {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: var(--spacing-sm);
+}
+
+.event-countdown {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: 0.5rem 1rem;
+    background: var(--glass-bg);
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    color: var(--secondary);
+    font-weight: 600;
+}
+
+/* ========== EVENT DETAILS MODAL ========== */
+.event-details {
+    text-align: center;
+    padding: var(--spacing-lg);
+}
+
+.event-icon-large {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto var(--spacing-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-round);
+    font-size: 4rem;
+    animation: celebrate 2s ease-in-out infinite;
+}
+
+.event-title {
+    font-size: 2rem;
+    margin-bottom: var(--spacing-sm);
+    color: var(--secondary);
+    font-family: 'Scheherazade New', var(--font-heading);
+}
+
+.event-date {
+    font-size: 1.125rem;
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-xl);
+}
+
+.event-info {
+    text-align: right;
+    margin-bottom: var(--spacing-xl);
+}
+
+.info-section {
+    margin-bottom: var(--spacing-lg);
+}
+
+.info-title {
+    font-size: 1.125rem;
+    color: var(--secondary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.info-text {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    font-size: 1rem;
+}
+
+.info-list {
+    list-style: none;
+    padding: 0;
+}
+
+.info-list li {
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin-bottom: var(--spacing-xs);
+    background: var(--glass-bg);
+    border-right: 3px solid var(--secondary);
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+}
+
+.info-list li::before {
+    content: '✓ ';
+    color: var(--secondary);
+    font-weight: 700;
+    margin-left: var(--spacing-xs);
+}
+
+/* ========== SPECIAL DAYS MODAL ========== */
+.special-days-modal {
+    max-width: 800px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.special-days-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.special-day-item {
+    padding: var(--spacing-md);
+    background: var(--glass-bg);
+    border-radius: var(--radius-md);
+    border-right: 4px solid var(--glass-border);
+    transition: transform 0.3s ease-out, background 0.3s ease-out, border-color 0.3s ease-out;
+    cursor: pointer;
+}
+
+.special-day-item:hover {
+    background: var(--glass-bg-hover);
+    transform: translateY(-1px);
+}
+
+.special-day-item.joyful {
+    border-right-color: #6bcf7f;
+}
+
+.special-day-item.mourning {
+    border-right-color: #8b0000;
+}
+
+.special-day-item.special {
+    border-right-color: var(--secondary);
+}
+
+.special-day-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-xs);
+}
+
+.special-day-name {
+    font-weight: 700;
+    font-size: 1.125rem;
+    color: var(--text-primary);
+}
+
+.special-day-date {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.special-day-desc {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* ========== TOAST NOTIFICATION ========== */
+.calendar-toast {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-lg);
+    z-index: 10001;
+    transform: translateX(400px);
+    transition: transform var(--transition-normal);
+}
+
+.calendar-toast.show {
+    transform: translateX(0);
+}
+
+.calendar-toast.success {
+    border-right: 4px solid #6bcf7f;
+}
+
+.calendar-toast.info {
+    border-right: 4px solid var(--secondary);
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1024px) {
+    .header-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .page-title {
+        font-size: 2rem;
+    }
+    
+    .calendar-nav {
+        grid-template-columns: 1fr;
+    }
+    
+    .nav-card {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+    
+    .events-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .calendar-container {
+        padding: 0 var(--spacing-sm);
+    }
+    
+    .header-content {
+        padding: var(--spacing-md);
+    }
+    
+    .page-title {
+        font-size: 1.75rem;
+    }
+    
+    .calendar-wrapper {
+        padding: var(--spacing-md);
+    }
+    
+    .weekday {
+        font-size: 0.75rem;
+        padding: var(--spacing-xs);
+    }
+    
+    .day-cell {
+        min-height: 60px;
+    }
+    
+    .day-number {
+        font-size: 1.125rem;
+    }
+    
+    .day-gregorian {
+        font-size: 0.65rem;
+    }
+    
+    .month-name {
+        font-size: 1.5rem;
+    }
+    
+    .nav-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+    
+    .quick-jump {
+        flex-direction: column;
+    }
+    
+    .legend-items {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .weekdays {
+        gap: 2px;
+    }
+    
+    .calendar-grid {
+        gap: 2px;
+    }
+    
+    .day-cell {
+        min-height: 50px;
+        padding: 0.25rem;
+    }
+    
+    .day-number {
+        font-size: 1rem;
+    }
+    
+    .day-gregorian {
+        display: none;
+    }
+    
+    .event-badge {
+        width: 16px;
+        height: 16px;
+        font-size: 0.625rem;
+    }
+}
+

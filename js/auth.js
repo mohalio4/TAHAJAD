@@ -83,7 +83,12 @@ class AuthManager {
                 
                 // Redirect to home page
                 setTimeout(() => {
+<<<<<<< HEAD
                     window.location.href = 'index.html';
+=======
+                    const dashboardRoute = window.Laravel?.routes?.dashboard || '/dashboard';
+                    window.location.href = dashboardRoute;
+>>>>>>> 289ced102ea69cc2b37120daeee907c91f76293e
                 }, 1500);
             } else {
                 throw new Error(response.message || 'فشل تسجيل الدخول');
@@ -149,7 +154,12 @@ class AuthManager {
                 
                 // Redirect to home page
                 setTimeout(() => {
+<<<<<<< HEAD
                     window.location.href = 'index.html';
+=======
+                    const dashboardRoute = window.Laravel?.routes?.dashboard || '/dashboard';
+                    window.location.href = dashboardRoute;
+>>>>>>> 289ced102ea69cc2b37120daeee907c91f76293e
                 }, 3000);
             } else {
                 throw new Error(response.message || 'فشل إنشاء الحساب');

@@ -38,8 +38,8 @@
                 guestDiv.id = 'guestActions';
                 guestDiv.style.display = 'none';
                 guestDiv.innerHTML = `
-                    <a href="login_page.html" class="btn-glass btn-login">تسجيل الدخول</a>
-                    <a href="register_page.html" class="btn-primary">إنشاء حساب</a>
+                    <a href="${window.Laravel?.routes?.login || '/login'}" class="btn-glass btn-login">تسجيل الدخول</a>
+                    <a href="${window.Laravel?.routes?.register || '/register'}" class="btn-primary">إنشاء حساب</a>
                 `;
                 
                 // Insert before user actions
@@ -102,12 +102,32 @@
             // User is NOT logged in - show login/register
             if (guestActions) guestActions.style.display = 'flex';
             if (userActions) userActions.style.display = 'none';
+<<<<<<< HEAD
 
             // Only allow access to index/login/register without authentication
             const currentPage = window.location.pathname.split('/').pop() || 'index.html';
             const isPublicPage = currentPage === 'index.html' || currentPage.includes('login') || currentPage.includes('register');
 
             if (!isPublicPage) {
+=======
+            
+            // For pages that require login, redirect to login
+            const requiresAuth = document.body.classList.contains('dashboard-page') ||
+                                document.body.classList.contains('prayer-times-page') ||
+                                document.body.classList.contains('duas-page') ||
+                                document.body.classList.contains('challenges-page') ||
+                                document.body.classList.contains('hijri-calendar-page') ||
+                                document.body.classList.contains('khirah-page') ||
+                                currentPage.includes('self-accountability') ||
+                                document.body.classList.contains('istikhara-page') ||
+                                document.body.classList.contains('posts-page');
+            
+            // Don't redirect from landing/login/register pages
+            const currentPage = window.location.pathname.split('/').pop();
+            const isAuthPage = currentPage.includes('login') || currentPage.includes('register') || currentPage === '' || currentPage === '/';
+            
+            if (requiresAuth && !isAuthPage) {
+>>>>>>> 289ced102ea69cc2b37120daeee907c91f76293e
                 // Show message and redirect after 1 second
                 const message = document.createElement('div');
                 message.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.9);color:white;padding:2rem;border-radius:1rem;z-index:10000;text-align:center;';
@@ -115,7 +135,8 @@
                 document.body.appendChild(message);
 
                 setTimeout(() => {
-                    window.location.href = 'login_page.html';
+                    const loginRoute = window.Laravel?.routes?.login || '/login';
+                    window.location.href = loginRoute;
                 }, 1000);
             }
         }
@@ -225,6 +246,7 @@
             localStorage.removeItem('userData');
             localStorage.removeItem('authToken');
             
+<<<<<<< HEAD
             // Redirect to public page after logout
             window.location.href = 'index.html';
         });
@@ -263,6 +285,26 @@
             to { 
                 opacity: 1;
                 transform: translateY(0) scale(1);
+=======
+            // If on dashboard or other protected pages, redirect to home
+            const currentPage = window.location.pathname.split('/').pop();
+            const isProtectedPage = currentPage.includes('dashboard') || 
+                                   currentPage.includes('prayer') ||
+                                   currentPage.includes('duas') ||
+                                   currentPage.includes('challenges') ||
+                                   currentPage.includes('hijri') ||
+                                   currentPage.includes('khirah') ||
+                                   currentPage.includes('self-accountability') ||
+                                   currentPage.includes('istikhara') ||
+                                   currentPage.includes('post_page');
+            
+            if (isProtectedPage) {
+                const homeRoute = window.Laravel?.routes?.home || '/';
+                window.location.href = homeRoute;
+            } else {
+                // Just reload the page to update nav
+                window.location.reload();
+>>>>>>> 289ced102ea69cc2b37120daeee907c91f76293e
             }
         }
     `;

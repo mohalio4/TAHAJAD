@@ -1,0 +1,1354 @@
+/* ====================================
+   CHALLENGES PAGE STYLES
+   User challenge tracking with calendar
+   ==================================== */
+
+/* ========== PAGE LAYOUT ========== */
+.challenges-page {
+    min-height: 100vh;
+    padding-top: var(--nav-offset);
+}
+
+.challenges-main {
+    padding: var(--spacing-xl) 0;
+}
+
+.challenges-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+}
+
+/* ========== PAGE HEADER ========== */
+.page-header {
+    text-align: center;
+    margin-bottom: var(--spacing-2xl);
+}
+
+.page-title {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-sm);
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.page-subtitle {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+}
+
+/* ========== STATS OVERVIEW ========== */
+.stats-overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-2xl);
+}
+
+.stat-card {
+    padding: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+
+.stat-card:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-glow);
+}
+
+.stat-icon {
+    font-size: 2rem;
+    animation: float 3s ease-in-out infinite;
+}
+
+.stat-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--secondary);
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+}
+
+/* ========== MAIN LAYOUT ========== */
+.main-layout {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-2xl);
+    align-items: start;
+}
+
+@media (max-width: 1200px) {
+    .main-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .calendar-sidebar {
+        order: -1;
+    }
+}
+
+/* ========== CHALLENGES SIDEBAR (LEFT) ========== */
+.challenges-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    height: 100%;
+    min-height: 0;
+}
+
+.challenges-header {
+    padding: var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.challenges-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.btn-add-challenge {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--gradient-primary);
+    border: none;
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+
+.btn-add-challenge:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-glow);
+}
+
+.btn-add-challenge .btn-icon {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+/* ========== READY CHALLENGES ========== */
+.ready-challenges-section {
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+}
+
+.ready-challenges-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.ready-challenges-title {
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    font-weight: 700;
+    margin: 0;
+}
+
+.ready-challenges-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-sm);
+}
+
+.ready-challenge-card {
+    padding: var(--spacing-md);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    text-align: center;
+    transition: all var(--transition-normal);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.ready-challenge-card:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--secondary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.ready-challenge-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.3;
+    z-index: 0;
+}
+
+.ready-challenge-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 1;
+}
+
+.ready-challenge-content {
+    position: relative;
+    z-index: 2;
+}
+
+.ready-challenge-icon {
+    font-size: 2rem;
+    margin-bottom: var(--spacing-xs);
+}
+
+.ready-challenge-title {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    font-weight: 700;
+    margin: 0 0 var(--spacing-xs) 0;
+}
+
+.ready-challenge-desc {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin: 0 0 var(--spacing-sm) 0;
+    line-height: 1.4;
+}
+
+.btn-add-ready {
+    width: 100%;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background: var(--gradient-primary);
+    border: none;
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.btn-add-ready:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-glow);
+}
+
+.challenges-filter {
+    display: flex;
+    gap: var(--spacing-xs);
+}
+
+.filter-tab {
+    flex: 1;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease-out, border-color 0.3s ease-out, color 0.3s ease-out;
+}
+
+.filter-tab:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--secondary);
+}
+
+.filter-tab.active {
+    background: var(--gradient-primary);
+    border-color: var(--secondary);
+    color: var(--text-primary);
+}
+
+.challenges-list-container {
+    padding: var(--spacing-lg);
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    max-height: 600px;
+    display: flex;
+    flex-direction: column;
+}
+
+.challenges-list-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.filter-dropdown-wrapper {
+    position: relative;
+}
+
+.filter-icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    flex-shrink: 0;
+}
+
+.filter-icon-btn:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--secondary);
+    transform: scale(1.05);
+}
+
+.filter-icon {
+    font-size: 1.25rem;
+}
+
+.challenges-filter-dropdown {
+    position: absolute;
+    top: calc(100% + var(--spacing-xs));
+    right: 0;
+    display: none;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    min-width: 150px;
+    padding: var(--spacing-sm);
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    z-index: 100;
+}
+
+.challenges-filter-dropdown.show {
+    display: flex;
+}
+
+.challenges-filter-dropdown .filter-tab {
+    width: 100%;
+    text-align: right;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease-out, border-color 0.3s ease-out, color 0.3s ease-out;
+}
+
+.challenges-filter-dropdown .filter-tab:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--secondary);
+}
+
+.challenges-filter-dropdown .filter-tab.active {
+    background: var(--gradient-primary);
+    border-color: var(--secondary);
+    color: var(--text-primary);
+}
+
+.challenges-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
+}
+
+.empty-state {
+    text-align: center;
+    padding: var(--spacing-2xl);
+    color: var(--text-muted);
+}
+
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: var(--spacing-md);
+    opacity: 0.5;
+}
+
+.empty-text {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.empty-subtext {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+/* ========== CHALLENGE ITEM ========== */
+.challenge-item {
+    padding: var(--spacing-md);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: transform 0.3s ease-out, background 0.3s ease-out, border-color 0.3s ease-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.challenge-item-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.3;
+    z-index: 0;
+    border-radius: var(--radius-md);
+}
+
+.challenge-item-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 1;
+    border-radius: var(--radius-md);
+}
+
+.challenge-item-wrapper {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.challenge-item:hover {
+    background: var(--glass-bg-hover);
+    transform: translateY(-1px);
+    border-color: var(--secondary);
+}
+
+.challenge-item-header {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+}
+
+.challenge-item-checkbox {
+    position: relative;
+    margin-top: 0.25rem;
+    padding: 0.5rem;
+    margin: -0.5rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.challenge-item-checkbox input[type="checkbox"] {
+    display: none;
+}
+
+.checkbox-custom {
+    width: 36px;
+    height: 36px;
+    border: 2px solid var(--glass-border);
+    border-radius: 8px;
+    position: relative;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    cursor: pointer;
+    background: var(--glass-bg);
+}
+
+.challenge-item-checkbox:hover .checkbox-custom:not(:disabled) {
+    transform: scale(1.1);
+    border-color: var(--secondary);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+.challenge-item-checkbox input[type="checkbox"]:checked + .checkbox-custom {
+    background: var(--gradient-secondary);
+    border-color: var(--secondary);
+    animation: checkmarkAnimation 0.5s ease;
+}
+
+.challenge-item-checkbox input[type="checkbox"]:checked + .checkbox-custom::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    color: var(--bg-primary);
+    font-weight: 700;
+    font-size: 1.25rem;
+    animation: checkmarkAppear 0.3s ease 0.2s both;
+}
+
+.challenge-item-checkbox input[type="checkbox"]:disabled + .checkbox-custom {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: var(--glass-bg);
+    border-color: var(--glass-border);
+}
+
+.challenge-item-checkbox input[type="checkbox"]:disabled + .checkbox-custom:hover {
+    transform: none;
+}
+
+@keyframes checkmarkAnimation {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes checkmarkAppear {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.challenge-item-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.challenge-item-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.challenge-item-description {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.challenge-item-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-xs);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.challenge-item-category {
+    padding: 0.125rem 0.5rem;
+    background: var(--glass-bg);
+    border-radius: var(--radius-sm);
+}
+
+.challenge-item-actions {
+    display: flex;
+    gap: var(--spacing-xs);
+}
+
+.challenge-item-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.challenge-item-btn:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--secondary);
+}
+
+.challenge-item-btn.delete:hover {
+    background: rgba(255, 107, 107, 0.1);
+    border-color: #ff6b6b;
+    color: #ff6b6b;
+}
+
+/* ========== CHALLENGE PROGRESS ========== */
+.challenge-progress {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--glass-border);
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 8px;
+    background: var(--glass-bg);
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+    position: relative;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--secondary), var(--primary));
+    border-radius: 4px;
+    transition: width 0.3s ease;
+    display: block;
+    min-width: 0;
+}
+
+.progress-percentage {
+    text-align: left;
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* ========== CALENDAR SIDEBAR (RIGHT) ========== */
+.calendar-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.calendar-nav-compact {
+    padding: var(--spacing-md);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.nav-btn-compact {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: transform 0.3s ease-out, background 0.3s ease-out, border-color 0.3s ease-out;
+}
+
+.nav-btn-compact:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--secondary);
+    transform: translateY(-1px);
+}
+
+.nav-arrow {
+    font-size: 1.25rem;
+    color: var(--text-primary);
+}
+
+.current-month-compact {
+    text-align: center;
+    flex: 1;
+}
+
+.month-name-compact {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--secondary);
+    margin: 0;
+    font-family: 'Scheherazade New', var(--font-heading);
+}
+
+.year-number-compact {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+}
+
+.quick-jump-compact {
+    padding: var(--spacing-sm) var(--spacing-md);
+    display: flex;
+    justify-content: center;
+}
+
+.jump-btn-compact {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--gradient-primary);
+    border: none;
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+    width: 100%;
+    flex-direction: column;
+}
+
+.jump-btn-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.jump-btn-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.jump-btn-date {
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: 'Scheherazade New', var(--font-heading);
+    color: var(--text-primary);
+}
+
+.jump-btn-compact:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-glow);
+}
+
+.calendar-wrapper-compact {
+    padding: var(--spacing-md);
+}
+
+.weekdays-compact {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-bottom: var(--spacing-sm);
+}
+
+.weekday-compact {
+    text-align: center;
+    font-weight: 700;
+    color: var(--text-secondary);
+    padding: var(--spacing-xs);
+    font-size: 0.75rem;
+}
+
+.calendar-grid-compact {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+.calendar-grid-compact .day-cell {
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-xs);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: transform 0.3s ease-out, background 0.3s ease-out, border-color 0.3s ease-out, box-shadow 0.3s ease-out;
+    position: relative;
+    min-height: 45px;
+}
+
+.calendar-grid-compact .day-cell:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--secondary);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.calendar-grid-compact .day-cell.today {
+    background: var(--gradient-secondary);
+    border-color: var(--secondary);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+}
+
+.calendar-grid-compact .day-cell.today .day-number {
+    color: var(--bg-primary);
+    font-size: 1.15rem;
+}
+
+/* Completed Days (All challenges done) */
+.calendar-grid-compact .day-cell.completed {
+    background: linear-gradient(135deg, rgba(107, 207, 127, 0.15), rgba(107, 207, 127, 0.05));
+    border-color: #6bcf7f;
+}
+
+.calendar-grid-compact .day-cell.completed:hover {
+    background: linear-gradient(135deg, rgba(107, 207, 127, 0.25), rgba(107, 207, 127, 0.1));
+    border-color: #6bcf7f;
+    box-shadow: 0 0 20px rgba(107, 207, 127, 0.3);
+}
+
+.calendar-grid-compact .day-cell.completed .day-number {
+    color: #6bcf7f;
+}
+
+/* Partial Days (Some challenges done) */
+.calendar-grid-compact .day-cell.partial {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05));
+    border-color: var(--secondary);
+}
+
+.calendar-grid-compact .day-cell.partial:hover {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.25), rgba(212, 175, 55, 0.1));
+    border-color: var(--secondary);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+}
+
+.calendar-grid-compact .day-cell.partial .day-number {
+    color: var(--secondary);
+}
+
+/* Missed Days (Date passed without completion) */
+.calendar-grid-compact .day-cell.missed {
+    background: linear-gradient(135deg, rgba(255, 107, 107, 0.15), rgba(255, 107, 107, 0.05));
+    border-color: #ff6b6b;
+}
+
+.calendar-grid-compact .day-cell.missed:hover {
+    background: linear-gradient(135deg, rgba(255, 107, 107, 0.25), rgba(255, 107, 107, 0.1));
+    border-color: #ff6b6b;
+    box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+}
+
+.calendar-grid-compact .day-cell.missed .day-number {
+    color: #ff6b6b;
+}
+
+.calendar-grid-compact .day-number {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.1rem;
+}
+
+.calendar-grid-compact .event-badge {
+    position: absolute;
+    top: 0.15rem;
+    right: 0.15rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--secondary);
+    font-size: 0.7rem;
+}
+
+.calendar-legend {
+    padding: var(--spacing-md);
+}
+
+.legend-title {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.legend-items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--glass-border);
+}
+
+.legend-color.completed {
+    background: linear-gradient(135deg, rgba(107, 207, 127, 0.3), rgba(107, 207, 127, 0.2));
+    border-color: #6bcf7f;
+}
+
+.legend-color.partial {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.3), rgba(212, 175, 55, 0.2));
+    border-color: var(--secondary);
+}
+
+.legend-color.missed {
+    background: linear-gradient(135deg, rgba(255, 107, 107, 0.3), rgba(255, 107, 107, 0.2));
+    border-color: #ff6b6b;
+}
+
+.legend-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+/* ========== ACHIEVEMENTS SECTION ========== */
+.achievements-section {
+    margin-top: var(--spacing-2xl);
+}
+
+.section-title {
+    font-size: 2rem;
+    margin-bottom: var(--spacing-lg);
+    color: var(--text-primary);
+}
+
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.achievement-badge {
+    padding: var(--spacing-xl);
+    text-align: center;
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+}
+
+.achievement-badge.unlocked:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-glow);
+}
+
+.achievement-badge.locked {
+    opacity: 0.4;
+    filter: grayscale(100%);
+}
+
+.badge-icon-large {
+    font-size: 4rem;
+    margin-bottom: var(--spacing-md);
+    display: inline-block;
+}
+
+.achievement-badge.unlocked .badge-icon-large {
+    animation: celebrate 1s ease;
+}
+
+.badge-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: var(--secondary);
+}
+
+.badge-desc {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-sm);
+}
+
+/* ========== MODAL ========== */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: var(--z-modal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-lg);
+}
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    position: relative;
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: var(--spacing-2xl);
+    animation: scaleIn 0.3s ease;
+}
+
+.modal-close {
+    position: absolute;
+    top: var(--spacing-md);
+    left: var(--spacing-md);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-round);
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    z-index: 1;
+}
+
+.modal-close:hover {
+    background: var(--glass-bg-hover);
+    transform: translateY(-1px);
+}
+
+.modal-header {
+    margin-bottom: var(--spacing-xl);
+    padding-top: var(--spacing-lg);
+}
+
+.modal-title {
+    font-size: 1.75rem;
+    color: var(--secondary);
+    margin: 0;
+}
+
+.modal-date {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-top: var(--spacing-xs);
+    display: block;
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+/* ========== FORM ========== */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.form-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.3s ease-out;
+}
+
+.form-select {
+    background: rgba(20, 30, 25, 0.95) !important;
+    color: var(--text-primary) !important;
+}
+
+.form-select option {
+    background: rgba(20, 30, 25, 0.98);
+    color: var(--text-primary);
+    padding: 0.5rem;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+    outline: none;
+    border-color: var(--secondary);
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form-hint {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+}
+
+.category-buttons {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.category-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--glass-bg);
+    border: 2px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+}
+
+.category-btn:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--secondary);
+}
+
+.category-btn.active {
+    background: var(--gradient-primary);
+    border-color: var(--secondary);
+    color: var(--text-primary);
+}
+
+.category-icon {
+    font-size: 1.25rem;
+}
+
+.days-checkboxes {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: var(--spacing-xs);
+}
+
+.day-checkbox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+}
+
+.day-checkbox:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--secondary);
+}
+
+.day-checkbox input[type="checkbox"]:checked + span {
+    background: var(--gradient-primary);
+    border-color: var(--secondary);
+    color: var(--text-primary);
+}
+
+.day-checkbox span {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    transition: all 0.3s ease-out;
+}
+
+.modal-footer {
+    display: flex;
+    gap: var(--spacing-md);
+    padding-top: var(--spacing-xl);
+    border-top: 1px solid var(--glass-border);
+    margin-top: var(--spacing-lg);
+}
+
+/* ========== DAY CHALLENGES MODAL ========== */
+.day-challenges-modal {
+    max-width: 500px;
+}
+
+.day-challenges-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.day-challenge-item {
+    padding: var(--spacing-md);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.day-challenge-checkbox input[type="checkbox"] {
+    display: none;
+}
+
+.day-challenge-checkbox input[type="checkbox"]:checked + .checkbox-custom {
+    background: var(--gradient-secondary);
+    border-color: var(--secondary);
+    animation: checkmarkAnimation 0.5s ease;
+}
+
+.day-challenge-checkbox input[type="checkbox"]:checked + .checkbox-custom::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    color: var(--bg-primary);
+    font-weight: 700;
+    font-size: 1rem;
+    animation: checkmarkAppear 0.3s ease 0.2s both;
+}
+
+.day-challenge-content {
+    flex: 1;
+}
+
+.day-challenge-title {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.day-challenge-category {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* ========== TOAST ========== */
+.challenge-toast {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--blur-strength));
+    border: 1px solid var(--glass-border);
+    border-right: 4px solid var(--secondary);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-glow);
+    z-index: 10001;
+    transform: translateX(400px);
+    transition: transform var(--transition-normal);
+}
+
+.challenge-toast.show {
+    transform: translateX(0);
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1200px) {
+    .main-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .calendar-sidebar {
+        order: -1;
+    }
+}
+
+@media (max-width: 1024px) {
+    .challenges-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .challenges-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .page-title {
+        font-size: 2rem;
+    }
+    
+    .stats-overview {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .achievements-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .ready-challenges-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+}
