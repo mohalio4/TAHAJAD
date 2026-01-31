@@ -258,19 +258,32 @@ class ChallengesManager {
     
     // ========== CHALLENGES MANAGEMENT ==========
     loadChallenges() {
-        const stored = localStorage.getItem('userChallenges');
-        return stored ? JSON.parse(stored) : [];
-    }
-    
-    saveChallenges(skipRender = false) {
-        localStorage.setItem('userChallenges', JSON.stringify(this.challenges));
-        if (!skipRender) {
-            this.updateStats(); // Update stats first
-            this.renderChallengesList();
-            this.renderCalendar();
-            this.renderAchievements();
-            this.updateStats(); // Update again after rendering
+        // Use session manager for user-specific data
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            const stored = window.sessionManager.loadUserData('challenges', []);
+            console.log(`[Challenges] Loaded user challenges from session:`, stored);
+            return stored;
+        } else {
+            // Fallback to localStorage for backward compatibility
+            const stored = localStorage.getItem('userChallenges');
+            return stored ? JSON.parse(stored) : [];
         }
+    }
+
+    saveChallenges(skipRender = false) {
+        // Use session manager for user-specific data
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            window.sessionManager.saveUserData('challenges', this.challenges);
+            console.log(`[Challenges] Saved user challenges to session`);
+        } else {
+            // Fallback to localStorage for backward compatibility
+            localStorage.setItem('userChallenges', JSON.stringify(this.challenges));
+        }
+        
+        this.renderChallengesList();
+        this.renderCalendar();
+        this.renderAchievements();
+        this.updateStats(); // Update again after rendering
     }
     
     renderChallengesList() {
@@ -556,9 +569,15 @@ class ChallengesManager {
                 // Use checkbox state directly (passed from event)
                 shouldMark = isChecked;
             } else {
-                // Fallback: check localStorage
-                const baseKey = `challenge_${challengeId}_${baseDateStr}`;
-                const isBaseDateCompleted = localStorage.getItem(baseKey) === 'true';
+                // Fallback: check from session manager or localStorage
+                let isBaseDateCompleted = false;
+                if (window.sessionManager && window.sessionManager.sessionActive) {
+                    const completedDates = window.sessionManager.loadUserData(`challenge_${challengeId}_completions`, {});
+                    isBaseDateCompleted = completedDates[baseDateStr] === true;
+                } else {
+                    const baseKey = `challenge_${challengeId}_${baseDateStr}`;
+                    isBaseDateCompleted = localStorage.getItem(baseKey) === 'true';
+                }
                 shouldMark = !isBaseDateCompleted;
             }
             
@@ -568,8 +587,14 @@ class ChallengesManager {
             console.log(`[Daily Challenge] ${shouldMark ? 'Marking' : 'Unmarking'} single day: ${baseDateStr}`);
             
             if (shouldMark) {
-                // Mark only this single day
-                localStorage.setItem(completionKey, 'true');
+                // Mark only this single day - use session manager if available
+                if (window.sessionManager && window.sessionManager.sessionActive) {
+                    const completedDates = window.sessionManager.loadUserData(`challenge_${challengeId}_completions`, {});
+                    completedDates[baseDateStr] = true;
+                    window.sessionManager.saveUserData(`challenge_${challengeId}_completions`, completedDates);
+                } else {
+                    localStorage.setItem(completionKey, 'true');
+                }
                 console.log(`[Mark] Stored completion for ${completionKey}`);
                 
                 // Update challenge data - add completion date if not already tracked
@@ -586,8 +611,14 @@ class ChallengesManager {
                 this.showToast('تم إكمال التحدي لهذا اليوم! 🎉', 'success');
                 this.checkAchievements();
             } else {
-                // Unmark only this single day
-                localStorage.removeItem(completionKey);
+                // Unmark only this single day - use session manager if available
+                if (window.sessionManager && window.sessionManager.sessionActive) {
+                    const completedDates = window.sessionManager.loadUserData(`challenge_${challengeId}_completions`, {});
+                    delete completedDates[baseDateStr];
+                    window.sessionManager.saveUserData(`challenge_${challengeId}_completions`, completedDates);
+                } else {
+                    localStorage.removeItem(completionKey);
+                }
                 console.log(`[Unmark] Removed completion for ${completionKey}`);
                 
                 // Update challenge data - remove completion date
@@ -626,7 +657,13 @@ class ChallengesManager {
     
     isChallengeCompletedForDate(challengeId, dateStr) {
         const completionKey = `challenge_${challengeId}_${dateStr}`;
-        return localStorage.getItem(completionKey) === 'true';
+        
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            const completedDates = window.sessionManager.loadUserData(`challenge_${challengeId}_completions`, {});
+            return completedDates[dateStr] === true;
+        } else {
+            return localStorage.getItem(completionKey) === 'true';
+        }
     }
     
     getChallengeProgress(challenge) {
@@ -667,7 +704,22 @@ class ChallengesManager {
         // Count completed days from startDate to checkUntil
         let completed = 0;
         
-        // Count all completed days by checking localStorage directly
+        // Get completion map (session scoped if available)
+        let completionMap = {};
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            completionMap = window.sessionManager.loadUserData(`challenge_${currentChallenge.id}_completions`, {});
+        } else {
+            // Fallback: build a map from legacy localStorage keys
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && key.startsWith(`challenge_${currentChallenge.id}_`)) {
+                    const dateFromKey = key.replace(`challenge_${currentChallenge.id}_`, '');
+                    completionMap[dateFromKey] = localStorage.getItem(key) === 'true';
+                }
+            }
+        }
+
+        // Count all completed days by checking the completion map directly
         // Use a proper date iteration to avoid mutation issues
         const startTime = startDate.getTime();
         const endTime = checkUntil.getTime();
@@ -675,18 +727,14 @@ class ChallengesManager {
         const maxIterations = 1000; // Safety limit
         let iterations = 0;
         
-        // Always read fresh from localStorage - don't cache anything
         // Debug: Log what we're checking
         const checkedDates = [];
         for (let time = startTime; time <= endTime && iterations < maxIterations; time += oneDay) {
             const checkDate = new Date(time);
             const dateStr = this.formatDate(checkDate);
-            const completionKey = `challenge_${currentChallenge.id}_${dateStr}`;
+            const isCompleted = completionMap[dateStr] === true;
             
-            // Direct localStorage access - always fresh
-            const isCompleted = localStorage.getItem(completionKey) === 'true';
-            
-            checkedDates.push({ date: dateStr, completed: isCompleted, key: completionKey });
+            checkedDates.push({ date: dateStr, completed: isCompleted });
             
             if (isCompleted) {
                 completed++;
@@ -695,27 +743,11 @@ class ChallengesManager {
             iterations++;
         }
         
-        // Also check if we can find any completion keys in localStorage for this challenge
-        // This helps debug if dates are stored with different formats
-        // AND count ALL completed days, even if they're outside the expected range
-        let foundKeys = [];
-        let allCompletedCount = 0;
-        for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            if (key && key.startsWith(`challenge_${currentChallenge.id}_`)) {
-                const dateFromKey = key.replace(`challenge_${currentChallenge.id}_`, '');
-                const value = localStorage.getItem(key);
-                foundKeys.push({ key, date: dateFromKey, value });
-                if (value === 'true') {
-                    allCompletedCount++;
-                }
-            }
-        }
-        
-        // If we found more completed days in localStorage than in our date range check,
-        // use the localStorage count (it's more accurate)
+        // Count all completed days in the map (even outside range)
+        const allCompletedCount = Object.values(completionMap).filter(v => v === true).length;
+        const allDates = Object.keys(completionMap);
         if (allCompletedCount > completed) {
-            console.log(`[Progress] Found ${allCompletedCount} completed days in localStorage, but only ${completed} in date range. Using localStorage count.`);
+            console.log(`[Progress] Found ${allCompletedCount} completed days in storage, but only ${completed} in date range. Using storage count.`);
             completed = allCompletedCount;
         }
         
@@ -723,7 +755,7 @@ class ChallengesManager {
         console.log(`[Progress] Challenge "${currentChallenge.title}" (${currentChallenge.id}):`);
         console.log(`  Checking ${checkedDates.length} days from ${this.formatDate(startDate)} to ${this.formatDate(checkUntil)}${isUnlimited ? ' (Unlimited)' : ''}`);
         console.log(`  Total days in challenge: ${isUnlimited ? '∞ (Unlimited)' : totalDays}`);
-        console.log(`  Found ${foundKeys.length} completion keys in localStorage:`, foundKeys.map(k => `${k.date}(${k.value})`));
+        console.log(`  Found ${allDates.length} completion entries in storage:`, allDates);
         console.log(`  Completed in range: ${completed}/${totalDays}`);
         
         // Show first 10 and last 10 for brevity
@@ -1461,7 +1493,12 @@ class ChallengesManager {
     
     getAchievementsCount() {
         try {
-            const unlocked = JSON.parse(localStorage.getItem('unlockedAchievements') || '[]');
+            let unlocked = [];
+            if (window.sessionManager && window.sessionManager.sessionActive) {
+                unlocked = window.sessionManager.loadUserData('unlockedAchievements', []);
+            } else {
+                unlocked = JSON.parse(localStorage.getItem('unlockedAchievements') || '[]');
+            }
             return unlocked.length;
         } catch (error) {
             console.error('Error getting achievements count:', error);
@@ -1516,8 +1553,13 @@ class ChallengesManager {
             }
         ];
         
-        // Load unlocked achievements
-        const unlocked = JSON.parse(localStorage.getItem('unlockedAchievements') || '[]');
+        // Load unlocked achievements - use session manager if available
+        let unlocked = [];
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            unlocked = window.sessionManager.loadUserData('unlockedAchievements', []);
+        } else {
+            unlocked = JSON.parse(localStorage.getItem('unlockedAchievements') || '[]');
+        }
         
         return achievements.map(a => ({
             ...a,
@@ -1527,7 +1569,14 @@ class ChallengesManager {
     
     checkAchievements() {
         const achievements = this.loadAchievements();
-        const unlocked = JSON.parse(localStorage.getItem('unlockedAchievements') || '[]');
+        let unlocked = [];
+        
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            unlocked = window.sessionManager.loadUserData('unlockedAchievements', []);
+        } else {
+            unlocked = JSON.parse(localStorage.getItem('unlockedAchievements') || '[]');
+        }
+        
         let newAchievements = [];
         
         achievements.forEach(achievement => {
@@ -1538,7 +1587,11 @@ class ChallengesManager {
         });
         
         if (newAchievements.length > 0) {
-            localStorage.setItem('unlockedAchievements', JSON.stringify(unlocked));
+            if (window.sessionManager && window.sessionManager.sessionActive) {
+                window.sessionManager.saveUserData('unlockedAchievements', unlocked);
+            } else {
+                localStorage.setItem('unlockedAchievements', JSON.stringify(unlocked));
+            }
             newAchievements.forEach(achievement => {
                 this.showToast(`🎉 إنجاز جديد: ${achievement.title}!`, 'success');
             });

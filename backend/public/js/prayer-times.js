@@ -95,12 +95,19 @@ class PrayerTimesManager {
     }
     
     loadUserCoordinates() {
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            return window.sessionManager.loadUserData('userCoordinates', null);
+        }
         const saved = localStorage.getItem('userCoordinates');
         return saved ? JSON.parse(saved) : null;
     }
     
     saveUserCoordinates(coords) {
-        localStorage.setItem('userCoordinates', JSON.stringify(coords));
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            window.sessionManager.saveUserData('userCoordinates', coords);
+        } else {
+            localStorage.setItem('userCoordinates', JSON.stringify(coords));
+        }
     }
     
     async requestLocationPermission() {
@@ -669,16 +676,24 @@ class PrayerTimesManager {
     
     // ========== ALARMS ==========
     loadAlarms() {
-        const saved = localStorage.getItem('prayerAlarms');
-        return saved ? JSON.parse(saved) : {
+        const defaults = {
             fajr: true,
             dhuhr: true,
             maghrib: true
         };
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            return window.sessionManager.loadUserData('prayerAlarms', defaults);
+        }
+        const saved = localStorage.getItem('prayerAlarms');
+        return saved ? JSON.parse(saved) : defaults;
     }
     
     saveAlarms() {
-        localStorage.setItem('prayerAlarms', JSON.stringify(this.alarms));
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            window.sessionManager.saveUserData('prayerAlarms', this.alarms);
+        } else {
+            localStorage.setItem('prayerAlarms', JSON.stringify(this.alarms));
+        }
         // Reschedule alarms when saved
         this.scheduleAlarms();
     }
@@ -816,18 +831,30 @@ class PrayerTimesManager {
     
     // ========== PRAYER TIME ADJUSTMENTS ==========
     loadPrayerAdjustments() {
-        const saved = localStorage.getItem('prayerTimeAdjustments');
-        return saved ? JSON.parse(saved) : {
+        // Try session manager first, then fall back to localStorage
+        const defaults = {
             imsak: 0,
             fajr: 0,
             dhuhr: 0,
+            asr: 0,
             maghrib: 0,
+            isha: 0,
             midnight: 0
         };
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            return window.sessionManager.loadUserData('prayerTimeAdjustments', defaults);
+        }
+        // Fallback: Load from localStorage
+        const saved = localStorage.getItem('prayerTimeAdjustments');
+        return saved ? JSON.parse(saved) : defaults;
     }
     
     savePrayerAdjustments() {
-        localStorage.setItem('prayerTimeAdjustments', JSON.stringify(this.prayerAdjustments));
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            window.sessionManager.saveUserData('prayerTimeAdjustments', this.prayerAdjustments);
+        } else {
+            localStorage.setItem('prayerTimeAdjustments', JSON.stringify(this.prayerAdjustments));
+        }
     }
     
     getPrayerAdjustment(prayerName) {
@@ -836,8 +863,13 @@ class PrayerTimesManager {
     
     // ========== HIJRI DATE ADJUSTMENT ==========
     loadHijriDateAdjustment() {
+        // Try session manager first, then fall back to localStorage
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            return window.sessionManager.loadUserData('hijriDateAdjustment', 0);
+        }
+        // Fallback: Load from localStorage
         const saved = localStorage.getItem('hijriDateAdjustment');
-        return saved ? parseInt(saved) : 0; // Days to adjust from API date
+        return saved ? parseInt(saved) : 0;
     }
     
     // ========== EVENT LISTENERS ==========
@@ -850,15 +882,6 @@ class PrayerTimesManager {
             });
         }
         
-        // Logout
-        const logoutBtn = document.getElementById('logoutBtn');
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', () => {
-                if (confirm('هل أنت متأكد من تسجيل الخروج؟')) {
-                    window.apiManager.logout();
-                }
-            });
-        }
     }
     
     async detectLocation() {

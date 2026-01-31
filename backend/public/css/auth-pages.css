@@ -112,6 +112,50 @@
     z-index: 1;
 }
 
+/* ========== AUTH TOAST ========== */
+.auth-toast {
+    position: fixed;
+    top: var(--spacing-lg);
+    right: var(--spacing-lg);
+    display: none;
+    padding: 0.85rem 1.1rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-lg);
+    z-index: 10000;
+    font-size: 0.95rem;
+    max-width: 320px;
+    animation: toastIn 0.25s ease;
+}
+
+.auth-toast.is-visible {
+    display: block;
+}
+
+.auth-toast.is-success {
+    border-color: rgba(39, 174, 96, 0.5);
+    background: linear-gradient(135deg, rgba(39, 174, 96, 0.2), rgba(39, 174, 96, 0.05));
+}
+
+.auth-toast.is-error {
+    border-color: rgba(231, 76, 60, 0.5);
+    background: linear-gradient(135deg, rgba(231, 76, 60, 0.2), rgba(231, 76, 60, 0.05));
+}
+
+@keyframes toastIn {
+    from {
+        transform: translateY(-8px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
 .auth-wrapper {
     display: grid;
     grid-template-columns: 1fr 1fr;

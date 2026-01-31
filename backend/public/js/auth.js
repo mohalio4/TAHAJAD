@@ -78,6 +78,11 @@ class AuthManager {
                 localStorage.setItem('authToken', response.token);
                 localStorage.setItem('userData', JSON.stringify(response.user));
                 
+                // Start new user session with session manager
+                if (window.sessionManager) {
+                    window.sessionManager.startSession(response.user);
+                }
+                
                 // Show success message
                 this.showToast('تم تسجيل الدخول بنجاح! جاري التحويل...', 'success');
                 
@@ -128,7 +133,7 @@ class AuthManager {
         try {
             // Call API
             const response = await window.apiManager.register({
-                fullName,
+                name: fullName,
                 email,
                 phone,
                 password,
@@ -143,6 +148,11 @@ class AuthManager {
                 // Store user data
                 localStorage.setItem('authToken', response.token);
                 localStorage.setItem('userData', JSON.stringify(response.user));
+                
+                // Start new user session with session manager
+                if (window.sessionManager) {
+                    window.sessionManager.startSession(response.user);
+                }
                 
                 // Show success modal
                 this.showSuccessModal();

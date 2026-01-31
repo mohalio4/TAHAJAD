@@ -498,7 +498,11 @@ class QuranSurahReader {
             timestamp: new Date().toISOString()
         };
         
-        localStorage.setItem('quranProgress', JSON.stringify(progress));
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            window.sessionManager.saveUserData('quranProgress', progress);
+        } else {
+            localStorage.setItem('quranProgress', JSON.stringify(progress));
+        }
         this.showSaveSuccess();
     }
     
@@ -511,7 +515,12 @@ class QuranSurahReader {
         };
         
         // Save to saved pages list
-        let savedPages = JSON.parse(localStorage.getItem('quranSavedPages') || '[]');
+        let savedPages;
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            savedPages = window.sessionManager.loadUserData('quranSavedPages', []);
+        } else {
+            savedPages = JSON.parse(localStorage.getItem('quranSavedPages') || '[]');
+        }
         
         // Remove if already exists (same page)
         savedPages = savedPages.filter(p => p.page !== progress.page);
@@ -524,8 +533,13 @@ class QuranSurahReader {
             savedPages = savedPages.slice(0, 20);
         }
         
-        localStorage.setItem('quranSavedPages', JSON.stringify(savedPages));
-        localStorage.setItem('quranProgress', JSON.stringify(progress));
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            window.sessionManager.saveUserData('quranSavedPages', savedPages);
+            window.sessionManager.saveUserData('quranProgress', progress);
+        } else {
+            localStorage.setItem('quranSavedPages', JSON.stringify(savedPages));
+            localStorage.setItem('quranProgress', JSON.stringify(progress));
+        }
         
         this.showSaveSuccess();
     }

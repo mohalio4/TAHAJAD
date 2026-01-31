@@ -50,8 +50,7 @@ class SettingsManager {
     
     // ========== PRAYER TIME ADJUSTMENTS ==========
     loadPrayerAdjustments() {
-        const saved = localStorage.getItem('prayerTimeAdjustments');
-        return saved ? JSON.parse(saved) : {
+        const defaults = {
             imsak: 0,
             fajr: 0,
             dhuhr: 0,
@@ -60,20 +59,36 @@ class SettingsManager {
             isha: 0,
             midnight: 0
         };
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            return window.sessionManager.loadUserData('prayerTimeAdjustments', defaults);
+        }
+        const saved = localStorage.getItem('prayerTimeAdjustments');
+        return saved ? JSON.parse(saved) : defaults;
     }
     
     savePrayerAdjustments() {
-        localStorage.setItem('prayerTimeAdjustments', JSON.stringify(this.prayerAdjustments));
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            window.sessionManager.saveUserData('prayerTimeAdjustments', this.prayerAdjustments);
+        } else {
+            localStorage.setItem('prayerTimeAdjustments', JSON.stringify(this.prayerAdjustments));
+        }
     }
     
     // ========== HIJRI DATE ADJUSTMENT ==========
     loadHijriDateAdjustment() {
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            return window.sessionManager.loadUserData('hijriDateAdjustment', 0);
+        }
         const saved = localStorage.getItem('hijriDateAdjustment');
-        return saved ? parseInt(saved) : 0; // Days to adjust from API date
+        return saved ? parseInt(saved) : 0;
     }
     
     saveHijriDateAdjustment() {
-        localStorage.setItem('hijriDateAdjustment', this.hijriDateAdjustment.toString());
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            window.sessionManager.saveUserData('hijriDateAdjustment', this.hijriDateAdjustment);
+        } else {
+            localStorage.setItem('hijriDateAdjustment', this.hijriDateAdjustment.toString());
+        }
     }
     
     async loadHijriDate() {
@@ -133,7 +148,12 @@ class SettingsManager {
     
     // ========== SETTINGS ==========
     loadSettings() {
-        const saved = localStorage.getItem('prayerSettings');
+        let saved;
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            saved = JSON.stringify(window.sessionManager.loadUserData('prayerSettings', {}));
+        } else {
+            saved = localStorage.getItem('prayerSettings');
+        }
         if (saved) {
             const settings = JSON.parse(saved);
             
@@ -165,7 +185,11 @@ class SettingsManager {
             adhanSound: document.getElementById('adhanSoundToggle')?.checked
         };
         
-        localStorage.setItem('prayerSettings', JSON.stringify(settings));
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            window.sessionManager.saveUserData('prayerSettings', settings);
+        } else {
+            localStorage.setItem('prayerSettings', JSON.stringify(settings));
+        }
     }
     
     // ========== EVENT LISTENERS ==========
@@ -226,15 +250,6 @@ class SettingsManager {
             });
         }
         
-        // Logout
-        const logoutBtn = document.getElementById('logoutBtn');
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', () => {
-                if (confirm('هل أنت متأكد من تسجيل الخروج؟')) {
-                    window.apiManager.logout();
-                }
-            });
-        }
     }
     
     updatePrayerAdjustmentDisplay(prayerName, value) {

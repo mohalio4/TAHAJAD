@@ -356,12 +356,19 @@ class PostsManager {
 
     // ========== SAVED POSTS ==========
     loadSavedPosts() {
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            return window.sessionManager.loadUserData('savedPosts', []);
+        }
         const saved = localStorage.getItem('savedPosts');
         return saved ? JSON.parse(saved) : [];
     }
 
     saveSavedPosts() {
-        localStorage.setItem('savedPosts', JSON.stringify(this.savedPostIds));
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            window.sessionManager.saveUserData('savedPosts', this.savedPostIds);
+        } else {
+            localStorage.setItem('savedPosts', JSON.stringify(this.savedPostIds));
+        }
     }
 
     async toggleSavePost(postId, button) {

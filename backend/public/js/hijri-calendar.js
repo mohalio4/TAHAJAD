@@ -590,13 +590,6 @@ class HijriCalendarManager {
             });
         });
         
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', () => {
-                if (confirm('هل أنت متأكد من تسجيل الخروج؟')) {
-                    window.apiManager.logout();
-                }
-            });
-        }
     }
     
     // ========== HELPERS ==========

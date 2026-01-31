@@ -465,13 +465,6 @@ class DuasManager {
             });
         });
         
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', () => {
-                if (confirm('هل أنت متأكد من تسجيل الخروج؟')) {
-                    window.apiManager.logout();
-                }
-            });
-        }
     }
     
     handleSearch(query) {
@@ -555,12 +548,22 @@ class DuasManager {
     }
     
     loadFavorites() {
+        // Try session manager first, then fall back to localStorage
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            return window.sessionManager.loadUserData('favoriteDuas', []);
+        }
+        // Fallback: Load from localStorage for non-session users
         const saved = localStorage.getItem('favoriteDuas');
         return saved ? JSON.parse(saved) : [];
     }
     
     saveFavorites() {
-        localStorage.setItem('favoriteDuas', JSON.stringify(this.favorites));
+        // Save using session manager if available, otherwise localStorage
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            window.sessionManager.saveUserData('favoriteDuas', this.favorites);
+        } else {
+            localStorage.setItem('favoriteDuas', JSON.stringify(this.favorites));
+        }
     }
     
     setupAudioPlayer() {

@@ -128,6 +128,7 @@
     <script src="{{ asset('js/theme-manager.js') }}"></script>
     <script src="{{ asset('js/mouse-light-tracker.js') }}"></script>
     <script src="{{ asset('js/animations.js') }}"></script>
+    <script src="{{ asset('js/session-manager.js') }}"></script>
     <script src="{{ asset('js/api.js') }}"></script>
     <script src="{{ asset('js/navigation.js') }}"></script>
     <script src="{{ asset('js/user-navigation.js') }}"></script>

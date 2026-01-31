@@ -18,6 +18,9 @@
         const userData = localStorage.getItem('userData');
         const navActions = document.querySelector('.nav-actions');
         
+        console.log('[UserNav] Init - userData:', userData ? 'present' : 'missing');
+        console.log('[UserNav] SessionManager active:', window.sessionManager?.sessionActive);
+        
         if (!navActions) return;
         
         // Check if we already have the dual structure
@@ -103,9 +106,12 @@
             if (guestActions) guestActions.style.display = 'flex';
             if (userActions) userActions.style.display = 'none';
 
-            // Only allow access to index/login/register without authentication
-            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-            const isPublicPage = currentPage === 'index.html' || currentPage.includes('login') || currentPage.includes('register');
+            // Only allow access to home/login/register/password-reset without authentication
+            const currentPath = window.location.pathname;
+            const isPublicPage = currentPath === '/' ||
+                currentPath.includes('/login') ||
+                currentPath.includes('/register') ||
+                currentPath.includes('/password-reset');
 
             if (!isPublicPage) {
                 // Show message and redirect after 1 second
@@ -115,7 +121,7 @@
                 document.body.appendChild(message);
 
                 setTimeout(() => {
-                    window.location.href = 'login_page.html';
+                    window.location.href = '/login';
                 }, 1000);
             }
         }
@@ -221,6 +227,11 @@
         
         // Handle confirm
         confirmBtn.addEventListener('click', () => {
+            // End session with session manager
+            if (window.sessionManager) {
+                window.sessionManager.endSession();
+            }
+            
             // Clear all user data
             localStorage.removeItem('userData');
             localStorage.removeItem('authToken');

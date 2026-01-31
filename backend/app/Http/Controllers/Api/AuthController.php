@@ -42,9 +42,33 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
+        \Log::info('Login attempt', [
+            'email' => $request->email,
+        ]);
+
         $user = User::where('email', $request->email)->first();
 
-        if (! $user || ! Hash::check($request->password, $user->password)) {
+        \Log::info('User lookup', [
+            'email' => $request->email,
+            'user_found' => $user ? true : false,
+            'user_id' => $user?->id,
+        ]);
+
+        if (! $user) {
+            \Log::warning('User not found', ['email' => $request->email]);
+            throw ValidationException::withMessages([
+                'email' => ['البريد الإلكتروني أو كلمة المرور غير صحيحة'],
+            ]);
+        }
+
+        $passwordMatches = Hash::check($request->password, $user->password);
+        \Log::info('Password check', [
+            'matches' => $passwordMatches,
+            'provided' => $request->password,
+            'stored_hash' => substr($user->password, 0, 20) . '...',
+        ]);
+
+        if (! $passwordMatches) {
             throw ValidationException::withMessages([
                 'email' => ['البريد الإلكتروني أو كلمة المرور غير صحيحة'],
             ]);

@@ -193,7 +193,6 @@
 @endsection
 
 @section('extra-js')
-<script src="{{ asset('js/auth.js') }}"></script>
 <script>
     // Toggle password visibility
     document.getElementById('togglePassword').addEventListener('click', (e) => {
@@ -225,6 +224,19 @@
     });
     
     // Handle form submission
+    const registerUrl = @json(route('api.register'));
+
+    const showToast = (message, type = 'error') => {
+        const toast = document.getElementById('authToast');
+        if (!toast) return;
+        toast.textContent = message;
+        toast.classList.remove('is-success', 'is-error', 'is-visible');
+        toast.classList.add(type === 'success' ? 'is-success' : 'is-error', 'is-visible');
+        setTimeout(() => {
+            toast.classList.remove('is-visible');
+        }, 3000);
+    };
+
     document.getElementById('registerForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         
@@ -247,7 +259,7 @@
         
         // Validation
         if (!name || !email || !password) {
-            alert('يرجى ملء جميع الحقول المطلوبة');
+            showToast('يرجى ملء جميع الحقول المطلوبة', 'error');
             return;
         }
         
@@ -256,7 +268,7 @@
             btnText.style.display = 'none';
             btnLoader.style.display = 'inline-block';
             
-            const response = await fetch('/api/auth/register', {
+            const response = await fetch(registerUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -285,6 +297,12 @@
                     localStorage.setItem('userData', JSON.stringify(data.user));
                 }
                 
+                // Initialize session manager
+                if (window.sessionManager) {
+                    window.sessionManager.startSession(data.user);
+                }
+                
+                showToast('تم إنشاء الحساب بنجاح', 'success');
                 console.log('Registration successful, redirecting...');
                 // Redirect to home
                 window.location.href = '/';
@@ -294,15 +312,22 @@
                 if (data.user) {
                     localStorage.setItem('userData', JSON.stringify(data.user));
                 }
+                
+                // Initialize session manager
+                if (window.sessionManager) {
+                    window.sessionManager.startSession(data.user);
+                }
+                
+                showToast('تم إنشاء الحساب بنجاح', 'success');
                 window.location.href = '/';
             } else {
                 const errorMsg = data.message || data.error || 'فشل إنشاء الحساب';
-                alert(errorMsg);
+                showToast(errorMsg, 'error');
                 console.error('Registration failed:', data);
             }
         } catch (error) {
             console.error('Registration error:', error);
-            alert('حدث خطأ في إنشاء الحساب: ' + error.message);
+            showToast('حدث خطأ في إنشاء الحساب: ' + error.message, 'error');
         } finally {
             registerBtn.disabled = false;
             btnText.style.display = 'inline';

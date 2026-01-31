@@ -378,18 +378,29 @@ class QuranManager {
             timestamp: new Date().toISOString()
         };
         
-        localStorage.setItem('quranProgress', JSON.stringify(progress));
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            window.sessionManager.saveUserData('quranProgress', progress);
+        } else {
+            localStorage.setItem('quranProgress', JSON.stringify(progress));
+        }
         this.savedProgress = progress;
         this.updateContinueReading();
     }
     
     loadSavedProgress() {
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            return window.sessionManager.loadUserData('quranProgress', null);
+        }
         const saved = localStorage.getItem('quranProgress');
         return saved ? JSON.parse(saved) : null;
     }
     
     removeSavedProgress() {
-        localStorage.removeItem('quranProgress');
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            window.sessionManager.removeUserData('quranProgress');
+        } else {
+            localStorage.removeItem('quranProgress');
+        }
         this.savedProgress = null;
         this.updateContinueReading();
     }
@@ -420,7 +431,12 @@ class QuranManager {
         
         if (!section || !list) return;
         
-        const savedPages = JSON.parse(localStorage.getItem('quranSavedPages') || '[]');
+        let savedPages;
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            savedPages = window.sessionManager.loadUserData('quranSavedPages', []);
+        } else {
+            savedPages = JSON.parse(localStorage.getItem('quranSavedPages') || '[]');
+        }
         
         if (savedPages.length === 0) {
             section.style.display = 'none';
@@ -484,14 +500,27 @@ class QuranManager {
     }
     
     removeSavedPage(index) {
-        let savedPages = JSON.parse(localStorage.getItem('quranSavedPages') || '[]');
+        let savedPages;
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            savedPages = window.sessionManager.loadUserData('quranSavedPages', []);
+        } else {
+            savedPages = JSON.parse(localStorage.getItem('quranSavedPages') || '[]');
+        }
         savedPages.splice(index, 1);
-        localStorage.setItem('quranSavedPages', JSON.stringify(savedPages));
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            window.sessionManager.saveUserData('quranSavedPages', savedPages);
+        } else {
+            localStorage.setItem('quranSavedPages', JSON.stringify(savedPages));
+        }
         this.renderSavedPages();
     }
     
     clearSavedPages() {
-        localStorage.removeItem('quranSavedPages');
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            window.sessionManager.removeUserData('quranSavedPages');
+        } else {
+            localStorage.removeItem('quranSavedPages');
+        }
         this.renderSavedPages();
     }
     

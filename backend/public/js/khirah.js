@@ -60,45 +60,73 @@ class MuhasabahManager {
     
     // ========== LOAD/SAVE DATA ==========
     loadDeeds() {
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            return window.sessionManager.loadUserData('muhasabahDeeds', []);
+        }
         const saved = localStorage.getItem('muhasabahDeeds');
         return saved ? JSON.parse(saved) : [];
     }
     
     loadJournals() {
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            return window.sessionManager.loadUserData('muhasabahJournals', []);
+        }
         const saved = localStorage.getItem('muhasabahJournals');
         return saved ? JSON.parse(saved) : [];
     }
     
     loadGoals() {
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            return window.sessionManager.loadUserData('muhasabahGoals', []);
+        }
         const saved = localStorage.getItem('muhasabahGoals');
         return saved ? JSON.parse(saved) : [];
     }
     
     loadLatePrayers() {
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            return window.sessionManager.loadUserData('muhasabahLatePrayers', []);
+        }
         const saved = localStorage.getItem('muhasabahLatePrayers');
         return saved ? JSON.parse(saved) : [];
     }
     
     saveDeeds() {
-        localStorage.setItem('muhasabahDeeds', JSON.stringify(this.deeds));
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            window.sessionManager.saveUserData('muhasabahDeeds', this.deeds);
+        } else {
+            localStorage.setItem('muhasabahDeeds', JSON.stringify(this.deeds));
+        }
         this.updateStatistics();
         this.updateBalance();
         this.renderTimeline();
     }
     
     saveJournals() {
-        localStorage.setItem('muhasabahJournals', JSON.stringify(this.journals));
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            window.sessionManager.saveUserData('muhasabahJournals', this.journals);
+        } else {
+            localStorage.setItem('muhasabahJournals', JSON.stringify(this.journals));
+        }
         this.updateStatistics();
         this.renderTimeline();
     }
     
     saveGoals() {
-        localStorage.setItem('muhasabahGoals', JSON.stringify(this.goals));
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            window.sessionManager.saveUserData('muhasabahGoals', this.goals);
+        } else {
+            localStorage.setItem('muhasabahGoals', JSON.stringify(this.goals));
+        }
         this.renderGoals();
     }
     
     saveLatePrayers() {
-        localStorage.setItem('muhasabahLatePrayers', JSON.stringify(this.latePrayers));
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            window.sessionManager.saveUserData('muhasabahLatePrayers', this.latePrayers);
+        } else {
+            localStorage.setItem('muhasabahLatePrayers', JSON.stringify(this.latePrayers));
+        }
         this.renderLatePrayers();
     }
     
@@ -956,15 +984,6 @@ class MuhasabahManager {
             });
         }
         
-        // Logout
-        const logoutBtn = document.getElementById('logoutBtn');
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', () => {
-                if (confirm('هل أنت متأكد من تسجيل الخروج؟')) {
-                    window.apiManager.logout();
-                }
-            });
-        }
         
         // Set default dates
         const deedDate = document.getElementById('deedDate');

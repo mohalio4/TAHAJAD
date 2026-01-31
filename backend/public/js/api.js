@@ -5,8 +5,8 @@
 
 class APIManager {
     constructor() {
-        // Base API URL - Laravel backend
-        this.baseURL = 'http://localhost:8000/api';
+        // Base API URL - Use relative path to avoid CORS issues
+        this.baseURL = '/api';
         
         // API endpoints
         this.endpoints = {
@@ -238,7 +238,14 @@ class APIManager {
             return this.mockRegister(userData);
         }
         
-        return await this.request(this.endpoints.register, 'POST', userData, false);
+        // Normalize payload for backend
+        const payload = {
+            ...userData,
+            name: userData.name || userData.fullName
+        };
+        delete payload.fullName;
+        
+        return await this.request(this.endpoints.register, 'POST', payload, false);
     }
     
     async logout() {
@@ -528,10 +535,8 @@ class APIManager {
     // ========== DEVELOPMENT MODE HELPERS ==========
     
     isDevelopmentMode() {
-        // Check if backend is not available (for demo purposes)
-        return window.location.hostname === 'localhost' || 
-               window.location.hostname === '127.0.0.1' ||
-               !navigator.onLine;
+        // Enable mock API only when explicitly requested
+        return window.USE_MOCK_API === true;
     }
     
     // Mock API responses for development/testing

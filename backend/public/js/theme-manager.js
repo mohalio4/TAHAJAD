@@ -27,6 +27,10 @@ class ThemeManager {
     }
     
     setupEventListeners() {
+        if (!this.themeBtn || !this.themeDropdown) {
+            return;
+        }
+
         // Toggle dropdown
         this.themeBtn.addEventListener('click', (e) => {
             e.stopPropagation();

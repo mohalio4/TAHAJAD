@@ -239,6 +239,18 @@ a:hover {
     z-index: 1;
 }
 
+/* Ensure all main content areas have proper top spacing */
+main {
+    padding-top: var(--nav-offset);
+    min-height: calc(100vh - var(--nav-offset));
+}
+
+/* Additional spacing for page headers to prevent overlap with fixed nav */
+.page-header {
+    padding-top: var(--spacing-md);
+    margin-top: 0;
+}
+
 /* ========== NAVIGATION ========== */
 .glass-nav {
     position: fixed;

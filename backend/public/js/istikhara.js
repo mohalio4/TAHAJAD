@@ -51,15 +51,25 @@ class IstikharaManager {
     
     // ========== LOAD/SAVE HISTORY ==========
     loadHistory() {
-        const saved = localStorage.getItem('istikharaHistory');
-        return saved ? JSON.parse(saved) : [];
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            const saved = window.sessionManager.loadUserData('istikharaHistory', []);
+            console.log(`[Istikhara] Loaded history from session:`, saved);
+            return saved;
+        } else {
+            const saved = localStorage.getItem('istikharaHistory');
+            return saved ? JSON.parse(saved) : [];
+        }
     }
-    
+
     saveHistory() {
-        localStorage.setItem('istikharaHistory', JSON.stringify(this.history));
-        this.renderHistory();
+        if (window.sessionManager && window.sessionManager.sessionActive) {
+            window.sessionManager.saveUserData('istikharaHistory', this.history);
+            console.log(`[Istikhara] Saved history to session`);
+        } else {
+            localStorage.setItem('istikharaHistory', JSON.stringify(this.history));
+        }
     }
-    
+
     addToHistory(istikharaData) {
         const historyItem = {
             id: Date.now(),
@@ -153,6 +163,9 @@ class IstikharaManager {
                 economy: data.economy || '',
                 marriage: data.marriage || ''
             });
+            
+            // Render history to show the new result immediately
+            this.renderHistory();
             
             return true;
             
@@ -476,15 +489,6 @@ class IstikharaManager {
             });
         }
         
-        // Logout
-        const logoutBtn = document.getElementById('logoutBtn');
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', () => {
-                if (confirm('هل أنت متأكد من تسجيل الخروج؟')) {
-                    window.apiManager.logout();
-                }
-            });
-        }
     }
     
     async handleFormSubmit() {

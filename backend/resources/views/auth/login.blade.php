@@ -137,9 +137,21 @@
 @endsection
 
 @section('extra-js')
-<script src="{{ asset('js/auth.js') }}"></script>
 <script>
     // Handle form submission
+    const loginUrl = @json(route('api.login'));
+
+    const showToast = (message, type = 'error') => {
+        const toast = document.getElementById('authToast');
+        if (!toast) return;
+        toast.textContent = message;
+        toast.classList.remove('is-success', 'is-error', 'is-visible');
+        toast.classList.add(type === 'success' ? 'is-success' : 'is-error', 'is-visible');
+        setTimeout(() => {
+            toast.classList.remove('is-visible');
+        }, 3000);
+    };
+
     document.getElementById('loginForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         
@@ -152,7 +164,7 @@
         
         // Validation
         if (!email || !password) {
-            alert('يرجى ملء جميع الحقول');
+            showToast('يرجى ملء جميع الحقول', 'error');
             return;
         }
         
@@ -161,7 +173,7 @@
             btnText.style.display = 'none';
             btnLoader.style.display = 'inline-block';
             
-            const response = await fetch('/api/auth/login', {
+            const response = await fetch(loginUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -188,6 +200,12 @@
                     localStorage.setItem('userData', JSON.stringify(data.user));
                 }
                 
+                // Initialize session manager
+                if (window.sessionManager) {
+                    window.sessionManager.startSession(data.user);
+                }
+                
+                showToast('تم تسجيل الدخول بنجاح', 'success');
                 console.log('Login successful, redirecting...');
                 // Redirect to home
                 window.location.href = '/';
@@ -197,15 +215,22 @@
                 if (data.user) {
                     localStorage.setItem('userData', JSON.stringify(data.user));
                 }
+                
+                // Initialize session manager
+                if (window.sessionManager) {
+                    window.sessionManager.startSession(data.user);
+                }
+                
+                showToast('تم تسجيل الدخول بنجاح', 'success');
                 window.location.href = '/';
             } else {
                 const errorMsg = data.message || data.error || 'فشل تسجيل الدخول';
-                alert(errorMsg);
+                showToast(errorMsg, 'error');
                 console.error('Login failed:', data);
             }
         } catch (error) {
             console.error('Login error:', error);
-            alert('حدث خطأ في تسجيل الدخول: ' + error.message);
+            showToast('حدث خطأ في تسجيل الدخول: ' + error.message, 'error');
         } finally {
             loginBtn.disabled = false;
             btnText.style.display = 'inline';

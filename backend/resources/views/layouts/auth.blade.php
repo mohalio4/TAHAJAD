@@ -40,6 +40,9 @@
     <div class="auth-container">
         @yield('content')
     </div>
+
+    <!-- Toast -->
+    <div id="authToast" class="auth-toast" role="status" aria-live="polite"></div>
     
     <!-- Scripts -->
     <script src="{{ asset('js/particles.js') }}"></script>
